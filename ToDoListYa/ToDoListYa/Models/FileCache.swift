@@ -55,7 +55,7 @@ class FileCache: FileCaching {
     
         do {
             let data = try Data(contentsOf: pathSearch)
-            let jsonObject =  try JSONSerialization.jsonObject(with: data, options: []) as! [[String: Any]]
+            guard let jsonObject =  try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else { return nil }
             for item in jsonObject {
                 if let newItem = TodoItem.parseFrom(json: item) {
                     items.append(newItem)
@@ -103,10 +103,8 @@ class FileCache: FileCaching {
         guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil}
             let CSVDirectoryPath = URL(fileURLWithPath: url.path)
             let pathSearch = CSVDirectoryPath.appendingPathComponent("\(named).csv")
-            print(pathSearch)
             do {
                 let data = try String(contentsOf: pathSearch)
-                print(data)
                 let items = TodoItem.parseFromCSVFormat(csv: data)
                 toDoItems = items
                 return items
