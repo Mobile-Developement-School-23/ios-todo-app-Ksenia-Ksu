@@ -3,7 +3,7 @@ import Foundation
 protocol FileCaching {
     var toDoItems: [TodoItem] { get }
     func addTask (task: TodoItem)
-    func deleteTask(with id: String)
+    func deleteTask(with id: String) -> TodoItem?
     func saveAllTasksToJSONFile(named: String)
     func loadTasksFromJSONFile(named: String) -> [TodoItem]?
     func saveAllTasksToCSVFile(named: String)
@@ -25,10 +25,11 @@ class FileCache: FileCaching {
         }
     }
     
-    func deleteTask(with id: String) {
+    func deleteTask(with id: String) -> TodoItem? {
         if let index = toDoItems.firstIndex(where: {$0.id == id }) {
-            toDoItems.remove(at: index)
+            return toDoItems.remove(at: index)
         }
+         return nil
     }
     
     //MARK: - Save And Load JSON
@@ -40,7 +41,7 @@ class FileCache: FileCaching {
         if !fileManager.fileExists(atPath: pathSearch.path) {
             fileManager.createFile(atPath: pathSearch.path, contents: nil)
         }
-        writeToFileAt(fileUrl: pathSearch)
+        writeToJSONFileAt(fileUrl: pathSearch)
     }
     
     
@@ -51,8 +52,6 @@ class FileCache: FileCaching {
         
         let documentsDirectoryPath = URL(fileURLWithPath: url.path)
         let pathSearch = documentsDirectoryPath.appendingPathComponent("\(named).json")
-        print(pathSearch)
-    
         do {
             let data = try Data(contentsOf: pathSearch)
             guard let jsonObject =  try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else { return nil }
@@ -69,11 +68,12 @@ class FileCache: FileCaching {
     }
     
     
-    private func writeToFileAt(fileUrl: URL) {
+    private func writeToJSONFileAt(fileUrl: URL) {
         var dict: [[String : Any]] = []
         for item in toDoItems {
-            let newItem = item.json as! [String : Any]
-            dict.append(newItem)
+            if let newItem = item.json as? [String : Any] {
+                dict.append(newItem)
+            }
         }
         do {
             let data = try JSONSerialization.data(withJSONObject: dict)

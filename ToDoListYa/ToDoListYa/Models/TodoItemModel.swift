@@ -188,7 +188,6 @@ extension TodoItem {
     
     static func parseFromCSVFormat(csv: String) -> [TodoItem] {
         var items: [TodoItem] = []
-        
         var rows = csv.components(separatedBy: "\n")
         //удаляем заголовки
         rows.removeFirst()
