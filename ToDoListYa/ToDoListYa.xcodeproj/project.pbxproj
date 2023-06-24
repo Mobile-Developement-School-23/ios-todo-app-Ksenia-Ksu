@@ -214,6 +214,17 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		85F4BCD42A412972006B6E07 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				85F4BCD22A41296E006B6E07 /* DetailToDoView.swift */,
+				85F4BCD52A41FFE9006B6E07 /* DetailTextView.swift */,
+				85F4BCD92A423C35006B6E07 /* PriorityView.swift */,
+				85F4BCDB2A423C45006B6E07 /* DeadlineView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -351,7 +362,9 @@
 				852A87042A4653C8002AA325 /* HSBColorPicker.swift in Sources */,
 				852A87062A465479002AA325 /* ColorViewController.swift in Sources */,
 				8547BD772A3D586400F3B7DA /* AppDelegate.swift in Sources */,
+				85F4BCD32A41296E006B6E07 /* DetailToDoView.swift in Sources */,
 				8547BDAD2A3D59AE00F3B7DA /* FileCache.swift in Sources */,
+				85F4BCDC2A423C45006B6E07 /* DeadlineView.swift in Sources */,
 				8547BD792A3D586400F3B7DA /* SceneDelegate.swift in Sources */,
 				8547BDB52A3D59E900F3B7DA /* Constants.swift in Sources */,
 				8538E0D62A42896E003E67E7 /* DeadlineView.swift in Sources */,
