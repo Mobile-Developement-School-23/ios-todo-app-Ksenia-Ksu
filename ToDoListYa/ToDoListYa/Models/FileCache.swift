@@ -52,6 +52,7 @@ class FileCache: FileCaching {
         
         let documentsDirectoryPath = URL(fileURLWithPath: url.path)
         let pathSearch = documentsDirectoryPath.appendingPathComponent("\(named).json")
+        print(pathSearch)
         do {
             let data = try Data(contentsOf: pathSearch)
             guard let jsonObject =  try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else { return nil }
