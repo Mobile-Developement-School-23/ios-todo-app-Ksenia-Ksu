@@ -4,7 +4,6 @@ class DetailViewController: UIViewController {
     
     lazy var contentView: DisplayDetailView = DetailView(delegate: self)
     
-   // var viewModel: ToDoItemViewModel?
     private var item: TodoItem?
     private let fileManager = FileCache()
     private let data = "Data"
@@ -19,7 +18,6 @@ class DetailViewController: UIViewController {
         if let viewModel = viewModel, viewModel.count > 0 {
             item = viewModel[0]
             contentView.configure(with: item!)
-            print(item)
         } else {
             contentView.configure(with: nil)
         }
@@ -96,6 +94,7 @@ extension DetailViewController: DetailViewDelegate {
         } else {
             let newItem = TodoItem(text: "",
                                    deadline: newDeadline)
+            item = newItem
         }
     }
     
