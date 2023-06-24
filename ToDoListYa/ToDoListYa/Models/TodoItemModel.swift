@@ -9,6 +9,7 @@ struct TodoItem: Equatable {
     let deadline: Double?
     let taskStartDate: Double
     let taskEditDate: Double?
+    let hexColor: String?
     
     init( id: String = UUID().uuidString,
           text: String,
@@ -16,7 +17,8 @@ struct TodoItem: Equatable {
           taskDone: Bool = false,
           deadline: Double? = nil,
           taskStartDate: Double = Double(Date().timeIntervalSince1970),
-          taskEditDate: Double? = nil
+          taskEditDate: Double? = nil,
+          hexColor: String? = nil
     ) { self.id = id
         self.text = text
         self.priority = priority
@@ -24,6 +26,7 @@ struct TodoItem: Equatable {
         self.deadline = deadline
         self.taskStartDate = taskStartDate
         self.taskEditDate = taskEditDate
+        self.hexColor = hexColor
     }
     static let separator = ","
 }
@@ -56,6 +59,10 @@ extension TodoItem {
             json[Keys.taskEditDateKey] = taskEditDate
         }
         
+        if let taskColor = hexColor {
+            json[Keys.hexColorKey] = taskColor
+        }
+        
         return json
     }
     
@@ -84,13 +91,21 @@ extension TodoItem {
             taskEdit = nil
         }
         
+        let taskColor: String?
+        if let hexColor = json[Keys.hexColorKey] as? String  {
+            taskColor = hexColor
+        } else {
+            taskColor = nil
+        }
+        
         let item = TodoItem(id: id,
                             text: text,
                             priority: priority,
                             taskDone: taskDone,
                             deadline: deadlineDate,
                             taskStartDate: taskStart,
-                            taskEditDate: taskEdit)
+                            taskEditDate: taskEdit,
+                            hexColor: taskColor)
         return item
     }
 }
@@ -104,6 +119,7 @@ extension TodoItem {
         static let deadlineKey = "deadline"
         static let taskStartDateKey = "taskStartDate"
         static let taskEditDateKey = "taskEditDate"
+        static let hexColorKey = "hexColor"
     }
 }
 

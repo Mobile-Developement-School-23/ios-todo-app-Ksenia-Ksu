@@ -19,7 +19,6 @@ final class DetailTextView: UITextView {
     }
 
     private func setupTextView() {
-        delegate = self
         font = UIFont.systemFont(ofSize: Layout.fontSize, weight: .regular)
         textColor = ThemeColors.textViewColor
         backgroundColor = ThemeColors.backSecondary
@@ -45,54 +44,12 @@ final class DetailTextView: UITextView {
     }
 
     func setTextViewForPlaceHolder() {
-        text = ""
-        //textColor = ThemeColors.textViewColor
-        //textColor = ThemeColors.placeholderColor
         text = Layout.placeholderText
+        textColor = ThemeColors.placeholderColor
     }
-}
-
-// MARK: - TextViewDelegate
-
-extension DetailTextView: UITextViewDelegate {
-
-    func textViewDidChange(_ textView: UITextView) {
-        guard let text = textView.text else { return }
-        if textView.text == nil || textView.text?.isEmpty == true || textView.text == Layout.placeholderText {
-            textView.text = Layout.placeholderText
-            let newPosition = textView.beginningOfDocument
-            textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
-            setTextViewForPlaceHolder()
-        } else {
-            setTextViewForUserDescription()
-        }
-    }
-
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        setTextViewForUserDescription()
-        if textView.text == Layout.placeholderText {
-            textView.text = ""
-            let newPosition = textView.beginningOfDocument
-            textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
-        }
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == nil || textView.text?.isEmpty == true || textView.text == Layout.placeholderText {
-            textView.text = Layout.placeholderText
-            setTextViewForPlaceHolder()
-        } else {
-            textView.text = ""
-            setTextViewForUserDescription()
-        }
-    }
-
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if textView.text == Layout.placeholderText {
-            textView.text = ""
-            setTextViewForUserDescription()
-    }
-        return true
+    
+    func configureTextColor(color: UIColor) {
+        textColor = color
     }
 }
 

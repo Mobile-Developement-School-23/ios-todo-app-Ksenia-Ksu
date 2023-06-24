@@ -99,17 +99,9 @@ final class DeadlineView: UIView {
     func makeLayoutForSwitcherIsOff() {
         dateButton.isHidden = true
         dateButton.setTitle(nil, for: .normal)
-    }
-    
-    func setUpViewForNewTask() {
-        makeLayoutForSwitcherIsOff()
         switcher.isOn = false
     }
     
-    func setSwitch(isOn: Bool) {
-        switcher.isOn = isOn
-        deadlineViewDelegate?.deadlineSwitchChanged(isOn: isOn)
-    }
     
     
     @objc func dateButtonTapped() {
@@ -125,6 +117,9 @@ final class DeadlineView: UIView {
         if date != nil {
             switcher.isOn = true
             dateButton.setTitle(date!.timeInSecondsToDateString(), for: .normal)
+            dateButton.isHidden = false
+        } else {
+           makeLayoutForSwitcherIsOff()
         }
     }
     

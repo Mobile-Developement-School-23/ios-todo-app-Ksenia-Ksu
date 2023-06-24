@@ -4,6 +4,7 @@ class DetailViewController: UIViewController {
     
     lazy var contentView: DisplayDetailView = DetailView(delegate: self)
     
+   // var viewModel: ToDoItemViewModel?
     private var item: TodoItem?
     private let fileManager = FileCache()
     private let data = "Data"
@@ -27,7 +28,12 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: DetailViewDelegate {
     
-    func saveItem(with text: String) {
+    func openColorController() {
+        let colorPickerVC = ColorViewController(colorHandler: self)
+        present(colorPickerVC,animated: true)
+    }
+    
+    func saveItem(with text: String, color: String?) {
         //модель в любом случае должна быть, потому что кнопка  save не активна, пока не произойдут изменения
         if let model = item {
             let newItem = TodoItem(id: model.id,
@@ -36,25 +42,34 @@ extension DetailViewController: DetailViewDelegate {
                                    taskDone: model.taskDone,
                                    deadline: model.deadline,
                                    taskStartDate: model.taskStartDate,
-                                   taskEditDate: model.taskEditDate)
-        //fileManager.addTask(task: item)
-        //fileManager.saveAllTasksToJSONFile(named: data)
+                                   taskEditDate: model.taskEditDate,
+                                   hexColor: color)
+        fileManager.addTask(task: newItem)
+            print("newitem\(newItem)")
+        fileManager.saveAllTasksToJSONFile(named: data)
         }
             print("item saved")
         }
     
     func deleteItem() {
         if let model = item {
-            //fileManager.deleteTask(with: model.id)
-            //fileManager.saveAllTasksToJSONFile(named: data)
-            print("deleted and saved file \(model)")
+            fileManager.deleteTask(with: model.id)
+            fileManager.saveAllTasksToJSONFile(named: data)
+            let viewModel = fileManager.loadTasksFromJSONFile(named: data)
+            if let viewModel = viewModel, viewModel.count > 0 {
+                item = viewModel[0]
+                contentView.configure(with: item!)
+            } else {
+                contentView.configure(with: nil)
+            }
         }
     }
     
     func changePriority(to priority: TaskPriority) {
-        if var model = item {
+        if let model = item {
             let newItem = TodoItem(id: model.id,
-                                   text: model.text, priority: priority.rawValue, taskDone: model.taskDone, deadline: model.deadline, taskStartDate: model.taskStartDate, taskEditDate: model.taskEditDate)
+                                   text: model.text, priority: priority.rawValue, taskDone: model.taskDone, deadline: model.deadline, taskStartDate: model.taskStartDate, taskEditDate: model.taskEditDate,
+                                       hexColor: model.hexColor)
             item = newItem
             print(newItem)
         } else {
@@ -74,9 +89,13 @@ extension DetailViewController: DetailViewDelegate {
                                    taskDone: model.taskDone,
                                    deadline: newDeadline,
                                    taskStartDate: model.taskStartDate,
-                                   taskEditDate: model.taskEditDate)
+                                   taskEditDate: model.taskEditDate,
+                                   hexColor: model.hexColor)
             item = newItem
             print(newItem)
+        } else {
+            let newItem = TodoItem(text: "",
+                                   deadline: newDeadline)
         }
     }
     
@@ -88,7 +107,8 @@ extension DetailViewController: DetailViewDelegate {
                                    taskDone: model.taskDone,
                                    deadline: nil,
                                    taskStartDate: model.taskStartDate,
-                                   taskEditDate: model.taskEditDate)
+                                   taskEditDate: model.taskEditDate,
+                                   hexColor: model.hexColor)
             item = newItem
             print(newItem)
         
@@ -97,17 +117,44 @@ extension DetailViewController: DetailViewDelegate {
     }
     
     func cancelChanges() {
-        // загружается снова тот же item из файла, пока логика такая
+        //загружается снова тот же item из файла, пока логика такая
         print("cancel")
-//        let viewModel = fileManager.loadTasksFromJSONFile(named: data)
-//        if let viewModel = viewModel, viewModel.count > 0 {
-//            item = viewModel[0]
-//            contentView.configure(with: item!)
-//            print(item)
-//        } else {
-//            contentView.configure(with: nil)
-//        }
+        let viewModel = fileManager.loadTasksFromJSONFile(named: data)
+        if let viewModel = viewModel, viewModel.count > 0 {
+            item = viewModel[0]
+            contentView.configure(with: item!)
+            print(item)
+        } else {
+            contentView.configure(with: nil)
+        }
     }
     
 }
+//MARK: - ColorPikerSelectedDelegate
+extension DetailViewController: ColorPikerSelectedDelegate {
+    
+    func addColorToModel(color: UIColor) {
+        if let model = item {
+            let newItem = TodoItem(id: model.id,
+                                   text: model.text,
+                                   priority: model.priority,
+                                   taskDone: model.taskDone,
+                                   deadline: nil,
+                                   taskStartDate: model.taskStartDate,
+                                   taskEditDate: model.taskEditDate,
+                                   hexColor: color.hexStringFromColor())
+            item = newItem
+            print(item)
+        } else {
+            let newItem = TodoItem(text: "",
+                                   hexColor: color.hexStringFromColor())
+            item = newItem
+        }
+        contentView.configureColor(color: color)
+    }
+
+}
+
+
+
 

@@ -3,15 +3,17 @@ import UIKit
 
 protocol DisplayDetailView: UIView {
     func configure(with viewmodel: TodoItem?)
+    func configureColor(color: UIColor)
 }
 
 protocol DetailViewDelegate: AnyObject {
-    func saveItem(with text: String)
+    func saveItem(with text: String, color: String?)
     func deleteItem()
     func cancelChanges()
     func changePriority(to priority: TaskPriority)
     func addDeadline(to newDeadline: Double)
     func deleteDeadline()
+    func openColorController()
 }
 
 
@@ -97,6 +99,15 @@ final class DetailView: UIView {
         return containerForViews
     }()
     
+    private lazy var coloPickerView: ColorPickerView = {
+        let coloPickerView = ColorPickerView()
+        coloPickerView.colorViewDelegate = self
+        coloPickerView.backgroundColor = ThemeColors.backSecondary
+        coloPickerView.translatesAutoresizingMaskIntoConstraints = false
+        return coloPickerView
+    }()
+    
+   
     private lazy var priorityView: PriorityView = {
         let priorityView = PriorityView()
         priorityView.setPriority(priority: TaskPriority.ordinary)
@@ -160,6 +171,7 @@ final class DetailView: UIView {
         scrollView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(textView)
         mainStackView.addArrangedSubview(containerForViews)
+        containerForViews.addArrangedSubview(coloPickerView)
         containerForViews.addArrangedSubview(priorityView)
         containerForViews.addArrangedSubview(deadlineView)
         containerForViews.addArrangedSubview(datePicker)
@@ -186,24 +198,38 @@ final class DetailView: UIView {
             mainStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             mainStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
+            coloPickerView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
+            
+
             textView.heightAnchor.constraint(greaterThanOrEqualToConstant: Layout.textViewHeight),
+            coloPickerView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
             priorityView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
             deadlineView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
-            
             deleteButton.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
         ])
     }
     //MARK: - Actions
     @objc func cancelButtonTapped() {
-        textView.setTextViewForPlaceHolder()
-        changeSaveAndCancelButtons()
         delegate?.cancelChanges()
+        cancelButton.isEnabled = false
+        deleteButton.isEnabled = false
     }
     
     @objc func saveButtonTapped() {
-        if let text = textView.text {
-            delegate?.saveItem(with: text)
+        let text = textView.text
+        let color = coloPickerView.colorSelectedButton.backgroundColor
+        if text != nil {
+            var selectedColor: UIColor? = nil
+            if color != .white {
+                selectedColor = color
+            }
+            delegate?.saveItem(with: text!, color: selectedColor?.hexStringFromColor())
+            print("saving")
         }
+        
+        deleteButton.isEnabled = true
+        cancelButton.isEnabled = false
+        saveButton.isEnabled = false
     }
     
     @objc func datePickerTapped(sender: UIDatePicker) {
@@ -240,61 +266,68 @@ final class DetailView: UIView {
         })
     }
     
-    private func changeSaveAndCancelButtons() {
-        if saveButton.isEnabled == false {
-            saveButton.isEnabled = true
-        } else {
-            saveButton.isEnabled = false
-        }
-        if cancelButton.isEnabled == false {
-            cancelButton.isEnabled = true
-        } else {
-            cancelButton.isEnabled = false
-        }
-    }
-    
-    private func changeDeleteButtonState() {
-        if deleteButton.isEnabled == false {
-            deleteButton.isEnabled = true
-        } else {
-            deleteButton.isEnabled = false
-        }
-    }
-    
 }
 //MARK: - DisplayDetailView
 extension DetailView: DisplayDetailView {
     func configure(with viewmodel: TodoItem?) {
-        if viewmodel == viewmodel {
+        if viewmodel != nil {
             textView.text = viewmodel?.text
-            textView.textColor = ThemeColors.textViewColor
+            if let hexColor = viewmodel?.hexColor, let uiColor =  UIColor(hex: hexColor) {
+                textView.configureTextColor(color: uiColor)
+                coloPickerView.confugureColor(color: uiColor)
+            } else {
+                textView.textColor = ThemeColors.textViewColor
+            }
+                        
             deadlineView.setDeadline(date: viewmodel?.deadline)
+            
             priorityView.setPriority(priority: TaskPriority(rawValue: viewmodel?.priority ?? TaskPriority.ordinary.rawValue) ?? TaskPriority.ordinary)
             if let deadline = viewmodel?.deadline {
                 deadlineView.setDeadline(date: deadline)
             }
             datePicker.isHidden = true
+            deleteButton.isEnabled = true
         } else {
             priorityView.setPriority(priority: .ordinary)
-            deadlineView.setUpViewForNewTask()
+            deadlineView.makeLayoutForSwitcherIsOff()
             textView.setTextViewForPlaceHolder()
+            coloPickerView.confugureColor(color: .white)
+            cancelButton.isEnabled = true
         }
+    }
+    
+    func configureColor(color: UIColor) {
+        print(color, "color from cintroller")
+        cancelButton.isEnabled = true
+        saveButton.isEnabled = true
+        coloPickerView.confugureColor(color: color)
+        textView.configureTextColor(color: color)
     }
 }
 //MARK: - DetailTextViewDelegate
 extension DetailView: DetailTextViewDelegate, UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        changeSaveAndCancelButtons()
-    }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        saveButton.isEnabled = true
+        cancelButton.isEnabled = true
+        deleteButton.isEnabled = true
+        if textView.text == Layout.placeholderTextView {
+            textView.text = ""
+            let newPosition = textView.beginningOfDocument
+            textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
+        }
+        if textView.textColor == ThemeColors.placeholderColor {
+            textView.text = nil
+            textView.textColor = ThemeColors.textViewColor
+        }
+    }
 }
 
 //MARK: - PriorityViewDelegate
 extension DetailView: PriorityViewDelegate {
     func priorityDidChanged(_ priority: TaskPriority) {
-        print("priorityChanged")
-        changeSaveAndCancelButtons()
-        changeDeleteButtonState()
+        cancelButton.isEnabled = true
+        saveButton.isEnabled = true
         delegate?.changePriority(to: priority)
     }
 }
@@ -306,15 +339,13 @@ extension DetailView: DeadlineViewDelegate {
             let date = Calendar.current.date(byAdding: .day, value: 1, to: .now)!
             deadlineView.makeLayoutForSwitcherIsOn(for: date)
             delegate?.addDeadline(to: Double(date.timeIntervalSince1970))
-            changeSaveAndCancelButtons()
-            changeDeleteButtonState()
         } else {
             deadlineView.makeLayoutForSwitcherIsOff()
-            changeSaveAndCancelButtons()
-            changeDeleteButtonState()
             delegate?.deleteDeadline()
             datePickerHide()
         }
+        cancelButton.isEnabled = true
+        saveButton.isEnabled = true
     }
     
     func deadlineDateButtonTapped() {
@@ -325,10 +356,14 @@ extension DetailView: DeadlineViewDelegate {
         }
     }
 }
-
+//MARK: - colorView delegate
+extension DetailView: ColorViewDelegate {
+    func openColorController() {
+        delegate?.openColorController()
+    }
+}
 
 //MARK: - Layout Constants
-
 extension DetailView {
     private enum Layout {
         static let fontSize: CGFloat = 17
@@ -345,5 +380,6 @@ extension DetailView {
         static let textViewHeight: CGFloat = 120
         static let cellsHeight: CGFloat = 60
         static let cornerRadius: CGFloat = 16
+        static let placeholderTextView = "Что сделать?"
     }
 }
