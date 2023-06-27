@@ -29,7 +29,7 @@ final class PriorityView: UIView {
         
         let font: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: Layout.segmentControlFontSize)]
         segmentControl.setTitleTextAttributes(font, for: .normal)
-        segmentControl.layer.backgroundColor = ThemeColors.backSegmentedControl?.cgColor
+        segmentControl.backgroundColor = ThemeColors.backSegmentedControl
         
         segmentControl.addTarget(self, action: #selector(segmentControlTapped(sender:)), for: .valueChanged)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false

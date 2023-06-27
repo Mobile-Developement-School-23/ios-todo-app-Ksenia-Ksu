@@ -5,14 +5,14 @@ internal protocol HSBColorPickerDelegate : NSObjectProtocol {
     func HSBColorColorPickerTouched(sender:HSBColorPicker, color:UIColor, point:CGPoint, state:UIGestureRecognizer.State)
 }
 
-@IBDesignable
+
 class HSBColorPicker: UIView {
 
     weak internal var delegate: HSBColorPickerDelegate?
     let saturationExponentTop:Float = 2.0
     let saturationExponentBottom:Float = 1.3
 
-    @IBInspectable var elementSize: CGFloat = 50.0 {
+    var elementSize: CGFloat = 50.0 {
         didSet {
             setNeedsDisplay()
         }
