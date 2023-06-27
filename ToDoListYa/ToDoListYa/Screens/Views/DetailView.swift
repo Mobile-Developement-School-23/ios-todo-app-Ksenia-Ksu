@@ -1,6 +1,4 @@
 import UIKit
-
-
 protocol DisplayDetailView: UIView {
     func configure(with viewmodel: TodoItem?)
     func configureColor(color: UIColor)
@@ -15,7 +13,6 @@ protocol DetailViewDelegate: AnyObject {
     func deleteDeadline()
     func openColorController()
 }
-
 
 final class DetailView: UIView {
     
@@ -70,7 +67,6 @@ final class DetailView: UIView {
         return saveButton
     }()
     
-    
     private lazy var mainStackView: UIStackView = {
         let mainStackView = UIStackView()
         mainStackView.axis = .vertical
@@ -107,7 +103,6 @@ final class DetailView: UIView {
         return coloPickerView
     }()
     
-   
     private lazy var priorityView: PriorityView = {
         let priorityView = PriorityView()
         priorityView.setPriority(priority: TaskPriority.ordinary)
@@ -178,7 +173,7 @@ final class DetailView: UIView {
         containerForViews.addArrangedSubview(datePicker)
         mainStackView.addArrangedSubview(deleteButton)
     }
-    //MARK: - Constraits
+    // MARK: - Constraits
     private func makeConstraits() {
         NSLayoutConstraint.activate([
             
@@ -201,15 +196,15 @@ final class DetailView: UIView {
             
             coloPickerView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
             
-
             textView.heightAnchor.constraint(greaterThanOrEqualToConstant: Layout.textViewHeight),
             coloPickerView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
             priorityView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
             deadlineView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
-            deleteButton.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
+            deleteButton.heightAnchor.constraint(equalToConstant: Layout.cellsHeight)
         ])
     }
-    //MARK: - Actions
+    
+    // MARK: - Actions
     @objc func cancelButtonTapped() {
         delegate?.cancelChanges()
         cancelButton.isEnabled = false
@@ -220,7 +215,7 @@ final class DetailView: UIView {
         let text = textView.text
         let color = coloPickerView.colorSelectedButton.backgroundColor
         if text != nil {
-            var selectedColor: UIColor? = nil
+            var selectedColor: UIColor?
             if color != .white {
                 selectedColor = color
             }
@@ -268,7 +263,7 @@ final class DetailView: UIView {
     }
     
 }
-//MARK: - DisplayDetailView
+// MARK: - DisplayDetailView
 extension DetailView: DisplayDetailView {
     func configure(with viewmodel: TodoItem?) {
         if viewmodel != nil {
@@ -305,7 +300,7 @@ extension DetailView: DisplayDetailView {
         textView.configureTextColor(color: color)
     }
 }
-//MARK: - DetailTextViewDelegate
+// MARK: - DetailTextViewDelegate
 extension DetailView: DetailTextViewDelegate, UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -324,7 +319,7 @@ extension DetailView: DetailTextViewDelegate, UITextViewDelegate {
     }
 }
 
-//MARK: - PriorityViewDelegate
+// MARK: - PriorityViewDelegate
 extension DetailView: PriorityViewDelegate {
     func priorityDidChanged(_ priority: TaskPriority) {
         cancelButton.isEnabled = true
@@ -333,7 +328,7 @@ extension DetailView: PriorityViewDelegate {
     }
 }
 
-//MARK: - DeadlineViewDelegate
+// MARK: - DeadlineViewDelegate
 extension DetailView: DeadlineViewDelegate {
     func deadlineSwitchChanged(isOn: Bool) {
         if isOn {
@@ -357,14 +352,14 @@ extension DetailView: DeadlineViewDelegate {
         }
     }
 }
-//MARK: - colorView delegate
+// MARK: - colorView delegate
 extension DetailView: ColorViewDelegate {
     func openColorController() {
         delegate?.openColorController()
     }
 }
 
-//MARK: - Layout Constants
+// MARK: - Layout Constants
 extension DetailView {
     private enum Layout {
         static let fontSize: CGFloat = 17

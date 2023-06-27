@@ -28,11 +28,11 @@ extension DetailViewController: DetailViewDelegate {
     
     func openColorController() {
         let colorPickerVC = ColorViewController(colorHandler: self)
-        present(colorPickerVC,animated: true)
+        present(colorPickerVC, animated: true)
     }
     
     func saveItem(with text: String, color: String?) {
-        //модель в любом случае должна быть, потому что кнопка  save не активна, пока не произойдут изменения
+        // модель в любом случае должна быть, потому что кнопка  save не активна, пока не произойдут изменения
         if let model = item {
             let newItem = TodoItem(id: model.id,
                                    text: text,
@@ -116,7 +116,7 @@ extension DetailViewController: DetailViewDelegate {
     }
     
     func cancelChanges() {
-        //загружается снова тот же item из файла, пока логика такая
+        // загружается снова тот же item из файла, пока логика такая
         print("cancel")
         let viewModel = fileManager.loadTasksFromJSONFile(named: data)
         if let viewModel = viewModel, viewModel.count > 0 {
@@ -129,7 +129,7 @@ extension DetailViewController: DetailViewDelegate {
     }
     
 }
-//MARK: - ColorPikerSelectedDelegate
+// MARK: - ColorPikerSelectedDelegate
 extension DetailViewController: ColorPikerSelectedDelegate {
     
     func addColorToModel(color: UIColor) {
@@ -151,9 +151,4 @@ extension DetailViewController: ColorPikerSelectedDelegate {
         }
         contentView.configureColor(color: color)
     }
-
 }
-
-
-
-

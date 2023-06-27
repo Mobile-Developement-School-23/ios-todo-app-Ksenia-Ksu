@@ -18,7 +18,7 @@ extension String {
         guard let date = dateFormatter.date(from: self) else { return 0 }
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: date)
-        let data = calendar.date(from:components)
+        let data = calendar.date(from: components)
         let finalDate = Double(data?.timeIntervalSince1970 ?? 0)
         return finalDate
     }

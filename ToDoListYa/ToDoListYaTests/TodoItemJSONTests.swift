@@ -14,105 +14,104 @@ final class TodoItemJSONTests: XCTestCase {
         sut = nil
         try super.tearDownWithError()
     }
-    //MARK: - tests FROM JSON
+    // MARK: - tests FROM JSON
     func testParseEmptyJSON() {
-        //GIVEN
+        // GIVEN
         let json = ""
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
-        //THEN
+        // THEN
         XCTAssertEqual(result, nil, "It should return nil")
     }
     
     func testParseWrongFormatJSON() {
-        //GIVEN
+        // GIVEN
         let json = TestData.ParseFromJSON.wrongFormat
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
-        //THEN
+        // THEN
         XCTAssertEqual(result, nil, "It should return nil")
     }
     
     func testParseCorrectFormatJSON() {
-        //GIVEN
+        // GIVEN
         let json = TestData.ParseFromJSON.correctFormat
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
         let resultCorrect = TestData.ParseFromJSON.correctResultFromJSON
-        //THEN
+        // THEN
         XCTAssertEqual(result, resultCorrect)
     }
     
     func testParseJSONWithOrdinaryPriority() {
-        //GIVEN
+        // GIVEN
         let json = TestData.ParseFromJSON.ordinaryPriority
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
         let resultCorrect = TestData.ParseFromJSON.correctResultWithOrdinaryPriority
-        //THEN
+        // THEN
         XCTAssertEqual(result, resultCorrect)
     }
     
     func testParseJSONWithAnotherPriority() {
-        //GIVEN
+        // GIVEN
         let json = TestData.ParseFromJSON.importantPriority
         let resultCorrect = TestData.ParseFromJSON.correctResultWithImportantPriority
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
-        //THEN
+        // THEN
         XCTAssertEqual(result, resultCorrect)
     }
     
     func testParseJSONWithDeadline() {
-        //GIVEN
+        // GIVEN
         let json = TestData.ParseFromJSON.taskWithDeadline
         let resultCorrect = TestData.ParseFromJSON.correctResultWithDeadline
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
-        //THEN
+        // THEN
         XCTAssertEqual(result, resultCorrect)
     }
     
     func testParseJSONWithoutDeadline() {
-        //GIVEN
+        // GIVEN
         let json = TestData.ParseFromJSON.taskWithoutDeadline
         let resultCorrect = TestData.ParseFromJSON.correctResultWithoutDeadline
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
-        //THEN
+        // THEN
         XCTAssertEqual(result, resultCorrect)
     }
     
     func testParseJSONWithEditDate() {
-        //GIVEN
+        // GIVEN
         let json = TestData.ParseFromJSON.taskWithEditDate
         let resultCorrect = TestData.ParseFromJSON.correctResultWithEditDate
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
-        //THEN
+        // THEN
         XCTAssertEqual(result, resultCorrect)
     }
     
     func testParseJSONWithoutEditDate() {
-        //GIVEN
+        // GIVEN
         let json = TestData.ParseFromJSON.taskWithoutEditDate
         let resultCorrect = TestData.ParseFromJSON.correctResultWithoutEditDate
-        //WHEN
+        // WHEN
         let result = TodoItem.parseFrom(json: json)
-        //THEN
+        // THEN
         XCTAssertEqual(result, resultCorrect)
     }
     
-    
-    //MARK: - tests TO JSON
+    // MARK: - tests TO JSON
     
     func testTaskWithOrdinaryPriority() {
-        //GIVEN
+        // GIVEN
         let task = TestData.TestToJSON.ordinaryTask
-        //WHEN
+        // WHEN
         let result = task.json as? [String: AnyObject]
         let correctResult = TestData.TestToJSON.correctResultOrdinaryPriority
-        //THEN
+        // THEN
         XCTAssertEqual(result?["id"] as? String, correctResult["id"] as? String)
         XCTAssertEqual(result?["text"] as? String, correctResult["text"]  as? String)
         XCTAssertEqual(result?["taskDone"] as? Bool, correctResult["taskDone"] as? Bool)
@@ -120,14 +119,13 @@ final class TodoItemJSONTests: XCTestCase {
         XCTAssertEqual(result?["priority"] as? String, nil)
     }
     
-    
     func testTaskWithAnotherPriority() {
-        //GIVEN
+        // GIVEN
         let task = TestData.TestToJSON.importantTask
-        //WHEN
+        // WHEN
         let result = task.json as? [String: AnyObject]
         let correctResult = TestData.TestToJSON.correctResultImportantTask
-        //THEN
+        // THEN
         XCTAssertEqual(result?["id"] as? String, correctResult["id"] as? String)
         XCTAssertEqual(result?["text"] as? String, correctResult["text"] as? String)
         XCTAssertEqual(result?["taskDone"] as? Bool, correctResult["taskDone"] as? Bool)
@@ -136,12 +134,12 @@ final class TodoItemJSONTests: XCTestCase {
     }
     
     func testTaskWithDeadline() {
-        //GIVEN
+        // GIVEN
         let task = TestData.TestToJSON.taskWithDeadline
-        //WHEN
+        // WHEN
         let result = task.json as? [String: AnyObject]
         let correctResult = TestData.TestToJSON.correctResultWithDeadline
-        //THEN
+        // THEN
         XCTAssertEqual(result?["id"] as? String, correctResult["id"] as? String)
         XCTAssertEqual(result?["text"] as? String, correctResult["text"] as? String)
         XCTAssertEqual(result?["taskDone"] as? Bool, correctResult["taskDone"] as? Bool)
@@ -150,12 +148,12 @@ final class TodoItemJSONTests: XCTestCase {
     }
     
     func testTaskWithoutDeadline() {
-        //GIVEN
+        // GIVEN
         let task = TestData.TestToJSON.taskWithoutDeadline
-        //WHEN
+        // WHEN
         let result = task.json as? [String: AnyObject]
         let correctResult = TestData.TestToJSON.correctResultWithoutDeadline
-        //THEN
+        // THEN
         XCTAssertEqual(result?["id"] as? String, correctResult["id"] as? String)
         XCTAssertEqual(result?["text"] as? String, correctResult["text"] as? String)
         XCTAssertEqual(result?["taskDone"] as? Bool, correctResult["taskDone"] as? Bool)
@@ -164,12 +162,12 @@ final class TodoItemJSONTests: XCTestCase {
     }
     
     func testTaskWithEditDate() {
-        //GIVEN
+        // GIVEN
         let task = TestData.TestToJSON.taskWithEditDate
-        //WHEN
+        // WHEN
         let result = task.json as? [String: AnyObject]
         let correctResult = TestData.TestToJSON.correctResultWithEditDate
-        //THEN
+        // THEN
         XCTAssertEqual(result?["id"] as? String, correctResult["id"] as? String)
         XCTAssertEqual(result?["text"] as? String, correctResult["text"] as? String)
         XCTAssertEqual(result?["taskDone"] as? Bool, correctResult["taskDone"] as? Bool)
@@ -178,12 +176,12 @@ final class TodoItemJSONTests: XCTestCase {
     }
     
     func testTaskWithoutEditDate() {
-        //GIVEN
+        // GIVEN
         let task = TestData.TestToJSON.taskWithoutEditDate
-        //WHEN
+        // WHEN
         let result = task.json as? [String: AnyObject]
         let correctResult = TestData.TestToJSON.correctResultWithoutEditDate
-        //THEN
+        // THEN
         XCTAssertEqual(result?["id"] as? String, correctResult["id"] as? String)
         XCTAssertEqual(result?["text"] as? String, correctResult["text"] as? String)
         XCTAssertEqual(result?["taskDone"] as? Bool, correctResult["taskDone"] as? Bool)
@@ -192,13 +190,13 @@ final class TodoItemJSONTests: XCTestCase {
     }
 }
 
-//MARK: - TestData
+// MARK: - TestData
 private extension TodoItemJSONTests {
     enum TestData {
         enum ParseFromJSON {
-            static let wrongFormat = ["test","test","test" ]
+            static let wrongFormat = ["test", "test", "test" ]
             
-            static let correctFormat = ["taskDone":false, "taskStartDate": 1686688574.6899471,"id": "C106","text": "2222"] as [String : Any]
+            static let correctFormat = ["taskDone": false, "taskStartDate": 1686688574.6899471, "id": "C106", "text": "2222"] as [String: Any]
             
             static let correctResultFromJSON = TodoItem(id: "C106",
                                                         text: "2222",
@@ -206,7 +204,7 @@ private extension TodoItemJSONTests {
                                                         taskDone: false,
                                                         taskStartDate: 1686688574.6899471)
             
-            static let ordinaryPriority: [String : Any] = ["taskDone": true,
+            static let ordinaryPriority: [String: Any] = ["taskDone": true,
                                                            "taskStartDate": 1686688574.6899471,
                                                            "id": "1111",
                                                            "text": "test"]
@@ -217,18 +215,18 @@ private extension TodoItemJSONTests {
                                                                     taskDone: true,
                                                                     taskStartDate: 1686688574.6899471)
             
-            static let importantPriority: [String : Any] = ["taskDone": true,
+            static let importantPriority: [String: Any] = ["taskDone": true,
                                                             "taskStartDate": 1686688574.6899471,
-                                                            "id":"1111",
-                                                            "text":"test",
-                                                            "priority":"important"]
+                                                            "id": "1111",
+                                                            "text": "test",
+                                                            "priority": "important"]
             
             static let correctResultWithImportantPriority = TodoItem(id: "1111",
                                                                      text: "test",
                                                                      priority: "important",
                                                                      taskDone: true,
                                                                      taskStartDate: 1686688574.6899471)
-            static let taskWithDeadline: [String : Any] = ["taskDone": false,
+            static let taskWithDeadline: [String: Any] = ["taskDone": false,
                                                            "taskStartDate": 1686688574.6899471,
                                                            "id": "2D",
                                                            "text": "2222",
@@ -241,7 +239,7 @@ private extension TodoItemJSONTests {
                                                             deadline: 1686688574.6899471,
                                                             taskStartDate: 1686688574.6899471)
             
-            static let taskWithoutDeadline: [String : Any] = ["taskDone": false,
+            static let taskWithoutDeadline: [String: Any] = ["taskDone": false,
                                                               "taskStartDate": 1686688574.6899471,
                                                               "id": "2D",
                                                               "text": "2222"]
@@ -252,7 +250,7 @@ private extension TodoItemJSONTests {
                                                                 taskDone: false,
                                                                 taskStartDate: 1686688574.6899471)
             
-            static let taskWithEditDate : [String : Any] = ["taskDone": false,
+            static let taskWithEditDate: [String: Any] = ["taskDone": false,
                                                             "taskStartDate": 1686688574.6899471,
                                                             "id": "2D",
                                                             "text": "2222",
@@ -265,7 +263,7 @@ private extension TodoItemJSONTests {
                                                              taskStartDate: 1686688574.6899471,
                                                              taskEditDate: 1686688574.6899471)
             
-            static let taskWithoutEditDate : [String : Any] = ["taskDone": false,
+            static let taskWithoutEditDate: [String: Any] = ["taskDone": false,
                                                                "taskStartDate": 1686688574.6899471,
                                                                "id": "2D",
                                                                "text": "2222"]
@@ -285,7 +283,7 @@ private extension TodoItemJSONTests {
                                                taskDone: false,
                                                taskStartDate: 1686688574.6899471)
             
-            static let correctResultOrdinaryPriority: [String : Any] = ["id": "2D",
+            static let correctResultOrdinaryPriority: [String: Any] = ["id": "2D",
                                                                         "text": "2222",
                                                                         "taskDone": false,
                                                                         "taskStartDate": 1686688574.6899471]
@@ -296,7 +294,7 @@ private extension TodoItemJSONTests {
                                                 taskDone: false,
                                                 taskStartDate: 1686688574.6899471)
             
-            static let correctResultImportantTask: [String : Any] = ["id": "2D",
+            static let correctResultImportantTask: [String: Any] = ["id": "2D",
                                                                      "text": "2222",
                                                                      "taskDone": false,
                                                                      "priority": "important",
@@ -309,7 +307,7 @@ private extension TodoItemJSONTests {
                                                    deadline: 1686688574.6899471,
                                                    taskStartDate: 1686688574.6899471)
             
-            static let correctResultWithDeadline: [String : Any] = ["id": "2D",
+            static let correctResultWithDeadline: [String: Any] = ["id": "2D",
                                                                     "text": "2222",
                                                                     "taskDone": false,
                                                                     "deadline": 1686688574.6899471,
@@ -321,7 +319,7 @@ private extension TodoItemJSONTests {
                                                       taskDone: false,
                                                       taskStartDate: 1686688574.6899471)
             
-            static let correctResultWithoutDeadline: [String : Any] = ["id": "2D",
+            static let correctResultWithoutDeadline: [String: Any] = ["id": "2D",
                                                                        "text": "2222",
                                                                        "taskDone": false,
                                                                        "taskStartDate": 1686688574.6899471]
@@ -333,7 +331,7 @@ private extension TodoItemJSONTests {
                                                    taskStartDate: 1686688574.6899471,
                                                    taskEditDate: 1686688574.6899471)
             
-            static let correctResultWithEditDate: [String : Any] = ["id": "2D",
+            static let correctResultWithEditDate: [String: Any] = ["id": "2D",
                                                                     "text": "2222",
                                                                     "taskDone": false,
                                                                     "taskStartDate": 1686688574.6899471,
@@ -345,7 +343,7 @@ private extension TodoItemJSONTests {
                                                       taskDone: false,
                                                       taskStartDate: 1686688574.6899471)
             
-            static let correctResultWithoutEditDate: [String : Any] = ["id": "2D",
+            static let correctResultWithoutEditDate: [String: Any] = ["id": "2D",
                                                                        "text": "2222",
                                                                        "taskDone": false,
                                                                        "taskStartDate": 1686688574.6899471]

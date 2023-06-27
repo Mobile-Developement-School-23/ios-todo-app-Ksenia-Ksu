@@ -1,6 +1,5 @@
 import UIKit
 
-
 protocol DeadlineViewDelegate: AnyObject {
     func deadlineSwitchChanged(isOn: Bool)
     func deadlineDateButtonTapped()
@@ -102,8 +101,6 @@ final class DeadlineView: UIView {
         switcher.isOn = false
     }
     
-    
-    
     @objc func dateButtonTapped() {
         controlSeparatorView()
         deadlineViewDelegate?.deadlineDateButtonTapped()
@@ -136,7 +133,7 @@ extension DeadlineView {
     private enum Layout {
         static let text = "Сделать до"
         static let fontSize: CGFloat = 17
-        static let littleFontSize:CGFloat = 15
+        static let littleFontSize: CGFloat = 15
         static let stackViewInsets = UIEdgeInsets(top: 16, left: 16, bottom: -16, right: 0)
         static let trailingInset: CGFloat = -16
         static let height: CGFloat = 0.5

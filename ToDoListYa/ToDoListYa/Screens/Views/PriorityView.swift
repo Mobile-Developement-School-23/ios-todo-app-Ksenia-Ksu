@@ -1,6 +1,5 @@
 import UIKit
 
-
 protocol PriorityViewDelegate: AnyObject {
     func priorityDidChanged(_ priority: TaskPriority)
 }
@@ -76,7 +75,6 @@ final class PriorityView: UIView {
             separatorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Layout.lineInsets.right)
         ])
     }
-    
     
     @objc func segmentControlTapped(sender: UISegmentedControl) {
         var taskPriority = TaskPriority.ordinary

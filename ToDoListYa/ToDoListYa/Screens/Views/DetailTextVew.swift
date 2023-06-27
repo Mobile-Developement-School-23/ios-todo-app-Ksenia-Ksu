@@ -1,7 +1,7 @@
 import UIKit
 
 protocol DetailTextViewDelegate: AnyObject {
-    //пока нет реализации
+    // пока нет реализации
 }
 
 final class DetailTextView: UITextView {
@@ -53,7 +53,7 @@ final class DetailTextView: UITextView {
     }
 }
 
-//MARK: - layout constants
+// MARK: - layout constants
 extension DetailTextView {
     private enum Layout {
         static let textContainerInset = UIEdgeInsets(top: 17, left: 16, bottom: 17, right: 16)
@@ -64,4 +64,3 @@ extension DetailTextView {
         static let placeholderColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1)
     }
 }
-
