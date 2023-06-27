@@ -128,6 +128,7 @@ final class DetailView: UIView {
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .inline
         datePicker.backgroundColor = ThemeColors.backSecondary
+        datePicker.locale = Locale(identifier: "ru")
         datePicker.addTarget(self, action: #selector(datePickerTapped(sender:)), for: .valueChanged)
         datePicker.isHidden = true
         datePicker.translatesAutoresizingMaskIntoConstraints = false
