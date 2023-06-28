@@ -2,11 +2,22 @@ import UIKit
 import CocoaLumberjack
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    
+    public let fileLogger: DDFileLogger = DDFileLogger()
+    public func setupLogger() {
+        if let logger = DDTTYLogger.sharedInstance {
+            DDLog.add(logger)
+        }
+        // File logger
+        fileLogger.rollingFrequency = TimeInterval(60*60*24)
+        fileLogger.logFileManager.maximumNumberOfLogFiles = 7
+        DDLog.add(fileLogger, with: .info)
+    }
 
     var window: UIWindow?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
+        setupLogger()
         guard (scene as? UIWindowScene) != nil else { return }
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)

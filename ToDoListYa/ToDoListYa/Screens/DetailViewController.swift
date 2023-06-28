@@ -1,4 +1,6 @@
 import UIKit
+import ToDoItemModule
+import CocoaLumberjackSwift
 
 class DetailViewController: UIViewController {
     
@@ -14,6 +16,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        DDLogVerbose("Did load detail view")
         let viewModel = fileManager.loadTasksFromJSONFile(named: data)
         if let viewModel = viewModel, viewModel.count > 0 {
             item = viewModel[0]
@@ -122,7 +126,6 @@ extension DetailViewController: DetailViewDelegate {
         if let viewModel = viewModel, viewModel.count > 0 {
             item = viewModel[0]
             contentView.configure(with: item!)
-            print(item)
         } else {
             contentView.configure(with: nil)
         }
@@ -143,7 +146,6 @@ extension DetailViewController: ColorPikerSelectedDelegate {
                                    taskEditDate: model.taskEditDate,
                                    hexColor: color.hexStringFromColor())
             item = newItem
-            print(item)
         } else {
             let newItem = TodoItem(text: "",
                                    hexColor: color.hexStringFromColor())

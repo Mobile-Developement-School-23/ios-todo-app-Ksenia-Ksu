@@ -7,6 +7,7 @@ target 'ToDoListYa' do
 
   # Pods for ToDoListYa
   pod 'SwiftLint'
+  pod 'ToDoItemModule', path: 'Modules/ToDoItemModule'
 
   target 'ToDoListYaTests' do
     inherit! :search_paths

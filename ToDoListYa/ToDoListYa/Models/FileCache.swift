@@ -1,4 +1,5 @@
 import Foundation
+import ToDoItemModule
 
 protocol FileCaching {
     var toDoItems: [TodoItem] { get }

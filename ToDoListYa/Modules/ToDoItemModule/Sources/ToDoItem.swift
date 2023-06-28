@@ -1,24 +1,24 @@
 import Foundation
 
-struct TodoItem: Equatable {
-    let id: String
-    let text: String
-    let priority: String
-    let taskDone: Bool
+public struct TodoItem: Equatable {
+    public let id: String
+    public let text: String
+    public let priority: String
+    public let taskDone: Bool
     
-    let deadline: Double?
-    let taskStartDate: Double
-    let taskEditDate: Double?
-    let hexColor: String?
+    public let deadline: Double?
+    public let taskStartDate: Double
+    public let taskEditDate: Double?
+    public let hexColor: String?
     
-    init( id: String = UUID().uuidString,
-          text: String,
-          priority: String = TaskPriority.ordinary.rawValue,
-          taskDone: Bool = false,
-          deadline: Double? = nil,
-          taskStartDate: Double = Double(Date().timeIntervalSince1970),
-          taskEditDate: Double? = nil,
-          hexColor: String? = nil
+    public init(id: String = UUID().uuidString,
+                text: String,
+                priority: String = TaskPriority.ordinary.rawValue,
+                taskDone: Bool = false,
+                deadline: Double? = nil,
+                taskStartDate: Double = Double(Date().timeIntervalSince1970),
+                taskEditDate: Double? = nil,
+                hexColor: String? = nil
     ) { self.id = id
         self.text = text
         self.priority = priority
@@ -31,14 +31,14 @@ struct TodoItem: Equatable {
     static let separator = ","
 }
 
-enum TaskPriority: String {
-    case important 
+public enum TaskPriority: String {
+    case important
     case ordinary
     case unimportant
 }
 
 // MARK: - parsing JSON
-extension TodoItem {
+public extension TodoItem {
     
     var json: Any {
         var json: [String: Any] = [
@@ -124,7 +124,7 @@ extension TodoItem {
 }
 
 // MARK: - parsing CSV
-extension TodoItem {
+public extension TodoItem {
     
     var csv: String {
         

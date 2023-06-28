@@ -1,4 +1,5 @@
 import UIKit
+import ToDoItemModule
 
 protocol PriorityViewDelegate: AnyObject {
     func priorityDidChanged(_ priority: TaskPriority)

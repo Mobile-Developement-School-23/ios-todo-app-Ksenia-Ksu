@@ -1,4 +1,5 @@
 import UIKit
+import CocoaLumberjackSwift
 
 protocol ColorPikerSelectedDelegate: AnyObject {
     func addColorToModel(color: UIColor)
@@ -25,6 +26,7 @@ final class ColorViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        DDLogVerbose("Did load color view")
     }
     
 }

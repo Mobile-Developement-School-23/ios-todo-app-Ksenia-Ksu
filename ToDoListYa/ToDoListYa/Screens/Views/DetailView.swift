@@ -1,4 +1,6 @@
 import UIKit
+import ToDoItemModule
+
 protocol DisplayDetailView: UIView {
     func configure(with viewmodel: TodoItem?)
     func configureColor(color: UIColor)

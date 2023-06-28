@@ -1,6 +1,6 @@
 import UIKit
 
-extension Double {
+public extension Double {
     func timeInSecondsToDateString() -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
@@ -11,7 +11,7 @@ extension Double {
     }
 }
 
-extension String {
+public extension String {
     func stringToDoubleDate() -> Double {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMMM yyyy"
@@ -25,7 +25,7 @@ extension String {
     
 }
 
-extension Date {
+public extension Date {
     func stringFromDate() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMMM yyyy"
@@ -34,7 +34,7 @@ extension Date {
     }
 }
 
-extension UIColor {
+public extension UIColor {
     func hexStringFromColor() -> String {
         let components = self.cgColor.components
         let r: CGFloat = components?[0] ?? 0.0
@@ -46,8 +46,8 @@ extension UIColor {
      }
 }
 
-extension UIColor {
-    public convenience init?(hex: String) {
+public extension UIColor {
+    convenience init?(hex: String) {
         let r, g, b, a: CGFloat
 
         if hex.hasPrefix("#") {
@@ -69,7 +69,6 @@ extension UIColor {
                 }
             }
         }
-
         return nil
     }
 }
