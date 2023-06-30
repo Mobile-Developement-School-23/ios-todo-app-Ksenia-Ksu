@@ -10,9 +10,13 @@ protocol ManagesToDoListTable: UITableViewDataSource, UITableViewDelegate {
 protocol ToDoListTableManagerDelegate: AnyObject {
     func didSelectedHeader()
     func didSelectItem(with id: Int)
+    func taskDoneIsChangedInItem(with id: String)
+    func updateViewModel()
+    func deleteItem(with id: String)
+    func buttonTapped()
 }
 
-final class ToListTableViewManager: NSObject, ManagesToDoListTable, HeaderViewDelegate, ToDoListTableViewCellDelegate {
+final class ToListTableViewManager: NSObject, ManagesToDoListTable {
     
     private let taskCellID = "Cell"
     private let headerCellID = "header cell"
@@ -35,7 +39,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable, HeaderViewDe
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        print("cellfor row")
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: headerCellID) as? HeaderViewCell
             cell?.headerViewDelegate = self
@@ -44,6 +48,8 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable, HeaderViewDe
             if indexPath.row < dataForTableView.count {
                 let cell = tableView.dequeueReusableCell(withIdentifier: taskCellID) as? ToDoListTableViewCell
                 cell?.todoCellDelagate = self
+                cell?.configureToDoCell(with:
+                                            dataForTableView[indexPath.row])
                 return cell ?? UITableViewCell()
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: newTodoCellID) as? NewTodoCell
@@ -61,12 +67,66 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable, HeaderViewDe
         }
     }
     
-    func showButtonTapped() {
-       
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        if !(tableView.cellForRow(at: indexPath) is ToDoListTableViewCell) { return nil}
+        
+        let swipeCheckChanged = UIContextualAction(style: .normal, title: nil) { [weak self ] _, _, _ in
+            guard let modelId = self?.dataForTableView[indexPath.row].id  else { return }
+            self?.delegate?.taskDoneIsChangedInItem(with: modelId)
+            if self?.dataForTableView[indexPath.row].taskDone == false {
+                self?.dataForTableView[indexPath.row].taskDone = true
+            } else {
+                self?.dataForTableView[indexPath.row].taskDone = false
+            }
+            self?.delegate?.updateViewModel()
+        }
+        swipeCheckChanged.image = Layout.leftSwipe
+        swipeCheckChanged.backgroundColor = .systemGreen
+        return UISwipeActionsConfiguration(actions: [swipeCheckChanged])
     }
     
-    func taskDoneButtonTapped() {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        if !(tableView.cellForRow(at: indexPath) is ToDoListTableViewCell) { return nil}
+        
+        let infoAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, _ in
+            guard let modelId = self?.dataForTableView[indexPath.row].id else { return }
+            #warning("дописать функцию info")
+        }
+        infoAction.image = Layout.info
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, _ in
+            guard let deletedModelId = self?.dataForTableView[indexPath.row].id else { return }
+            self?.delegate?.deleteItem(with: deletedModelId)
+            self?.dataForTableView.remove(at: indexPath.row)
+            self?.delegate?.updateViewModel()
+        }
+        deleteAction.image = Layout.delete
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, infoAction])
+        
+    }
+    
+}
+
+extension ToListTableViewManager: HeaderViewDelegate {
+    func showDoneTasks() {
         delegate?.didSelectedHeader()
     }
-    
- }
+}
+
+extension ToListTableViewManager: ToDoListTableViewCellDelegate {
+    func taskDoneButtonTapped() {
+        print("manager")
+        delegate?.buttonTapped()
+    }
+}
+
+extension ToListTableViewManager {
+    private enum Layout {
+        static let leftSwipe = UIImage(systemName: "checkmark.circle.fill")
+        static let info = UIImage(systemName: "info.circle.fill")
+        static let delete = UIImage(systemName: "trash.fill")
+    }
+}

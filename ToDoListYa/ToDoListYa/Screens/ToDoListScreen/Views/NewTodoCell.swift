@@ -29,14 +29,14 @@ final class NewTodoCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        contentView.addSubview(doneLabel)
+        addSubview(doneLabel)
     }
     
     private func makeConstraints() {
         
         NSLayoutConstraint.activate([
-            doneLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            doneLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            doneLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            doneLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
@@ -54,4 +54,3 @@ extension NewTodoCell {
         static let newLabelColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
     }
 }
-

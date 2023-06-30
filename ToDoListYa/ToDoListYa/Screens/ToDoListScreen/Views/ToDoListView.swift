@@ -2,12 +2,14 @@ import UIKit
 import ToDoItemModule
 
 protocol DysplaysToDoList: UIView {
-    func configure(with viewModel: [ToDoViewModel])
+    func configure(with viewModel: DataFlow.FetchToDoes.ViewModel)
 }
 
 protocol ToDoListDelegate: AnyObject {
     func didSelectItem(with id: Int)
-    
+    func addNewTask()
+    func taskDoneStatusChangedInTask(with id: String)
+    func deleteTask(with id: String)
 }
 
 final class ToDoListView: UIView {
@@ -32,9 +34,9 @@ final class ToDoListView: UIView {
         newTodoButton.setBackgroundImage(Layout.newTodoButtonImage, for: .normal)
         newTodoButton.layer.cornerRadius = 22
         newTodoButton.imageView?.contentMode = .scaleToFill
+        newTodoButton.addTarget(self, action: #selector(addNewToDo), for: .touchUpInside)
         newTodoButton.translatesAutoresizingMaskIntoConstraints = false
         return newTodoButton
-    
     }()
     
     lazy var activityIndicator: UIActivityIndicatorView = {
@@ -83,9 +85,29 @@ final class ToDoListView: UIView {
         newTodoButton.widthAnchor.constraint(equalToConstant: Layout.newTodoButtonWidth)
         ])
     }
+    
+    @objc func addNewToDo() {
+        delegate?.addNewTask()
+    }
 }
 
 extension ToDoListView: ToDoListTableManagerDelegate {
+    func buttonTapped() {
+        print("view")
+    }
+    
+    
+    func deleteItem(with id: String) {
+        delegate?.deleteTask(with: id)
+    }
+    
+    func updateViewModel() {
+        tableView.reloadData()
+    }
+    
+    func taskDoneIsChangedInItem(with id: String) {
+        delegate?.taskDoneStatusChangedInTask(with: id)
+    }
     
     func didSelectedHeader() {
         print("button tapped")
@@ -97,8 +119,9 @@ extension ToDoListView: ToDoListTableManagerDelegate {
 }
 
 extension ToDoListView: DysplaysToDoList {
-    func configure(with viewModel: [ToDoViewModel]) {
-        tableManager.dataForTableView = viewModel
+    func configure(with viewModel: DataFlow.FetchToDoes.ViewModel) {
+        tableManager.dataForTableView = viewModel.todoList
+        print(viewModel.todoList)
         tableView.reloadData()
     }
 }

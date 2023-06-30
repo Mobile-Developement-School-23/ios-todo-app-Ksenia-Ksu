@@ -9,22 +9,33 @@ class DetailViewController: UIViewController {
     private var item: TodoItem?
     private let fileManager = FileCache()
     private let data = "Data"
+    var taskID: String?
     
     override func loadView() {
         view = contentView
     }
     
+    init(taskID: String? = nil) {
+        self.taskID = taskID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FileCache().toDoItems)
     
         DDLogVerbose("Did load detail view")
-        let viewModel = fileManager.loadTasksFromJSONFile(named: data)
-        if let viewModel = viewModel, viewModel.count > 0 {
-            item = viewModel[0]
-            contentView.configure(with: item!)
-        } else {
+//        let viewModel = fileManager.loadTasksFromJSONFile(named: data)
+//        if let viewModel = viewModel, viewModel.count > 0 {
+//            item = viewModel[0]
+//            contentView.configure(with: item!)
+//        } else {
             contentView.configure(with: nil)
-        }
+      //  }
     }
 }
 

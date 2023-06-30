@@ -2,8 +2,11 @@ import Foundation
 import ToDoItemModule
 
 struct ToDoViewModel {
-    let title: String
-    let priority: TaskPriority
-    let deadline: String?
-    let taskDone: Bool
+    var id: String
+    var title: String
+    var priority: TaskPriority
+    var deadline: String?
+    var taskDone: Bool
+    var textColor: String?
+    
 }

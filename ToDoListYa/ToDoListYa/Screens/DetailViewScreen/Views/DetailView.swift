@@ -177,6 +177,8 @@ final class DetailView: UIView {
     }
     // MARK: - Constraits
     private func makeConstraits() {
+        let keyboardConstrait = scrollView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor)
+        keyboardConstrait.priority = .defaultLow
         NSLayoutConstraint.activate([
             
             topStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Layout.lineSpacing),
@@ -188,7 +190,7 @@ final class DetailView: UIView {
                                                 constant: Layout.scrollViewInsets.left),
             scrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
                                                  constant: Layout.scrollViewInsets.right),
-            scrollView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor),
+            keyboardConstrait,
             
             mainStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),

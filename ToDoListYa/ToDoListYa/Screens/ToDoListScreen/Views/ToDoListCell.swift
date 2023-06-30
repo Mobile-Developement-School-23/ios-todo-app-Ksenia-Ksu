@@ -12,7 +12,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         var config = UIButton.Configuration.plain()
         config.image = Layout.noCheckmark
         let checkButton = UIButton(configuration: config)
-        checkButton.addTarget(self, action: #selector(checkButtonTapped(sender:)), for: .touchUpInside)
+        checkButton.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
         checkButton.translatesAutoresizingMaskIntoConstraints = false
         return checkButton
     }()
@@ -44,7 +44,6 @@ final class ToDoListTableViewCell: UITableViewCell {
     
     lazy var itemlabel: UILabel = {
         let itemlabel = UILabel()
-        itemlabel.text = "Taskonkkkkkkkkkkkkkkkkkknbhbbhhbhhbbhhbhkfkfkfkfkfkfkkfkfkfkkfkfkfkfkkfkfkfkfkkfkfkfkkfkfkfkfkkfkfkfkkfkfkfkfkkfkfkkfkfkfkkfkfkkfkfkfkfkfkfkkfbhbhbhbbhhbhbhbbh"
         itemlabel.font = UIFont.systemFont(ofSize: Layout.taskFont)
         itemlabel.numberOfLines = 3
         itemlabel.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +60,6 @@ final class ToDoListTableViewCell: UITableViewCell {
     
     lazy var deadlineLabel: UILabel = {
         let deadlineLabel = UILabel()
-        deadlineLabel.text = "deadline"
         deadlineLabel.isHidden = true
         deadlineLabel.font = UIFont.systemFont(ofSize: Layout.deadlineFont)
         deadlineLabel.textColor = ThemeColors.placeholderColor
@@ -88,12 +86,13 @@ final class ToDoListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: Layout.cellId)
         addSubviews()
         makeConstraints()
+        contentView.isUserInteractionEnabled = true
     }
     
     private func addSubviews() {
-        addSubview(checkButton)
-        addSubview(containerStack)
-        addSubview(chevronImage)
+        contentView.addSubview(checkButton)
+        contentView.addSubview(containerStack)
+        contentView.addSubview(chevronImage)
         containerStack.addArrangedSubview(priorityView)
         containerStack.addArrangedSubview(stackVertical)
         stackVertical.addArrangedSubview(itemlabel)
@@ -107,15 +106,15 @@ final class ToDoListTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             
-            checkButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.inset),
-            checkButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            checkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Layout.inset),
+            checkButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             checkButton.widthAnchor.constraint(equalToConstant: Layout.checkButtonSize),
             checkButton.heightAnchor.constraint(equalToConstant: Layout.checkButtonSize),
            
             containerStack.leadingAnchor.constraint(equalTo: checkButton.trailingAnchor, constant: Layout.inset/2),
             containerStack.trailingAnchor.constraint(equalTo: chevronImage.leadingAnchor, constant: -Layout.inset),
-            containerStack.topAnchor.constraint(equalTo: topAnchor, constant: Layout.inset),
-            containerStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.inset),
+            containerStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Layout.inset),
+            containerStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Layout.inset),
             
             priorityView.widthAnchor.constraint(equalToConstant: Layout.prioritySize),
             priorityView.heightAnchor.constraint(equalToConstant: Layout.prioritySize),
@@ -123,8 +122,8 @@ final class ToDoListTableViewCell: UITableViewCell {
             deadlineImage.heightAnchor.constraint(equalToConstant: 15),
             deadlineImage.widthAnchor.constraint(equalToConstant: 15),
         
-            chevronImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.inset),
-            chevronImage.centerYAnchor.constraint(equalTo: centerYAnchor),
+            chevronImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Layout.inset),
+            chevronImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             chevronImage.widthAnchor.constraint(equalToConstant: Layout.chevronWidth),
             chevronImage.heightAnchor.constraint(equalToConstant: Layout.chevronHeigth)
         ])
@@ -135,12 +134,14 @@ final class ToDoListTableViewCell: UITableViewCell {
     }
     
     // MARK: - Actions
-    @objc private func checkButtonTapped(sender: UIButton) {
+    @objc private func checkButtonTapped() {
         if checkButton.imageView?.image == Layout.greenCheckmark {
             checkButton.imageView?.image = Layout.noCheckmark
         } else if checkButton.imageView?.image == Layout.redCheck {
+            print("note here")
             checkButton.imageView?.image = Layout.greenCheckmark
         }
+        todoCellDelagate?.taskDoneButtonTapped()
     }
     
     // MARK: - CellConfiguration
@@ -158,6 +159,9 @@ final class ToDoListTableViewCell: UITableViewCell {
             let attributedText = NSMutableAttributedString(string: viewModel.title)
             attributedText.addAttribute(.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributedText.length))
             itemlabel.attributedText = attributedText
+        } else {
+            // дописать цвет текста
+            itemlabel.text = viewModel.title
         }
     }
     

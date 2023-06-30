@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        let navigationController = UINavigationController(rootViewController: ToDoListViewController())
+        let navigationController = UINavigationController(rootViewController: TodoListModuleBuilder().build())
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }

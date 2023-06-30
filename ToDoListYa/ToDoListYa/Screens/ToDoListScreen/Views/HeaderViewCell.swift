@@ -1,7 +1,7 @@
 import UIKit
 
 protocol HeaderViewDelegate: AnyObject {
-    func showButtonTapped()
+    func showDoneTasks()
 }
 
 final class HeaderViewCell: UITableViewCell {
@@ -18,34 +18,30 @@ final class HeaderViewCell: UITableViewCell {
     }()
     
     lazy var showButton: UIButton = {
-        let showButton = UIButton(configuration: .plain())
+        let showButton = UIButton()
         showButton.setTitle(Layout.showButtonText, for: .normal)
         showButton.setTitleColor(.systemBlue, for: .normal)
         showButton.setTitleColor(.systemGray2, for: .disabled)
         showButton.titleLabel?.font = UIFont.systemFont(ofSize: Layout.labelsFont, weight: .bold)
+        showButton.addTarget(self, action: #selector(showButtonTapped), for: .touchUpInside)
         showButton.translatesAutoresizingMaskIntoConstraints = false
         return showButton
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: Layout.cellId)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         backgroundColor = .clear
         selectionStyle = .none
         addSubviews()
         makeConstraints()
     }
-    
+        
     private func addSubviews() {
         addSubview(doneLabel)
         addSubview(showButton)
     }
     
     private func makeConstraints() {
-        
         NSLayoutConstraint.activate([
             doneLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.insets.left),
             doneLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -64,6 +60,10 @@ final class HeaderViewCell: UITableViewCell {
     func configureDoneTasks(with count: Int) {
         doneLabel.text = "Выполнено - \(count)"
     }
+    
+    @objc func showButtonTapped() {
+        headerViewDelegate?.showDoneTasks()
+     }
 }
 
 extension HeaderViewCell {
