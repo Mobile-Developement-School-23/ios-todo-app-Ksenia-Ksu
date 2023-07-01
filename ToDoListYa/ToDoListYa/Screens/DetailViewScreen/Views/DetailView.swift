@@ -4,6 +4,8 @@ import ToDoItemModule
 protocol DisplayDetailView: UIView {
     func configure(with viewmodel: TodoItem?)
     func configureColor(color: UIColor)
+    func configureWithLandscape()
+    func configureWithNormal()
 }
 
 protocol DetailViewDelegate: AnyObject {
@@ -43,7 +45,6 @@ final class DetailView: UIView {
         cancelButton.setTitleColor(.systemGray2, for: .disabled)
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: Layout.fontSize, weight: .regular)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
-        cancelButton.isEnabled = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         return cancelButton
     }()
@@ -226,10 +227,6 @@ final class DetailView: UIView {
             delegate?.saveItem(with: text!, color: selectedColor?.hexStringFromColor())
             print("saving")
         }
-        
-        deleteButton.isEnabled = true
-        cancelButton.isEnabled = false
-        saveButton.isEnabled = false
     }
     
     @objc func datePickerTapped(sender: UIDatePicker) {
@@ -265,10 +262,10 @@ final class DetailView: UIView {
             self.datePicker.isHidden = false
         })
     }
-    
 }
 // MARK: - DisplayDetailView
 extension DetailView: DisplayDetailView {
+    
     func configure(with viewmodel: TodoItem?) {
         if viewmodel != nil {
             textView.text = viewmodel?.text
@@ -302,6 +299,21 @@ extension DetailView: DisplayDetailView {
         saveButton.isEnabled = true
         coloPickerView.confugureColor(color: color)
         textView.configureTextColor(color: color)
+    }
+    
+    // MARK: - Transition Methods
+    func configureWithLandscape() {
+        deleteButton.isHidden = true
+        containerForViews.isHidden = true
+        textView.heightAnchor.constraint(greaterThanOrEqualToConstant: Layout.textViewHeight).isActive = false
+        textView.heightAnchor.constraint(equalToConstant: safeAreaLayoutGuide.layoutFrame.width - Layout.scrollViewInsets.top * 2 - Layout.topStackViewHeight).isActive = true
+    }
+    
+    func configureWithNormal() {
+        deleteButton.isHidden = false
+        containerForViews.isHidden = false
+        textView.heightAnchor.constraint(equalToConstant: safeAreaLayoutGuide.layoutFrame.width - Layout.scrollViewInsets.top * 2).isActive = false
+        textView.heightAnchor.constraint(greaterThanOrEqualToConstant: Layout.textViewHeight).isActive = true
     }
 }
 // MARK: - DetailTextViewDelegate

@@ -23,6 +23,5 @@ final class TodoListPresenter: ToDoListPresentationLogic {
     }
     
     func presentSelectedTodo(_ response: DataFlow.FetchToDoes.Reponse) {
-        
     }
 }

@@ -6,8 +6,7 @@ protocol DysplaysToDoList: UIView {
 }
 
 protocol ToDoListDelegate: AnyObject {
-    func didSelectItem(with id: Int)
-    func addNewTask()
+    func didSelectItem(with id: String?, with cellFrame: CGRect?)
     func taskDoneStatusChangedInTask(with id: String)
     func deleteTask(with id: String)
 }
@@ -87,15 +86,15 @@ final class ToDoListView: UIView {
     }
     
     @objc func addNewToDo() {
-        delegate?.addNewTask()
+        delegate?.didSelectItem(with: nil, with: nil)
     }
 }
 
 extension ToDoListView: ToDoListTableManagerDelegate {
-    func buttonTapped() {
-        print("view")
-    }
     
+    func didSelectItem(with id: String?, with cellFrame: CGRect?) {
+        delegate?.didSelectItem(with: id, with: cellFrame)
+    }
     
     func deleteItem(with id: String) {
         delegate?.deleteTask(with: id)
@@ -110,12 +109,9 @@ extension ToDoListView: ToDoListTableManagerDelegate {
     }
     
     func didSelectedHeader() {
-        print("button tapped")
+        tableView.reloadData()
     }
     
-    func didSelectItem(with id: Int) {
-        delegate?.didSelectItem(with: id)
-    }
 }
 
 extension ToDoListView: DysplaysToDoList {
@@ -130,7 +126,6 @@ extension ToDoListView {
     private enum Layout {
         static let headerHeight: CGFloat = 32
         static let headerInset: CGFloat = 24
-//        static let tableviewInset: CGFloat = 
         static let backgroundColor = ThemeColors.backPrimary
         static let doneLabelText = "Выполнено - 5"
         static let doneLabelFont: CGFloat = 17

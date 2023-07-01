@@ -1,16 +1,16 @@
 import UIKit
 import ToDoItemModule
+import CocoaLumberjackSwift
 
 protocol DisplayLogic: AnyObject {
     func displayFetchedTodoes(_ viewModel: DataFlow.FetchToDoes.ViewModel)
-    func displaySelectedTodo(_ viewModel: DataFlow.SelectToDo.ViewModel)
-    func displayNewTask()
 }
 
 final class ToDoListViewController: UIViewController {
     
     lazy var contentview: DysplaysToDoList = ToDoListView(delegate: self)
     private let interactor: ToDoListBusinessLogic
+    private var cellSelectedFrame: CGRect?
     
     init (interactor: ToDoListBusinessLogic) {
         self.interactor = interactor
@@ -24,11 +24,11 @@ final class ToDoListViewController: UIViewController {
     override func loadView() {
         view = contentview
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navBarSetup()
-        print("loaded")
+        DDLogVerbose("Did load todolist view")
         interactor.fetchTodoList(.init())
     }
     
@@ -39,7 +39,7 @@ final class ToDoListViewController: UIViewController {
         navigationController?.navigationBar.sizeToFit()
     }
 }
-                                                          
+
 extension ToDoListViewController: ToDoListDelegate {
     
     func deleteTask(with id: String) {
@@ -50,30 +50,40 @@ extension ToDoListViewController: ToDoListDelegate {
         interactor.todoChangedStatus(with: id)
     }
     
-    func addNewTask() {
-        displayNewTask()
-    }
-    
-    #warning("rewrite logic")
-    func didSelectItem(with id: Int) {
-        let vc = DetailViewController()
+#warning("rewrite logic")
+    func didSelectItem(with id: String?, with cellFrame: CGRect?) {
+        cellSelectedFrame = cellFrame
+        let vc = DetailViewController(taskID: id)
+        vc.delegate = self
+        vc.modalPresentationStyle = .automatic
+        vc.transitioningDelegate = self
         present(vc, animated: true)
+        
     }
 }
 
 extension ToDoListViewController: DisplayLogic {
-    
-    func displayNewTask() {
-        let vc = DetailViewController()
-        present(vc, animated: true)
-    }
     
     func displayFetchedTodoes(_ viewModel: DataFlow.FetchToDoes.ViewModel) {
         contentview.configure(with: .init(todoList: viewModel.todoList))
         
     }
     
-    func displaySelectedTodo(_ viewModel: DataFlow.SelectToDo.ViewModel) {
-        
+}
+
+extension ToDoListViewController: DetailDelegate {
+    
+    func updateTodoList() {
+        interactor.fetchTodoList(.init())
+    }
+}
+
+// MARK: - UIViewControllerTransitioningDelegate
+extension ToDoListViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard let startFrame = cellSelectedFrame else { return nil }
+        return PresentFromCellAnimator(cellFrame: startFrame)
     }
 }

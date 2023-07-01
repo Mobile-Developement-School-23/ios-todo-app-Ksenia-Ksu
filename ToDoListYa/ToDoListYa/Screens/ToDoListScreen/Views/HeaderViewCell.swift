@@ -32,22 +32,23 @@ final class HeaderViewCell: UITableViewCell {
         super.init(style: .default, reuseIdentifier: Layout.cellId)
         backgroundColor = .clear
         selectionStyle = .none
+        contentView.isUserInteractionEnabled = true
         addSubviews()
         makeConstraints()
     }
         
     private func addSubviews() {
-        addSubview(doneLabel)
-        addSubview(showButton)
+        contentView.addSubview(doneLabel)
+        contentView.addSubview(showButton)
     }
     
     private func makeConstraints() {
         NSLayoutConstraint.activate([
-            doneLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.insets.left),
-            doneLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            doneLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Layout.insets.left),
+            doneLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            showButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Layout.insets.right),
-            showButton.centerYAnchor.constraint(equalTo: centerYAnchor)
+            showButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Layout.insets.right),
+            showButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
     }

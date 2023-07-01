@@ -9,11 +9,10 @@ protocol ManagesToDoListTable: UITableViewDataSource, UITableViewDelegate {
 
 protocol ToDoListTableManagerDelegate: AnyObject {
     func didSelectedHeader()
-    func didSelectItem(with id: Int)
+    func didSelectItem(with id: String?, with cellFrame: CGRect?)
     func taskDoneIsChangedInItem(with id: String)
     func updateViewModel()
     func deleteItem(with id: String)
-    func buttonTapped()
 }
 
 final class ToListTableViewManager: NSObject, ManagesToDoListTable {
@@ -21,11 +20,21 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
     private let taskCellID = "Cell"
     private let headerCellID = "header cell"
     private let newTodoCellID = "new todo cell"
+    private var doneTasks: [ToDoViewModel] = []
+    private var undoneTasks: [ToDoViewModel] = []
+    private var showDonetasks = false
     
-    var dataForTableView: [ToDoViewModel] = []
+    var dataForTableView: [ToDoViewModel] = [] {
+        didSet {
+            doneTasks = dataForTableView.filter {$0.taskDone == true }
+            undoneTasks = dataForTableView.filter {$0.taskDone == false }
+            dataForTableView = undoneTasks + doneTasks
+            }
+    }
     
     weak var delegate: ToDoListTableManagerDelegate?
     
+    // MARK: - Table DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
@@ -34,15 +43,19 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
         if section == 0 {
             return 1
         } else {
-            return dataForTableView.count + 1
+            if showDonetasks {
+                return dataForTableView.count + 1
+            } else {
+                return dataForTableView.count + 1 - doneTasks.count - 1
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("cellfor row")
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: headerCellID) as? HeaderViewCell
             cell?.headerViewDelegate = self
+            cell?.configureDoneTasks(with: doneTasks.count)
             return cell ?? UITableViewCell()
         } else if indexPath.section == 1 {
             if indexPath.row < dataForTableView.count {
@@ -50,6 +63,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
                 cell?.todoCellDelagate = self
                 cell?.configureToDoCell(with:
                                             dataForTableView[indexPath.row])
+                cell?.checkButton.tag = indexPath.row
                 return cell ?? UITableViewCell()
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: newTodoCellID) as? NewTodoCell
@@ -59,14 +73,25 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
         return UITableViewCell()
     }
     
+    // MARK: - Table Delegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            delegate?.didSelectedHeader()
-        } else {
-            delegate?.didSelectItem(with: indexPath.row)
+        if let indexPath = tableView.indexPathForSelectedRow {
+            if indexPath.section == 0 {
+                // we do not need this
+            } else if indexPath.section == 1 {
+                guard let cell = tableView.cellForRow(at: indexPath) else { return }
+                let cellFrame = tableView.convert(cell.frame, to: tableView.superview)
+                if indexPath.row < dataForTableView.count {
+                    let id = dataForTableView[indexPath.row].id
+                    delegate?.didSelectItem(with: id, with: cellFrame)
+                } else {
+                    delegate?.didSelectItem(with: nil, with: cellFrame)
+                }
+            }
         }
     }
     
+    // MARK: - Swipes
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         if !(tableView.cellForRow(at: indexPath) is ToDoListTableViewCell) { return nil}
@@ -92,7 +117,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
         
         let infoAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, _ in
             guard let modelId = self?.dataForTableView[indexPath.row].id else { return }
-            #warning("дописать функцию info")
+            self?.delegate?.didSelectItem(with: modelId, with: nil)
         }
         infoAction.image = Layout.info
         
@@ -107,19 +132,32 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
         return UISwipeActionsConfiguration(actions: [deleteAction, infoAction])
         
     }
-    
 }
 
 extension ToListTableViewManager: HeaderViewDelegate {
     func showDoneTasks() {
+        if showDonetasks == false {
+            showDonetasks = true
+        } else {
+            showDonetasks = false
+        }
         delegate?.didSelectedHeader()
     }
 }
 
 extension ToListTableViewManager: ToDoListTableViewCellDelegate {
-    func taskDoneButtonTapped() {
-        print("manager")
-        delegate?.buttonTapped()
+    func taskDoneButtonTapped(with id: Int) {
+        let index = id
+        if index < dataForTableView.count {
+            let modelId = dataForTableView[index].id
+            delegate?.taskDoneIsChangedInItem(with: modelId)
+            if dataForTableView[index].taskDone == false {
+                dataForTableView[index].taskDone = true
+            } else {
+                dataForTableView[index].taskDone = false
+            }
+            delegate?.updateViewModel()
+        }
     }
 }
 

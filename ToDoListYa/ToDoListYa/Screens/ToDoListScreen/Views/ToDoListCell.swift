@@ -1,7 +1,7 @@
 import UIKit
 
 protocol ToDoListTableViewCellDelegate: AnyObject {
-    func taskDoneButtonTapped()
+    func taskDoneButtonTapped(with id: Int)
 }
 
 final class ToDoListTableViewCell: UITableViewCell {
@@ -12,7 +12,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         var config = UIButton.Configuration.plain()
         config.image = Layout.noCheckmark
         let checkButton = UIButton(configuration: config)
-        checkButton.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
+        checkButton.addTarget(self, action: #selector(checkButtonTapped(sender:)), for: .touchUpInside)
         checkButton.translatesAutoresizingMaskIntoConstraints = false
         return checkButton
     }()
@@ -26,7 +26,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         return containerStack
     }()
     
-    lazy var priorityView: UIImageView = {
+    private lazy var priorityView: UIImageView = {
         let priorityView = UIImageView()
         priorityView.isHidden = true
         priorityView.contentMode = .scaleAspectFit
@@ -34,7 +34,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         return priorityView
     }()
     
-    lazy var stackVertical: UIStackView = {
+    private lazy var stackVertical: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = 3
@@ -42,7 +42,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         return stack
     }()
     
-    lazy var itemlabel: UILabel = {
+    private lazy var itemlabel: UILabel = {
         let itemlabel = UILabel()
         itemlabel.font = UIFont.systemFont(ofSize: Layout.taskFont)
         itemlabel.numberOfLines = 3
@@ -50,7 +50,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         return itemlabel
     }()
     
-    lazy var stackDeadline: UIStackView = {
+    private lazy var stackDeadline: UIStackView = {
         let stackDeadline = UIStackView()
         stackDeadline.axis = .horizontal
         stackDeadline.spacing = 2
@@ -58,7 +58,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         return stackDeadline
     }()
     
-    lazy var deadlineLabel: UILabel = {
+    private lazy var deadlineLabel: UILabel = {
         let deadlineLabel = UILabel()
         deadlineLabel.isHidden = true
         deadlineLabel.font = UIFont.systemFont(ofSize: Layout.deadlineFont)
@@ -67,7 +67,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         return deadlineLabel
     }()
     
-    lazy var deadlineImage: UIImageView = {
+    private lazy var deadlineImage: UIImageView = {
         let deadlineImage = UIImageView()
         deadlineImage.image = Layout.calendar
         deadlineImage.isHidden = true
@@ -75,7 +75,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         return deadlineImage
     }()
     
-    lazy var chevronImage: UIImageView = {
+    private lazy var chevronImage: UIImageView = {
         let chevronImage = UIImageView()
         chevronImage.image = Layout.chevron
         chevronImage.translatesAutoresizingMaskIntoConstraints = false
@@ -134,14 +134,21 @@ final class ToDoListTableViewCell: UITableViewCell {
     }
     
     // MARK: - Actions
-    @objc private func checkButtonTapped() {
+    @objc private func checkButtonTapped(sender: UIButton) {
+        // #warning дописать
+        print(checkButton.tag)
         if checkButton.imageView?.image == Layout.greenCheckmark {
-            checkButton.imageView?.image = Layout.noCheckmark
+            if priorityView.image == Layout.highImage {
+                checkButton.setImage(Layout.redCheck, for: .normal)
+            } else {
+                checkButton.setImage(Layout.noCheckmark, for: .normal)
+            }
         } else if checkButton.imageView?.image == Layout.redCheck {
-            print("note here")
+            checkButton.imageView?.image = Layout.greenCheckmark
+        } else if checkButton.imageView?.image == Layout.noCheckmark {
             checkButton.imageView?.image = Layout.greenCheckmark
         }
-        todoCellDelagate?.taskDoneButtonTapped()
+        todoCellDelagate?.taskDoneButtonTapped(with: sender.tag)
     }
     
     // MARK: - CellConfiguration
@@ -160,8 +167,10 @@ final class ToDoListTableViewCell: UITableViewCell {
             attributedText.addAttribute(.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributedText.length))
             itemlabel.attributedText = attributedText
         } else {
-            // дописать цвет текста
             itemlabel.text = viewModel.title
+            if let hexColor = viewModel.textColor, let uiColor =  UIColor(hex: hexColor) {
+                itemlabel.textColor = uiColor
+            }
         }
     }
     
@@ -199,6 +208,11 @@ final class ToDoListTableViewCell: UITableViewCell {
             deadlineLabel.isHidden = true
             deadlineImage.isHidden = true
         }
+    }
+    override func prepareForReuse() {
+        let attributedText = NSMutableAttributedString(string: "")
+        attributedText.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: attributedText.length))
+        itemlabel.attributedText = attributedText
     }
 }
 

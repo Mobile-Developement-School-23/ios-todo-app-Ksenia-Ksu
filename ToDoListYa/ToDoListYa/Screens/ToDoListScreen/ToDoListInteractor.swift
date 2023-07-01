@@ -47,5 +47,4 @@ final class TodoListInteractor: ToDoListBusinessLogic {
     func selectNewToDo(_ request: DataFlow.SelectNewItem.Request) {
         
     }
-    
 }

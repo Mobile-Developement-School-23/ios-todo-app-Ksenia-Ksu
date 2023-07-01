@@ -26,7 +26,7 @@ final class FileCache: FileCaching {
             toDoItems.append(task)
         }
     }
-    
+    @discardableResult
     func deleteTask(with id: String) -> TodoItem? {
         if let index = toDoItems.firstIndex(where: {$0.id == id }) {
             return toDoItems.remove(at: index)
@@ -34,7 +34,8 @@ final class FileCache: FileCaching {
         return nil
     }
     
-    // MARK: - Save And Load JSON
+    // MARK: - JSON
+    // MARK: - Save
     func saveAllTasksToJSONFile(named: String) {
         guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
@@ -46,28 +47,29 @@ final class FileCache: FileCaching {
         writeToJSONFileAt(fileUrl: pathSearch)
     }
     
-        func loadTasksFromJSONFile(named: String) -> [TodoItem]? {
-            var items: [TodoItem] = []
-    
-            guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil}
-    
-            let documentsDirectoryPath = URL(fileURLWithPath: url.path)
-            let pathSearch = documentsDirectoryPath.appendingPathComponent("\(named).json")
-            print(pathSearch)
-            do {
-                let data = try Data(contentsOf: pathSearch)
-                guard let jsonObject =  try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else { return nil }
-                for item in jsonObject {
-                    if let newItem = TodoItem.parseFrom(json: item) {
-                        items.append(newItem)
-                    }
+    @discardableResult
+    func loadTasksFromJSONFile(named: String) -> [TodoItem]? {
+        var items: [TodoItem] = []
+        
+        guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil}
+        
+        let documentsDirectoryPath = URL(fileURLWithPath: url.path)
+        let pathSearch = documentsDirectoryPath.appendingPathComponent("\(named).json")
+        print(pathSearch)
+        do {
+            let data = try Data(contentsOf: pathSearch)
+            guard let jsonObject =  try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else { return nil }
+            for item in jsonObject {
+                if let newItem = TodoItem.parseFrom(json: item) {
+                    items.append(newItem)
                 }
-            } catch let error as NSError {
-                print("Error if loading json file: \(error.localizedDescription)")
             }
-            toDoItems = items
-            return items
+        } catch let error as NSError {
+            print("Error if loading json file: \(error.localizedDescription)")
         }
+        toDoItems = items
+        return items
+    }
     
     func load(named: String, completion: @escaping (Result<[TodoItem], Error>) -> Void) {
         queue.async {

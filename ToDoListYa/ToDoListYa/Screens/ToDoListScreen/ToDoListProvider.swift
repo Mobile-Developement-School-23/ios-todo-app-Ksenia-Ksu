@@ -52,7 +52,7 @@ final class Provider: Provides {
     }
     
     func deleteTask(with id: String) {
-        if let _ = service.deleteTask(with: id) {
+        if service.deleteTask(with: id) != nil {
             service.saveAllTasksToJSONFile(named: fileName)
         }
     }
