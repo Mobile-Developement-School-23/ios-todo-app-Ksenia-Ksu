@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Property 1=Icon, Property 2=Priority, Property 3=Priority, Property 4=High.png",
+      "filename" : "􀢒.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -17,5 +17,8 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }
