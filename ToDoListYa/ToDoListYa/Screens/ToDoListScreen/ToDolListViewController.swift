@@ -41,6 +41,18 @@ final class ToDoListViewController: UIViewController {
 }
 
 extension ToDoListViewController: ToDoListDelegate {
+    func animate(animator: UIContextMenuInteractionCommitAnimating) {
+        guard let viewController = animator.previewViewController else { return }
+               animator.addCompletion {
+                   self.present(viewController, animated: true, completion: nil)
+               }
+    }
+    
+    func createPreviewDetailVC(with id: String) -> UIViewController? {
+        let vc = DetailViewController(taskID: id)
+        vc.delegate = self
+        return vc
+    }
     
     func deleteTask(with id: String) {
         interactor.deleteTask(with: id)
@@ -50,7 +62,6 @@ extension ToDoListViewController: ToDoListDelegate {
         interactor.todoChangedStatus(with: id)
     }
     
-#warning("rewrite logic")
     func didSelectItem(with id: String?, with cellFrame: CGRect?) {
         cellSelectedFrame = cellFrame
         let vc = DetailViewController(taskID: id)

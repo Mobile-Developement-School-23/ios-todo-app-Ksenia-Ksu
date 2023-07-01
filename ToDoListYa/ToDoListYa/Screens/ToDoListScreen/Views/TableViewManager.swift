@@ -13,6 +13,8 @@ protocol ToDoListTableManagerDelegate: AnyObject {
     func taskDoneIsChangedInItem(with id: String)
     func updateViewModel()
     func deleteItem(with id: String)
+    func createDetailVC(with id: String) -> UIViewController?
+    func animatorContext(animator: UIContextMenuInteractionCommitAnimating)
 }
 
 final class ToListTableViewManager: NSObject, ManagesToDoListTable {
@@ -29,7 +31,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
             doneTasks = dataForTableView.filter {$0.taskDone == true }
             undoneTasks = dataForTableView.filter {$0.taskDone == false }
             dataForTableView = undoneTasks + doneTasks
-            }
+        }
     }
     
     weak var delegate: ToDoListTableManagerDelegate?
@@ -120,6 +122,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
             self?.delegate?.didSelectItem(with: modelId, with: nil)
         }
         infoAction.image = Layout.info
+        infoAction.backgroundColor = Layout.infoActionColor
         
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, _ in
             guard let deletedModelId = self?.dataForTableView[indexPath.row].id else { return }
@@ -131,6 +134,29 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
         
         return UISwipeActionsConfiguration(actions: [deleteAction, infoAction])
         
+    }
+    // MARK: - second star
+    
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let lastIndex = tableView.numberOfRows(inSection: 0) - 1
+        guard indexPath.row != lastIndex else { return nil }
+        
+        let config = UIContextMenuConfiguration(identifier: indexPath as NSIndexPath,
+                                                previewProvider: { () -> UIViewController? in
+            let tappedTodoId = self.dataForTableView[indexPath.row].id
+            return self.delegate?.createDetailVC(with: tappedTodoId)
+        }, actionProvider: nil)
+        return config
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration,
+                   animator: UIContextMenuInteractionCommitAnimating) {
+        
+        delegate?.animatorContext(animator: animator)
     }
 }
 
@@ -166,5 +192,6 @@ extension ToListTableViewManager {
         static let leftSwipe = UIImage(systemName: "checkmark.circle.fill")
         static let info = UIImage(systemName: "info.circle.fill")
         static let delete = UIImage(systemName: "trash.fill")
+        static let infoActionColor = UIColor(red: 0.82, green: 0.82, blue: 0.84, alpha: 1.00)
     }
 }

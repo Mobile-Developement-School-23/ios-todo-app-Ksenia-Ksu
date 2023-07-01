@@ -1,10 +1,9 @@
 import Foundation
 import ToDoItemModule
+import CocoaLumberjackSwift
 
 protocol ToDoListBusinessLogic {
     func fetchTodoList(_ request: DataFlow.FetchToDoes.Request)
-    func selectTodo(_ request: DataFlow.SelectToDo.Request)
-    func selectNewToDo(_ request: DataFlow.SelectNewItem.Request)
     func todoChangedStatus(with id: String)
     func deleteTask(with id: String)
 }
@@ -26,7 +25,7 @@ final class TodoListInteractor: ToDoListBusinessLogic {
                 self.presenter.presentFetchedTodoes(.init(todoList: items))
             case .failure(let error):
                 print(error.localizedDescription)
-                self.presenter.presentSelectedTodo(.init(todoList: []))
+                DDLogError("Provider fetched data with error - \(error.localizedDescription)")
             }
         }
         
@@ -40,11 +39,4 @@ final class TodoListInteractor: ToDoListBusinessLogic {
         provider.deleteTask(with: id)
     }
     
-    func selectTodo(_ request: DataFlow.SelectToDo.Request) {
-        
-    }
-    
-    func selectNewToDo(_ request: DataFlow.SelectNewItem.Request) {
-        
-    }
 }

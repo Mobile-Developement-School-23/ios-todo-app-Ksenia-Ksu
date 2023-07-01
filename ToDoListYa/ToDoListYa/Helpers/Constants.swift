@@ -20,4 +20,5 @@ enum ThemeColors {
     static let textViewColor = UIColor(named: "TextViewColor")
     static let separatorColor = UIColor(named: "DividerColor")
     static let placeholderColor = UIColor(named: "TextViewPlaceholderText")
+    static let doneTasksColor = UIColor(named: "LabelTertiary")
 }

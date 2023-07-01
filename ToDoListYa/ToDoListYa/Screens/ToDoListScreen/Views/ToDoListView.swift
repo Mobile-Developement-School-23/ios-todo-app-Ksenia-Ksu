@@ -9,6 +9,8 @@ protocol ToDoListDelegate: AnyObject {
     func didSelectItem(with id: String?, with cellFrame: CGRect?)
     func taskDoneStatusChangedInTask(with id: String)
     func deleteTask(with id: String)
+    func createPreviewDetailVC(with id: String) -> UIViewController?
+    func animate(animator: UIContextMenuInteractionCommitAnimating)
 }
 
 final class ToDoListView: UIView {
@@ -89,9 +91,17 @@ final class ToDoListView: UIView {
         delegate?.didSelectItem(with: nil, with: nil)
     }
 }
-
+// MARK: - ToDoListTableManagerDelegate
 extension ToDoListView: ToDoListTableManagerDelegate {
     
+    func animatorContext(animator: UIContextMenuInteractionCommitAnimating) {
+        delegate?.animate(animator: animator)
+    }
+    
+    func createDetailVC(with id: String) -> UIViewController? {
+        delegate?.createPreviewDetailVC(with: id)
+    }
+        
     func didSelectItem(with id: String?, with cellFrame: CGRect?) {
         delegate?.didSelectItem(with: id, with: cellFrame)
     }

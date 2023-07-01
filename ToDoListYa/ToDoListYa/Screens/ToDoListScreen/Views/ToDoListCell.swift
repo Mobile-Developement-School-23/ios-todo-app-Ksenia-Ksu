@@ -182,6 +182,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         } else {
             #warning("add tintcolor for black theme")
             checkButton.setImage(Layout.noCheckmark, for: .normal)
+            
         }
        
     }

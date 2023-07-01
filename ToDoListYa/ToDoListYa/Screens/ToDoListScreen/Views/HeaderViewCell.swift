@@ -12,7 +12,7 @@ final class HeaderViewCell: UITableViewCell {
         let label = UILabel()
         label.text = Layout.doneLabelText
         label.font = UIFont.systemFont(ofSize: Layout.labelsFont)
-        label.textColor = Layout.doneLabelColor
+        label.textColor = ThemeColors.doneTasksColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -36,7 +36,7 @@ final class HeaderViewCell: UITableViewCell {
         addSubviews()
         makeConstraints()
     }
-        
+    
     private func addSubviews() {
         contentView.addSubview(doneLabel)
         contentView.addSubview(showButton)
@@ -64,7 +64,7 @@ final class HeaderViewCell: UITableViewCell {
     
     @objc func showButtonTapped() {
         headerViewDelegate?.showDoneTasks()
-     }
+    }
 }
 
 extension HeaderViewCell {
@@ -72,7 +72,6 @@ extension HeaderViewCell {
         static let cellId = "header cell"
         static let doneLabelText = "Выполнено - 0"
         static let labelsFont: CGFloat = 17
-        static let doneLabelColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
         static let showButtonText = "Показать"
         static let insets = UIEdgeInsets(top: 5, left: 16, bottom: 8, right: -16)
     }

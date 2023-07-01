@@ -3,7 +3,7 @@ import ToDoItemModule
 
 protocol ToDoListPresentationLogic {
     func presentFetchedTodoes(_ response: DataFlow.FetchToDoes.Reponse)
-    func presentSelectedTodo(_ response: DataFlow.FetchToDoes.Reponse)
+   
 }
 
 final class TodoListPresenter: ToDoListPresentationLogic {
@@ -22,6 +22,4 @@ final class TodoListPresenter: ToDoListPresentationLogic {
         controller?.displayFetchedTodoes(.init(todoList: todoList))
     }
     
-    func presentSelectedTodo(_ response: DataFlow.FetchToDoes.Reponse) {
-    }
 }
