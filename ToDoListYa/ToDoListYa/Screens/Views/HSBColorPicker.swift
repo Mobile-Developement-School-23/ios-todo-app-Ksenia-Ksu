@@ -1,16 +1,14 @@
-
 import UIKit
 
-internal protocol HSBColorPickerDelegate : NSObjectProtocol {
-    func HSBColorColorPickerTouched(sender:HSBColorPicker, color:UIColor, point:CGPoint, state:UIGestureRecognizer.State)
+internal protocol HSBColorPickerDelegate: NSObjectProtocol {
+    func HSBColorColorPickerTouched(sender: HSBColorPicker, color: UIColor, point: CGPoint, state: UIGestureRecognizer.State)
 }
-
 
 class HSBColorPicker: UIView {
 
     weak internal var delegate: HSBColorPickerDelegate?
-    let saturationExponentTop:Float = 2.0
-    let saturationExponentBottom:Float = 1.3
+    let saturationExponentTop: Float = 2.0
+    let saturationExponentBottom: Float = 1.3
 
     var elementSize: CGFloat = 50.0 {
         didSet {
@@ -38,22 +36,22 @@ class HSBColorPicker: UIView {
 
     override func draw(_ rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
-        for y : CGFloat in stride(from: 0.0 ,to: rect.height, by: elementSize) {
+        for y: CGFloat in stride(from: 0.0, to: rect.height, by: elementSize) {
             var saturation = y < rect.height / 2.0 ? CGFloat(2 * y) / rect.height : 2.0 * CGFloat(rect.height - y) / rect.height
             saturation = CGFloat(powf(Float(saturation), y < rect.height / 2.0 ? saturationExponentTop : saturationExponentBottom))
             let brightness = y < rect.height / 2.0 ? CGFloat(1.0) : 2.0 * CGFloat(rect.height - y) / rect.height
-            for x : CGFloat in stride(from: 0.0 ,to: rect.width, by: elementSize) {
+            for x: CGFloat in stride(from: 0.0, to: rect.width, by: elementSize) {
                 let hue = x / rect.width
                 let color = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
                 context!.setFillColor(color.cgColor)
-                context!.fill(CGRect(x:x, y:y, width:elementSize,height:elementSize))
+                context!.fill(CGRect(x: x, y: y, width: elementSize, height: elementSize))
             }
         }
     }
 
-    func getColorAtPoint(point:CGPoint) -> UIColor {
-        let roundedPoint = CGPoint(x:elementSize * CGFloat(Int(point.x / elementSize)),
-                               y:elementSize * CGFloat(Int(point.y / elementSize)))
+    func getColorAtPoint(point: CGPoint) -> UIColor {
+        let roundedPoint = CGPoint(x: elementSize * CGFloat(Int(point.x / elementSize)),
+                               y: elementSize * CGFloat(Int(point.y / elementSize)))
         var saturation = roundedPoint.y < self.bounds.height / 2.0 ? CGFloat(2 * roundedPoint.y) / self.bounds.height
         : 2.0 * CGFloat(self.bounds.height - roundedPoint.y) / self.bounds.height
         saturation = CGFloat(powf(Float(saturation), roundedPoint.y < self.bounds.height / 2.0 ? saturationExponentTop : saturationExponentBottom))
@@ -62,19 +60,19 @@ class HSBColorPicker: UIView {
         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
     }
 
-    func getPointForColor(color:UIColor) -> CGPoint {
+    func getPointForColor(color: UIColor) -> CGPoint {
         var hue: CGFloat = 0.0
         var saturation: CGFloat = 0.0
         var brightness: CGFloat = 0.0
-        color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil);
+        color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
 
-        var yPos:CGFloat = 0
+        var yPos: CGFloat = 0
         let halfHeight = (self.bounds.height / 2)
-        if (brightness >= 0.99) {
+        if brightness >= 0.99 {
             let percentageY = powf(Float(saturation), 1.0 / saturationExponentTop)
             yPos = CGFloat(percentageY) * halfHeight
         } else {
-            //use brightness to get Y
+            // use brightness to get Y
             yPos = halfHeight + halfHeight * (1.0 - brightness)
         }
         let xPos = hue * self.bounds.width
@@ -82,10 +80,10 @@ class HSBColorPicker: UIView {
     }
 
     @objc func touchedColor(gestureRecognizer: UILongPressGestureRecognizer) {
-        if (gestureRecognizer.state == UIGestureRecognizer.State.began) {
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
             let point = gestureRecognizer.location(in: self)
             let color = getColorAtPoint(point: point)
-            self.delegate?.HSBColorColorPickerTouched(sender: self, color: color, point: point, state:gestureRecognizer.state)
+            self.delegate?.HSBColorColorPickerTouched(sender: self, color: color, point: point, state: gestureRecognizer.state)
         }
     }
 }

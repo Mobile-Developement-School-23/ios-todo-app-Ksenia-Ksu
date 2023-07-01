@@ -1,0 +1,22 @@
+{
+  "name": "ToDoItemModule",
+  "summary": "ToDoItem - model for project",
+  "version": "1.0",
+  "license": {
+    "type": "BSD"
+  },
+  "authors": {
+    "Ksenia Kobak": "kseniakobak@yandex.ru"
+  },
+  "homepage": "http://alfabank.ru",
+  "source": {
+    "git": "https://github.com/Mobile-Developement-School-23/ios-todo-app-Ksenia-Ksu/tree/main/ToDoListYa"
+  },
+  "source_files": "Sources/**/*.swift",
+  "platforms": {
+    "osx": null,
+    "ios": null,
+    "tvos": null,
+    "watchos": null
+  }
+}

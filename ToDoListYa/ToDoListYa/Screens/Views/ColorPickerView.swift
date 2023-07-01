@@ -4,7 +4,7 @@ protocol ColorViewDelegate: AnyObject {
 
 import UIKit
 
-class ColorPickerView: UIView {
+final class ColorPickerView: UIView {
     
     weak var colorViewDelegate: ColorViewDelegate?
     
@@ -17,7 +17,7 @@ class ColorPickerView: UIView {
         colorButton.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
         return colorButton
     }()
-    
+
     lazy var colorSelectedButton: UIButton = {
         let colorSelectedButton = UIButton()
         colorSelectedButton.layer.cornerRadius = Layout.cornerRadius
@@ -33,8 +33,7 @@ class ColorPickerView: UIView {
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         return separatorView
     }()
-    
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         

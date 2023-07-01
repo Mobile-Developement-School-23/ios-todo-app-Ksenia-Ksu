@@ -4,146 +4,140 @@ import XCTest
 final class TodoItemCSVTests: XCTestCase {
     
     func testParseToCSVWithOrdinaryPriority() {
-        //GIVEN
+        // GIVEN
         let item = TestData.ParseToCSV.itemWithOrdinaryPriority
-        //THEN
+        // THEN
         let result = item.csv
         let correctResult = TestData.ParseToCSV.correctResultWithOrdinaryPriority
-        //WHEN
+        // WHEN
         XCTAssertEqual(result, correctResult)
     }
     
     func testParseToCSVWithAnotherPriority() {
-        //GIVEN
+        // GIVEN
         let item = TestData.ParseToCSV.itemWithAnotherPriority
-        //THEN
+        // THEN
         let result = item.csv
         let correctResult = TestData.ParseToCSV.correctResultWithAnotherPriority
-        //WHEN
+        // WHEN
         XCTAssertEqual(result, correctResult)
     }
     
     func testParseToCSVDeadlineNil() {
-        //GIVEN
+        // GIVEN
         let item = TestData.ParseToCSV.itemWithDeadlineNil
-        //THEN
+        // THEN
         let result = item.csv
         let correctResult = TestData.ParseToCSV.correctResultWithDeadlineNil
-        //WHEN
+        // WHEN
         XCTAssertEqual(result, correctResult)
     }
     
     func testParseToCSVDeadlineNotNil() {
-        //GIVEN
+        // GIVEN
         let item = TestData.ParseToCSV.itemWithDeadlineNotNil
-        //THEN
+        // THEN
         let result = item.csv
         let correctResult = TestData.ParseToCSV.correctResultWithDeadlineNotNil
-        //WHEN
+        // WHEN
         XCTAssertEqual(result, correctResult)
     }
     
     func testParseToCSVEditDateNil() {
-        //GIVEN
+        // GIVEN
         let item = TestData.ParseToCSV.itemWithEditDateNil
-        //THEN
+        // THEN
         let result = item.csv
         let correctResult = TestData.ParseToCSV.correctResultWithEditDateNil
-        //WHEN
+        // WHEN
         XCTAssertEqual(result, correctResult)
     }
     
     func testParseToCSVEditDateNotNil() {
-        //GIVEN
+        // GIVEN
         let item = TestData.ParseToCSV.itemWithEditDateNotNil
-        //THEN
+        // THEN
         let result = item.csv
         let correctResult = TestData.ParseToCSV.correctResultWithEditDateNotNil
-        //WHEN
+        // WHEN
         XCTAssertEqual(result, correctResult)
     }
     
     func testParseToCSVWithCommaInField() {
-        //GIVEN
+        // GIVEN
         // Если в текстовом поле TodoItem.text будет запятая весь файл CSV слетит в кодироке
-        //проверяю, соответствие количества запятых по количеству полей
+        // проверяю, соответствие количества запятых по количеству полей
         let item = TestData.ParseToCSV.itemWithCommaInText
-        //THEN
+        // THEN
         let result = item.csv.filter { $0 == ","}.count
         let correctResult = TestData.ParseToCSV.correctResultForiIemWithCommaInText.filter { $0 == ","}.count
-        //WHEN
-        XCTAssertEqual(result,correctResult )
+        // WHEN
+        XCTAssertEqual(result, correctResult )
     }
     
     func testParseToCSVWithoutCommaInField() {
-        //GIVEN
+        // GIVEN
         let item = TestData.ParseToCSV.itemWithoutCommaInText
-        //THEN
+        // THEN
         let result = item.csv.filter { $0 == ","}.count
         let correctResult = TestData.ParseToCSV.correctResultForiIemWithoutCommaInText.filter { $0 == ","}.count
-        //WHEN
-        XCTAssertEqual(result,correctResult)
+        // WHEN
+        XCTAssertEqual(result, correctResult)
     }
     
     func testParseFromCSVWithCorrectFieldsCount() {
-        //GIVEN
+        // GIVEN
         let string = TestData.ParseFromCSV.correctFieldsCount
-        //THEN
+        // THEN
         let result = TodoItem.parseFromCSVFormat(csv: string)
-        //WHEN
-        XCTAssertEqual(result,TestData.ParseFromCSV.correctResult)
+        // WHEN
+        XCTAssertEqual(result, TestData.ParseFromCSV.correctResult)
     }
     
     func testParseFromCSVWithWrongFieldsCount() {
-        //GIVEN
+        // GIVEN
         let string = TestData.ParseFromCSV.wrongFielsdCount
-        //THEN
+        // THEN
         let result = TodoItem.parseFromCSVFormat(csv: string)
-        //WHEN
-        XCTAssertEqual(result,[])
+        // WHEN
+        XCTAssertEqual(result, [])
     }
     
     func testParseFromCSVWithEmptyString() {
-        //GIVEN
+        // GIVEN
         let string = ""
-        //THEN
+        // THEN
         let result = TodoItem.parseFromCSVFormat(csv: string)
-        //WHEN
-        XCTAssertEqual(result,[])
+        // WHEN
+        XCTAssertEqual(result, [])
     }
 }
 
 extension TodoItemCSVTests {
     enum TestData {
         enum ParseToCSV {
-            static let itemWithOrdinaryPriority = TodoItem(id:"11111", text: "test", priority: "ordinary", deadline: 849323737.33333, taskStartDate: 646776000.0)
+            static let itemWithOrdinaryPriority = TodoItem(id: "11111", text: "test", priority: "ordinary", deadline: 849323737.33333, taskStartDate: 646776000.0)
             static let correctResultWithOrdinaryPriority = "11111,test, ,no,1996-11-30,1990-07-01, \n"
             
-            
-            static let itemWithAnotherPriority = TodoItem(id:"11111", text: "test", priority: "important", deadline: 849323737.33333, taskStartDate: 646776000.0)
+            static let itemWithAnotherPriority = TodoItem(id: "11111", text: "test", priority: "important", deadline: 849323737.33333, taskStartDate: 646776000.0)
             static let correctResultWithAnotherPriority = "11111,test,important,no,1996-11-30,1990-07-01, \n"
             
-            
-            static let itemWithDeadlineNil = TodoItem(id:"11111", text: "test", priority: "important", taskStartDate: 646776000.0)
+            static let itemWithDeadlineNil = TodoItem(id: "11111", text: "test", priority: "important", taskStartDate: 646776000.0)
             static let correctResultWithDeadlineNil = "11111,test,important,no, ,1990-07-01, \n"
             
-            
-            static let itemWithDeadlineNotNil = TodoItem(id:"11111", text: "test", priority: "important",deadline: 849323737.33333,taskStartDate: 646776000.0)
+            static let itemWithDeadlineNotNil = TodoItem(id: "11111", text: "test", priority: "important", deadline: 849323737.33333, taskStartDate: 646776000.0)
             static let correctResultWithDeadlineNotNil = "11111,test,important,no,1996-11-30,1990-07-01, \n"
             
-            
-            static let itemWithEditDateNil = TodoItem(id:"11111", text: "test", priority: "important", taskStartDate: 646776000.0)
+            static let itemWithEditDateNil = TodoItem(id: "11111", text: "test", priority: "important", taskStartDate: 646776000.0)
             static let correctResultWithEditDateNil = "11111,test,important,no, ,1990-07-01, \n"
             
-            
-            static let itemWithEditDateNotNil = TodoItem(id:"11111", text: "test", priority: "important", taskStartDate: 646776000.0, taskEditDate: 849323737.33333)
+            static let itemWithEditDateNotNil = TodoItem(id: "11111", text: "test", priority: "important", taskStartDate: 646776000.0, taskEditDate: 849323737.33333)
             static let correctResultWithEditDateNotNil = "11111,test,important,no, ,1990-07-01,1996-11-30\n"
         
-            
-            static let itemWithCommaInText = TodoItem(id:"F01405EF-9725-41C4-9410-D23B24AF72C6", text: "test1,00", deadline: 849323737.33333, taskStartDate: 646776000.0)
+            static let itemWithCommaInText = TodoItem(id: "F01405EF-9725-41C4-9410-D23B24AF72C6", text: "test1,00", deadline: 849323737.33333, taskStartDate: 646776000.0)
             static let correctResultForiIemWithCommaInText = "F01405EF-9725-41C4-9410-D23B24AF72C6,test1 00, ,no,1996-11-30,1990-07-01, \n"
             
-            static let itemWithoutCommaInText = TodoItem(id:"F01405EF-9725-41C4-9410-D23B24AF72C6", text: "test1 00", deadline: 849323737.33333,taskStartDate: 646776000.0)
+            static let itemWithoutCommaInText = TodoItem(id: "F01405EF-9725-41C4-9410-D23B24AF72C6", text: "test1 00", deadline: 849323737.33333, taskStartDate: 646776000.0)
             static let correctResultForiIemWithoutCommaInText = "F01405EF-9725-41C4-9410-D23B24AF72C6,test1 00, ,no,1996-11-30,1990-07-01, \n"
         }
         enum ParseFromCSV {

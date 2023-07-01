@@ -1,4 +1,5 @@
 import Foundation
+import ToDoItemModule
 
 protocol FileCaching {
     var toDoItems: [TodoItem] { get }
@@ -10,8 +11,7 @@ protocol FileCaching {
     func loadTasksFromCSVFile(named: String) -> [TodoItem]?
 }
 
-
-class FileCache: FileCaching {
+final class FileCache: FileCaching {
    
     private let fileManager = FileManager.default
     
@@ -32,7 +32,7 @@ class FileCache: FileCaching {
          return nil
     }
     
-    //MARK: - Save And Load JSON
+    // MARK: - Save And Load JSON
     func saveAllTasksToJSONFile(named: String) {
         guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
@@ -43,7 +43,6 @@ class FileCache: FileCaching {
         }
         writeToJSONFileAt(fileUrl: pathSearch)
     }
-    
     
     func loadTasksFromJSONFile(named: String) -> [TodoItem]? {
         var items: [TodoItem] = []
@@ -68,11 +67,10 @@ class FileCache: FileCaching {
         return items
     }
     
-    
     private func writeToJSONFileAt(fileUrl: URL) {
-        var dict: [[String : Any]] = []
+        var dict: [[String: Any]] = []
         for item in toDoItems {
-            if let newItem = item.json as? [String : Any] {
+            if let newItem = item.json as? [String: Any] {
                 dict.append(newItem)
             }
         }
@@ -84,12 +82,12 @@ class FileCache: FileCaching {
         }
     }
     
-    //MARK: - Save And Load CSV
+    // MARK: - Save And Load CSV
     func saveAllTasksToCSVFile(named: String) {
             do {
                 let path = try fileManager.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
                 let fileURL = path.appendingPathComponent("\(named).csv")
-                //заголовки для CSV файла
+                // заголовки для CSV файла
                 var csvString = CSVText.headers
                 for item in toDoItems {
                     csvString += item.csv
@@ -109,7 +107,7 @@ class FileCache: FileCaching {
                 let items = TodoItem.parseFromCSVFormat(csv: data)
                 toDoItems = items
                 return items
-            } catch  {
+            } catch {
                 print("error loading CSVfile: \(error.localizedDescription)")
                 return nil
             }

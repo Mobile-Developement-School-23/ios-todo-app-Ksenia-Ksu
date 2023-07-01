@@ -1,12 +1,24 @@
 import UIKit
+import CocoaLumberjack
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    
+    public let fileLogger: DDFileLogger = DDFileLogger()
+    public func setupLogger() {
+        if let logger = DDTTYLogger.sharedInstance {
+            DDLog.add(logger)
+        }
+        // File logger
+        fileLogger.rollingFrequency = TimeInterval(60*60*24)
+        fileLogger.logFileManager.maximumNumberOfLogFiles = 7
+        DDLog.add(fileLogger, with: .info)
+    }
 
     var window: UIWindow?
-
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let _ = (scene as? UIWindowScene) else { return }
+        setupLogger()
+        guard (scene as? UIWindowScene) != nil else { return }
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
        
@@ -42,7 +54,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
-

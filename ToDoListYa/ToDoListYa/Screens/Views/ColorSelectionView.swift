@@ -38,7 +38,6 @@ final class ColorSelectionView: UIView {
         return saveButton
     }()
     
-    
     private lazy var slider: UISlider = {
         let slider = UISlider()
         slider.value = 1
@@ -109,7 +108,6 @@ final class ColorSelectionView: UIView {
             cancelButton.widthAnchor.constraint(equalToConstant: Layout.buttonWidth),
             cancelButton.heightAnchor.constraint(equalToConstant: Layout.buttonHeight),
             
-            
             slider.topAnchor.constraint(equalTo: colorButton.bottomAnchor, constant: Layout.indent),
             slider.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
             slider.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
@@ -117,12 +115,12 @@ final class ColorSelectionView: UIView {
             colorView.topAnchor.constraint(equalTo: slider.bottomAnchor, constant: Layout.indent),
             colorView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
             colorView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
-            colorView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
+            colorView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor)
         ])
     }
 }
 
-//MARK: - HSBColorPickerDelegate
+// MARK: - HSBColorPickerDelegate
 extension ColorSelectionView: HSBColorPickerDelegate {
     func HSBColorColorPickerTouched(sender: HSBColorPicker, color: UIColor, point: CGPoint, state: UIGestureRecognizer.State) {
         colorButton.backgroundColor = color
@@ -144,4 +142,3 @@ extension ColorSelectionView {
         static let cancelButtonColor = UIColor(red: 0, green: 0.48, blue: 1.0, alpha: 1.0)
     }
 }
-

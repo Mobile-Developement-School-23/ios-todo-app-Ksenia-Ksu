@@ -1,4 +1,6 @@
 import UIKit
+import ToDoItemModule
+import CocoaLumberjackSwift
 
 class DetailViewController: UIViewController {
     
@@ -14,6 +16,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        DDLogVerbose("Did load detail view")
         let viewModel = fileManager.loadTasksFromJSONFile(named: data)
         if let viewModel = viewModel, viewModel.count > 0 {
             item = viewModel[0]
@@ -28,11 +32,11 @@ extension DetailViewController: DetailViewDelegate {
     
     func openColorController() {
         let colorPickerVC = ColorViewController(colorHandler: self)
-        present(colorPickerVC,animated: true)
+        present(colorPickerVC, animated: true)
     }
     
     func saveItem(with text: String, color: String?) {
-        //модель в любом случае должна быть, потому что кнопка  save не активна, пока не произойдут изменения
+        // модель в любом случае должна быть, потому что кнопка  save не активна, пока не произойдут изменения
         if let model = item {
             let newItem = TodoItem(id: model.id,
                                    text: text,
@@ -116,20 +120,19 @@ extension DetailViewController: DetailViewDelegate {
     }
     
     func cancelChanges() {
-        //загружается снова тот же item из файла, пока логика такая
+        // загружается снова тот же item из файла, пока логика такая
         print("cancel")
         let viewModel = fileManager.loadTasksFromJSONFile(named: data)
         if let viewModel = viewModel, viewModel.count > 0 {
             item = viewModel[0]
             contentView.configure(with: item!)
-            print(item)
         } else {
             contentView.configure(with: nil)
         }
     }
     
 }
-//MARK: - ColorPikerSelectedDelegate
+// MARK: - ColorPikerSelectedDelegate
 extension DetailViewController: ColorPikerSelectedDelegate {
     
     func addColorToModel(color: UIColor) {
@@ -143,7 +146,6 @@ extension DetailViewController: ColorPikerSelectedDelegate {
                                    taskEditDate: model.taskEditDate,
                                    hexColor: color.hexStringFromColor())
             item = newItem
-            print(item)
         } else {
             let newItem = TodoItem(text: "",
                                    hexColor: color.hexStringFromColor())
@@ -151,9 +153,4 @@ extension DetailViewController: ColorPikerSelectedDelegate {
         }
         contentView.configureColor(color: color)
     }
-
 }
-
-
-
-
