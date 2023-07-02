@@ -40,7 +40,7 @@ final class ColorSelectionView: UIView {
     
     private lazy var slider: UISlider = {
         let slider = UISlider()
-        slider.value = 1
+        slider.value = 0
         slider.minimumValue = 0
         slider.maximumValue = 1
         slider.isContinuous = true
@@ -70,8 +70,7 @@ final class ColorSelectionView: UIView {
     }
     
     @objc func saveButtonTapped() {
-        var color = colorButton.backgroundColor
-        color = color?.withAlphaComponent(CGFloat(slider.value))
+        let color = colorButton.backgroundColor
         colorPickerViewDelegate?.saveColor(color: color)
     }
     
@@ -80,7 +79,8 @@ final class ColorSelectionView: UIView {
     }
     
     @objc func sliderValueDidChange(_ sender: UISlider) {
-        colorButton.alpha = CGFloat(sender.value)
+        let color = colorButton.backgroundColor
+        colorButton.backgroundColor = color?.withBrightness(CGFloat(sender.value))
     }
     
     private func addSubviews() {
@@ -123,8 +123,10 @@ final class ColorSelectionView: UIView {
 // MARK: - HSBColorPickerDelegate
 extension ColorSelectionView: HSBColorPickerDelegate {
     func HSBColorColorPickerTouched(sender: HSBColorPicker, color: UIColor, point: CGPoint, state: UIGestureRecognizer.State) {
+        let currentBrightness = color.brightness
         colorButton.backgroundColor = color
-        let title = String(color.hexStringFromColor().dropLast(2))
+        slider.setValue(Float(currentBrightness), animated: true)
+        let title = String(color.hexStringFromColor())
         colorButton.setTitle(title, for: .normal)
     }
 }

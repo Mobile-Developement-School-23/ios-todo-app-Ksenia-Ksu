@@ -69,8 +69,9 @@ final class ToDoListTableViewCell: UITableViewCell {
     
     private lazy var deadlineImage: UIImageView = {
         let deadlineImage = UIImageView()
-        deadlineImage.image = Layout.calendar
+        deadlineImage.image = Layout.calendar?.withRenderingMode(.alwaysTemplate)
         deadlineImage.isHidden = true
+        deadlineImage.tintColor = ThemeColors.placeholderColor
         deadlineImage.translatesAutoresizingMaskIntoConstraints = false
         return deadlineImage
     }()
