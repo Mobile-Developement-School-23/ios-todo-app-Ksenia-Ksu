@@ -18,7 +18,7 @@ final class ToDoListView: UIView {
     weak var delegate: ToDoListDelegate?
     private let tableManager: ManagesToDoListTable
     
-    private lazy var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = .clear
         tableView.register(ToDoListTableViewCell.self, forCellReuseIdentifier: Layout.taskCellID)
@@ -30,7 +30,7 @@ final class ToDoListView: UIView {
         return tableView
     }()
     
-    private lazy var newTodoButton: UIButton = {
+    lazy var newTodoButton: UIButton = {
         var newTodoButton = UIButton()
         newTodoButton.setBackgroundImage(Layout.newTodoButtonImage, for: .normal)
         newTodoButton.layer.cornerRadius = 22
@@ -40,7 +40,7 @@ final class ToDoListView: UIView {
         return newTodoButton
     }()
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
+    lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
@@ -124,7 +124,6 @@ extension ToDoListView: ToDoListTableManagerDelegate {
     
 }
 
-// MARK: - DysplaysToDoList
 extension ToDoListView: DysplaysToDoList {
     func configure(with viewModel: DataFlow.FetchToDoes.ViewModel) {
         tableManager.dataForTableView = viewModel.todoList
@@ -135,6 +134,14 @@ extension ToDoListView: DysplaysToDoList {
 
 extension ToDoListView {
     private enum Layout {
+        static let headerHeight: CGFloat = 32
+        static let headerInset: CGFloat = 24
+        static let backgroundColor = ThemeColors.backPrimary
+        static let doneLabelText = "Выполнено - 5"
+        static let doneLabelFont: CGFloat = 17
+        static let doneLabelColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
+        static let showButtonText = "Показать"
+        static let taskFont = 17
         static let taskCellID = "Cell"
         static let headerCellID = "header cell"
         static let newCellID = "new todo cell"

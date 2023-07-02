@@ -113,6 +113,7 @@ extension DetailViewController: DetailViewDelegate {
     }
     
     func cancelChanges() {
+        print("cancel")
         delegate?.updateTodoList()
         dismiss(animated: true)
     }

@@ -99,6 +99,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         stackVertical.addArrangedSubview(stackDeadline)
         stackDeadline.addArrangedSubview(deadlineImage)
         stackDeadline.addArrangedSubview(deadlineLabel)
+      
     }
     
     private func makeConstraints() {
@@ -118,8 +119,8 @@ final class ToDoListTableViewCell: UITableViewCell {
             priorityView.widthAnchor.constraint(equalToConstant: Layout.prioritySize),
             priorityView.heightAnchor.constraint(equalToConstant: Layout.prioritySize),
             
-            deadlineImage.heightAnchor.constraint(equalToConstant: Layout.prioritySize),
-            deadlineImage.widthAnchor.constraint(equalToConstant: Layout.prioritySize),
+            deadlineImage.heightAnchor.constraint(equalToConstant: 15),
+            deadlineImage.widthAnchor.constraint(equalToConstant: 15),
         
             chevronImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Layout.inset),
             chevronImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -134,6 +135,8 @@ final class ToDoListTableViewCell: UITableViewCell {
     
     // MARK: - Actions
     @objc private func checkButtonTapped(sender: UIButton) {
+        // #warning дописать
+        print(checkButton.tag)
         if checkButton.imageView?.image == Layout.greenCheckmark {
             if priorityView.image == Layout.highImage {
                 checkButton.setImage(Layout.redCheck, for: .normal)
@@ -179,7 +182,9 @@ final class ToDoListTableViewCell: UITableViewCell {
         } else {
             #warning("add tintcolor for black theme")
             checkButton.setImage(Layout.noCheckmark, for: .normal)
+            
         }
+       
     }
     
     private func configurePriority(with viewModel: ToDoViewModel) {
@@ -205,7 +210,6 @@ final class ToDoListTableViewCell: UITableViewCell {
             deadlineImage.isHidden = true
         }
     }
-    
     override func prepareForReuse() {
         let attributedText = NSMutableAttributedString(string: "")
         attributedText.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: attributedText.length))

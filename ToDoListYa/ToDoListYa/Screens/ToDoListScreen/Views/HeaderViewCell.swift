@@ -8,7 +8,7 @@ final class HeaderViewCell: UITableViewCell {
     
     weak var headerViewDelegate: HeaderViewDelegate?
     
-    private lazy var doneLabel: UILabel = {
+    lazy var doneLabel: UILabel = {
         let label = UILabel()
         label.text = Layout.doneLabelText
         label.font = UIFont.systemFont(ofSize: Layout.labelsFont)
@@ -17,7 +17,7 @@ final class HeaderViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var showButton: UIButton = {
+    lazy var showButton: UIButton = {
         let showButton = UIButton()
         showButton.setTitle(Layout.showButtonText, for: .normal)
         showButton.setTitleColor(.systemBlue, for: .normal)
@@ -50,6 +50,7 @@ final class HeaderViewCell: UITableViewCell {
             showButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Layout.insets.right),
             showButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
+        
     }
     
     required init?(coder: NSCoder) {
