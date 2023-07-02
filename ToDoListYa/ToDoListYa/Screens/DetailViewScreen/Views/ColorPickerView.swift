@@ -36,7 +36,6 @@ final class ColorPickerView: UIView {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         backgroundColor = ThemeColors.backSecondary
         addSubviews()
         makeConstraints()

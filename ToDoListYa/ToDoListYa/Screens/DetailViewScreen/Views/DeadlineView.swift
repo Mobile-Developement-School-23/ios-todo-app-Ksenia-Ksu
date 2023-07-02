@@ -24,7 +24,7 @@ final class DeadlineView: UIView {
         return deadlineLabel
     }()
     
-    lazy var dateButton: UIButton = {
+    private lazy var dateButton: UIButton = {
         let dateButton = UIButton()
         dateButton.setTitleColor(.systemBlue, for: .normal)
         dateButton.titleLabel?.font = UIFont.systemFont(ofSize: Layout.littleFontSize, weight: .regular)
@@ -34,7 +34,7 @@ final class DeadlineView: UIView {
         return dateButton
     }()
     
-    lazy var switcher: UISwitch = {
+    private lazy var switcher: UISwitch = {
         let switcher = UISwitch()
         return switcher
     }()

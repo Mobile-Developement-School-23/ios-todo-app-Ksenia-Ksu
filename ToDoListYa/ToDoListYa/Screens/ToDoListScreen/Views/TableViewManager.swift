@@ -48,7 +48,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
             if showDonetasks {
                 return dataForTableView.count + 1
             } else {
-                return dataForTableView.count + 1 - doneTasks.count - 1
+                return dataForTableView.count - doneTasks.count
             }
         }
     }
@@ -135,7 +135,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
         return UISwipeActionsConfiguration(actions: [deleteAction, infoAction])
         
     }
-    // MARK: - second star
+    // MARK: - second star methods
     
     func tableView(_ tableView: UITableView,
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
@@ -155,7 +155,6 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
     func tableView(_ tableView: UITableView,
                    willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration,
                    animator: UIContextMenuInteractionCommitAnimating) {
-        
         delegate?.animatorContext(animator: animator)
     }
 }

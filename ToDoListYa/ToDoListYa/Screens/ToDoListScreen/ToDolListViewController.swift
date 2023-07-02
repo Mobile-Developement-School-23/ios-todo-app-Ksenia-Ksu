@@ -40,6 +40,7 @@ final class ToDoListViewController: UIViewController {
     }
 }
 
+// MARK: - ToDoListDelegate
 extension ToDoListViewController: ToDoListDelegate {
     func animate(animator: UIContextMenuInteractionCommitAnimating) {
         guard let viewController = animator.previewViewController else { return }
@@ -69,19 +70,18 @@ extension ToDoListViewController: ToDoListDelegate {
         vc.modalPresentationStyle = .automatic
         vc.transitioningDelegate = self
         present(vc, animated: true)
-        
     }
 }
 
+// MARK: - DisplayLogic
 extension ToDoListViewController: DisplayLogic {
     
     func displayFetchedTodoes(_ viewModel: DataFlow.FetchToDoes.ViewModel) {
         contentview.configure(with: .init(todoList: viewModel.todoList))
         
     }
-    
 }
-
+// MARK: - DetailDelegate
 extension ToDoListViewController: DetailDelegate {
     
     func updateTodoList() {
@@ -95,6 +95,6 @@ extension ToDoListViewController: UIViewControllerTransitioningDelegate {
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard let startFrame = cellSelectedFrame else { return nil }
-        return PresentFromCellAnimator(cellFrame: startFrame)
+        return PresentAnimaitionFromCell(cellFrame: startFrame)
     }
 }

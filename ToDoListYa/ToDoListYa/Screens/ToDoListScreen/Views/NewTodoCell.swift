@@ -8,13 +8,13 @@ final class NewTodoCell: UITableViewCell {
     
     weak var newTodoDelegate: NewTodoDelegate?
     
-    lazy var doneLabel: UILabel = {
-        let label = UILabel()
-        label.text = Layout.newLabelText
-        label.font = UIFont.systemFont(ofSize: Layout.newLabelFont)
-        label.textColor = Layout.newLabelColor
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var newTaskLabel: UILabel = {
+        let newTaskLabel = UILabel()
+        newTaskLabel.text = Layout.newLabelText
+        newTaskLabel.font = UIFont.systemFont(ofSize: Layout.newLabelFont)
+        newTaskLabel.textColor = Layout.newLabelColor
+        newTaskLabel.translatesAutoresizingMaskIntoConstraints = false
+        return newTaskLabel
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -29,14 +29,14 @@ final class NewTodoCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        addSubview(doneLabel)
+        addSubview(newTaskLabel)
     }
     
     private func makeConstraints() {
         
         NSLayoutConstraint.activate([
-            doneLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            doneLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            newTaskLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            newTaskLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     

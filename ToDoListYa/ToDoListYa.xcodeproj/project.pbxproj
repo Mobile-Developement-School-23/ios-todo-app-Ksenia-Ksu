@@ -43,7 +43,7 @@
 		85D5B3982A4E322A00B7149E /* ToDoListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D5B3972A4E322A00B7149E /* ToDoListProvider.swift */; };
 		85D5B39A2A4E459A00B7149E /* ToDoListModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D5B3992A4E459A00B7149E /* ToDoListModuleBuilder.swift */; };
 		85DC54B12A4AB1DD000EEC65 /* ToDolListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC54B02A4AB1DD000EEC65 /* ToDolListViewController.swift */; };
-		85E996262A4F42C6007AC435 /*  DetailViewModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E996252A4F42C6007AC435 /*  DetailViewModuleBuilder.swift */; };
+		85E996262A4F42C6007AC435 /* DetailViewModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E996252A4F42C6007AC435 /* DetailViewModuleBuilder.swift */; };
 		85E996282A4F853D007AC435 /* PresentAnimationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E996272A4F853D007AC435 /* PresentAnimationCell.swift */; };
 		D38E118218E76748C1A3D877 /* Pods_ToDoListYa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F5FFAD0BEB4DE0BC2BCE10 /* Pods_ToDoListYa.framework */; };
 /* End PBXBuildFile section */
@@ -104,7 +104,7 @@
 		85D5B3972A4E322A00B7149E /* ToDoListProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListProvider.swift; sourceTree = "<group>"; };
 		85D5B3992A4E459A00B7149E /* ToDoListModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListModuleBuilder.swift; sourceTree = "<group>"; };
 		85DC54B02A4AB1DD000EEC65 /* ToDolListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDolListViewController.swift; sourceTree = "<group>"; };
-		85E996252A4F42C6007AC435 /*  DetailViewModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " DetailViewModuleBuilder.swift"; sourceTree = "<group>"; };
+		85E996252A4F42C6007AC435 /* DetailViewModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModuleBuilder.swift; sourceTree = "<group>"; };
 		85E996272A4F853D007AC435 /* PresentAnimationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentAnimationCell.swift; sourceTree = "<group>"; };
 		C8F5FFAD0BEB4DE0BC2BCE10 /* Pods_ToDoListYa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoListYa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8F42731C030D7CB73AEB5C8 /* Pods-ToDoListYa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListYa.release.xcconfig"; path = "Target Support Files/Pods-ToDoListYa/Pods-ToDoListYa.release.xcconfig"; sourceTree = "<group>"; };
@@ -270,7 +270,7 @@
 			children = (
 				8547BD7A2A3D586400F3B7DA /* DetailViewController.swift */,
 				852A87052A465479002AA325 /* ColorViewController.swift */,
-				85E996252A4F42C6007AC435 /*  DetailViewModuleBuilder.swift */,
+				85E996252A4F42C6007AC435 /* DetailViewModuleBuilder.swift */,
 				8538E0D02A4288D2003E67E7 /* Views */,
 			);
 			path = DetailViewScreen;
@@ -544,7 +544,7 @@
 				85DC54B12A4AB1DD000EEC65 /* ToDolListViewController.swift in Sources */,
 				85D5B38F2A4E0B4700B7149E /* ToDoViewModel.swift in Sources */,
 				85E996282A4F853D007AC435 /* PresentAnimationCell.swift in Sources */,
-				85E996262A4F42C6007AC435 /*  DetailViewModuleBuilder.swift in Sources */,
+				85E996262A4F42C6007AC435 /* DetailViewModuleBuilder.swift in Sources */,
 				852A87062A465479002AA325 /* ColorViewController.swift in Sources */,
 				8547BD772A3D586400F3B7DA /* AppDelegate.swift in Sources */,
 				8547BDAD2A3D59AE00F3B7DA /* FileCache.swift in Sources */,

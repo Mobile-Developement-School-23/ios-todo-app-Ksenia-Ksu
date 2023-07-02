@@ -27,6 +27,7 @@ final class Provider: Provides {
                     completion(.success(items))
                 }
             case .failure(let error):
+                DDLogError("Error - \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }

@@ -1,6 +1,6 @@
 import UIKit
 
-final class PresentFromCellAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+final class PresentAnimaitionFromCell: NSObject, UIViewControllerAnimatedTransitioning {
 
     private let cellFrame: CGRect
 
