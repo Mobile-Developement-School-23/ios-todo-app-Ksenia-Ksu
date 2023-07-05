@@ -48,7 +48,6 @@ final class Provider: Provides {
                                                hexColor: todo.hexColor))
                 service.saveAllTasksToJSONFile(named: fileName)
             }
-        
     }
     
     func deleteTask(with id: String) {

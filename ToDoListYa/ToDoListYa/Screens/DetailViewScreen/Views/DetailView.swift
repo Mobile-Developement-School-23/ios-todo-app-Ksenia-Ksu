@@ -307,6 +307,7 @@ extension DetailView: DisplayDetailView {
         containerForViews.isHidden = true
         textView.heightAnchor.constraint(greaterThanOrEqualToConstant: Layout.textViewHeight).isActive = false
         textView.heightAnchor.constraint(equalToConstant: safeAreaLayoutGuide.layoutFrame.width - Layout.scrollViewInsets.top * 2 - Layout.topStackViewHeight).isActive = true
+        textView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
     }
     
     func configureWithNormal() {
