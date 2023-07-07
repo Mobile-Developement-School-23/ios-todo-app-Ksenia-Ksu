@@ -24,7 +24,6 @@ final class TodoListInteractor: ToDoListBusinessLogic {
             case .success(let items):
                 self.presenter.presentFetchedTodoes(.init(todoList: items))
             case .failure(let error):
-                print(error.localizedDescription)
                 DDLogError("Provider fetched data with error - \(error.localizedDescription)")
             }
         }

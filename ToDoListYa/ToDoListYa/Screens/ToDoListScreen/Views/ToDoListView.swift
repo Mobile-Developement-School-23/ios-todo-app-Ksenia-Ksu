@@ -127,7 +127,6 @@ extension ToDoListView: ToDoListTableManagerDelegate {
 extension ToDoListView: DysplaysToDoList {
     func configure(with viewModel: DataFlow.FetchToDoes.ViewModel) {
         tableManager.dataForTableView = viewModel.todoList
-        print(viewModel.todoList)
         tableView.reloadData()
     }
 }

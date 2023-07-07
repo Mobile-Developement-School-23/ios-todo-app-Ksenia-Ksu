@@ -12,6 +12,8 @@ final class ToDoListViewController: UIViewController {
     private let interactor: ToDoListBusinessLogic
     private var cellSelectedFrame: CGRect?
     
+    var service = NetworkService()
+    
     init (interactor: ToDoListBusinessLogic) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
@@ -39,15 +41,14 @@ final class ToDoListViewController: UIViewController {
         navigationController?.navigationBar.sizeToFit()
     }
     
-    
 }
 
 extension ToDoListViewController: ToDoListDelegate {
     func animate(animator: UIContextMenuInteractionCommitAnimating) {
         guard let viewController = animator.previewViewController else { return }
-               animator.addCompletion {
-                   self.present(viewController, animated: true, completion: nil)
-               }
+        animator.addCompletion {
+            self.present(viewController, animated: true, completion: nil)
+        }
     }
     
     func createPreviewDetailVC(with id: String) -> UIViewController? {

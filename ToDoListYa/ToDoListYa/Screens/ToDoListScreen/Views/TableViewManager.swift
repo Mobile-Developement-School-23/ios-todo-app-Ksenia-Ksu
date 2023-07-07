@@ -2,7 +2,6 @@ import UIKit
 import ToDoItemModule
 
 protocol ManagesToDoListTable: UITableViewDataSource, UITableViewDelegate {
-    
     var dataForTableView: [ToDoViewModel] { get set }
     var delegate: ToDoListTableManagerDelegate? { get set }
 }

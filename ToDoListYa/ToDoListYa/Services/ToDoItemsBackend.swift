@@ -3,21 +3,22 @@ import ToDoItemModule
 
 struct TodoItems: Codable {
     let status: String
-    let revision: Int
+    let revision: Int32
     let list: [TodoItemBackend]
+    
 }
 
 struct PatchItems: Codable {
     let list: [TodoItemBackend]
 }
 
-struct Element: Codable {
+struct Item: Codable {
     let status: String
     let element: TodoItemBackend
     let revision: Int32
 }
 
-struct PostElement: Codable {
+struct PostItem: Codable {
     let element: TodoItemBackend
 }
 
@@ -85,10 +86,10 @@ extension TodoItem {
             importance = "important"
         }
         
-        var deadline: Int64?
+        var deadline: Int64 = 0
         
-        if let deadlineFromBack = self.deadline {
-            deadline = Int64(deadlineFromBack)
+        if let deadlineToBack = self.deadline {
+            deadline = Int64(deadlineToBack)
         }
         
         var changedAt: Int64 = Int64(Date().timeIntervalSince1970)
