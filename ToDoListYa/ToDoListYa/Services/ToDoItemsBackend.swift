@@ -86,7 +86,7 @@ extension TodoItem {
             importance = "important"
         }
         
-        var deadline: Int64 = 0
+        var deadline: Int64?
         
         if let deadlineToBack = self.deadline {
             deadline = Int64(deadlineToBack)

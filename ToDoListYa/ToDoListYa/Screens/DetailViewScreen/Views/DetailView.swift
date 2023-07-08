@@ -6,6 +6,8 @@ protocol DisplayDetailView: UIView {
     func configureColor(color: UIColor)
     func configureWithLandscape()
     func configureWithNormal()
+    func startLoading()
+    func stopLoading()
 }
 
 protocol DetailViewDelegate: AnyObject {
@@ -148,6 +150,12 @@ final class DetailView: UIView {
         return deleteButton
     }()
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
     init(delegate: DetailViewDelegate) {
         super.init(frame: .zero)
         self.delegate = delegate
@@ -175,6 +183,7 @@ final class DetailView: UIView {
         containerForViews.addArrangedSubview(deadlineView)
         containerForViews.addArrangedSubview(datePicker)
         mainStackView.addArrangedSubview(deleteButton)
+        scrollView.addSubview(activityIndicator)
     }
     // MARK: - Constraits
     private func makeConstraits() {
@@ -205,7 +214,10 @@ final class DetailView: UIView {
             coloPickerView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
             priorityView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
             deadlineView.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
-            deleteButton.heightAnchor.constraint(equalToConstant: Layout.cellsHeight)
+            deleteButton.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
         ])
     }
     
@@ -262,9 +274,20 @@ final class DetailView: UIView {
             self.datePicker.isHidden = false
         })
     }
+    
 }
 // MARK: - DisplayDetailView
 extension DetailView: DisplayDetailView {
+    func startLoading() {
+        mainStackView.isHidden = true
+        activityIndicator.startAnimating()
+    }
+    
+    func stopLoading() {
+        activityIndicator.stopAnimating()
+        mainStackView.isHidden = false
+    }
+    
     
     func configure(with viewmodel: TodoItem?) {
         if viewmodel != nil {

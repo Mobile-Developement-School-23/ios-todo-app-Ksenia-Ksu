@@ -9,9 +9,11 @@ protocol ManagesToDoListTable: UITableViewDataSource, UITableViewDelegate {
 protocol ToDoListTableManagerDelegate: AnyObject {
     func didSelectedHeader()
     func didSelectItem(with id: String?, with cellFrame: CGRect?)
-    func taskDoneIsChangedInItem(with id: String)
+   
     func updateViewModel()
+    // MARK: - network
     func deleteItem(with id: String)
+    func editItem(with id: String)
     func createDetailVC(with id: String) -> UIViewController?
     func animatorContext(animator: UIContextMenuInteractionCommitAnimating)
 }
@@ -99,7 +101,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
         
         let swipeCheckChanged = UIContextualAction(style: .normal, title: nil) { [weak self ] _, _, _ in
             guard let modelId = self?.dataForTableView[indexPath.row].id  else { return }
-            self?.delegate?.taskDoneIsChangedInItem(with: modelId)
+            self?.delegate?.editItem(with: modelId)
             if self?.dataForTableView[indexPath.row].taskDone == false {
                 self?.dataForTableView[indexPath.row].taskDone = true
             } else {
@@ -175,7 +177,7 @@ extension ToListTableViewManager: ToDoListTableViewCellDelegate {
         let index = id
         if index < dataForTableView.count {
             let modelId = dataForTableView[index].id
-            delegate?.taskDoneIsChangedInItem(with: modelId)
+            delegate?.editItem(with: modelId)
             if dataForTableView[index].taskDone == false {
                 dataForTableView[index].taskDone = true
             } else {

@@ -3,12 +3,17 @@ import ToDoItemModule
 
 protocol DysplaysToDoList: UIView {
     func configure(with viewModel: DataFlow.FetchToDoes.ViewModel)
+    func startLoading()
+    func stopLoading()
 }
 
 protocol ToDoListDelegate: AnyObject {
     func didSelectItem(with id: String?, with cellFrame: CGRect?)
-    func taskDoneStatusChangedInTask(with id: String)
-    func deleteTask(with id: String)
+
+  // MARK: - in network
+    func taskDoneStatusChangedInItem(with id: String)
+    func deleteItem(with id: String)
+    
     func createPreviewDetailVC(with id: String) -> UIViewController?
     func animate(animator: UIContextMenuInteractionCommitAnimating)
 }
@@ -94,6 +99,14 @@ final class ToDoListView: UIView {
 // MARK: - ToDoListTableManagerDelegate
 extension ToDoListView: ToDoListTableManagerDelegate {
     
+    func deleteItem(with id: String) {
+        delegate?.deleteItem(with: id)
+    }
+    
+    func editItem(with id: String) {
+        delegate?.taskDoneStatusChangedInItem(with: id)
+    }
+    
     func animatorContext(animator: UIContextMenuInteractionCommitAnimating) {
         delegate?.animate(animator: animator)
     }
@@ -106,16 +119,8 @@ extension ToDoListView: ToDoListTableManagerDelegate {
         delegate?.didSelectItem(with: id, with: cellFrame)
     }
     
-    func deleteItem(with id: String) {
-        delegate?.deleteTask(with: id)
-    }
-    
     func updateViewModel() {
         tableView.reloadData()
-    }
-    
-    func taskDoneIsChangedInItem(with id: String) {
-        delegate?.taskDoneStatusChangedInTask(with: id)
     }
     
     func didSelectedHeader() {
@@ -125,9 +130,25 @@ extension ToDoListView: ToDoListTableManagerDelegate {
 }
 
 extension ToDoListView: DysplaysToDoList {
+  
     func configure(with viewModel: DataFlow.FetchToDoes.ViewModel) {
         tableManager.dataForTableView = viewModel.todoList
         tableView.reloadData()
+    }
+    
+    func startLoading() {
+        tableView.reloadData()
+        tableView.isHidden = true
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
+    }
+    
+    func stopLoading() {
+        tableView.isHidden = false
+        tableView.reloadData()
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
     }
 }
 
@@ -136,10 +157,7 @@ extension ToDoListView {
         static let headerHeight: CGFloat = 32
         static let headerInset: CGFloat = 24
         static let backgroundColor = ThemeColors.backPrimary
-        static let doneLabelText = "Выполнено - 5"
-        static let doneLabelFont: CGFloat = 17
         static let doneLabelColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
-        static let showButtonText = "Показать"
         static let taskFont = 17
         static let taskCellID = "Cell"
         static let headerCellID = "header cell"

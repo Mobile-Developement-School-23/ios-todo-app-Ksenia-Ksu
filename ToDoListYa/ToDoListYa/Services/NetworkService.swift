@@ -27,7 +27,6 @@ final class NetworkService: NetworkServiceProtocol {
     
     func getAllItems(completion: @escaping (Result<[ToDoItemModule.TodoItem], Error>) -> Void) {
         queue.async {
-            print("start revision", self.revision)
             let url = RequestCreator.createURL(Constants.url)
             guard let url = url else { return }
             let request = RequestCreator.createRequest(with: url,
@@ -42,9 +41,7 @@ final class NetworkService: NetworkServiceProtocol {
                             items.append(todo.convertedItemFromBack)
                         }
                         self.revision = result.revision
-                        print("back revision", self.revision)
                         DispatchQueue.main.async {
-                            print(self.revision)
                             completion(.success(items))
                         }
                     } catch {
@@ -129,6 +126,7 @@ final class NetworkService: NetworkServiceProtocol {
                         let todoItem = result.element.convertedItemFromBack
                             DispatchQueue.main.async {
                                 self.revision = result.revision
+                                print("new revision after loading", self.revision)
                                 completion(.success(todoItem))
                             }
                     } catch {
@@ -162,7 +160,6 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - ADD
     func addItem(_ item: TodoItem, completion: @escaping (Result<TodoItem, Error>) -> Void) {
         queue.async {
-            // print(self.revision, "addditem")
             let itemForBack = item.convertedItemToBack
             let body = PostItem(element: itemForBack)
             let data = try? JSONEncoder().encode(body)
@@ -213,7 +210,6 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - EDIT
     func editItem(_ item: TodoItem, completion: @escaping (Result<TodoItem, Error>) -> Void) {
         queue.async {
-            // print("edit item", self.revision)
             let item = item.convertedItemToBack
             let body = PostItem(element: item)
             let data = try? JSONEncoder().encode(body)

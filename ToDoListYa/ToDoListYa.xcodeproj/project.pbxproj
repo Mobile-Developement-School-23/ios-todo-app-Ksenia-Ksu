@@ -15,6 +15,8 @@
 		8538E0D22A428928003E67E7 /* DetailTextVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D12A428928003E67E7 /* DetailTextVew.swift */; };
 		8538E0D42A428945003E67E7 /* PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D32A428945003E67E7 /* PriorityView.swift */; };
 		8538E0D62A42896E003E67E7 /* DeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D52A42896E003E67E7 /* DeadlineView.swift */; };
+		853B94122A58DD25005F2F2F /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B94112A58DD25005F2F2F /* DetailInteractor.swift */; };
+		853B94142A58E708005F2F2F /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B94132A58E708005F2F2F /* DetailPresenter.swift */; };
 		8547BD772A3D586400F3B7DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547BD762A3D586400F3B7DA /* AppDelegate.swift */; };
 		8547BD792A3D586400F3B7DA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547BD782A3D586400F3B7DA /* SceneDelegate.swift */; };
 		8547BD7B2A3D586400F3B7DA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547BD7A2A3D586400F3B7DA /* DetailViewController.swift */; };
@@ -77,6 +79,8 @@
 		8538E0D12A428928003E67E7 /* DetailTextVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTextVew.swift; sourceTree = "<group>"; };
 		8538E0D32A428945003E67E7 /* PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityView.swift; sourceTree = "<group>"; };
 		8538E0D52A42896E003E67E7 /* DeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineView.swift; sourceTree = "<group>"; };
+		853B94112A58DD25005F2F2F /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
+		853B94132A58E708005F2F2F /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
 		8547BD732A3D586400F3B7DA /* ToDoListYa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoListYa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8547BD762A3D586400F3B7DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8547BD782A3D586400F3B7DA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -272,6 +276,8 @@
 			isa = PBXGroup;
 			children = (
 				8547BD7A2A3D586400F3B7DA /* DetailViewController.swift */,
+				853B94112A58DD25005F2F2F /* DetailInteractor.swift */,
+				853B94132A58E708005F2F2F /* DetailPresenter.swift */,
 				85E996252A4F42C6007AC435 /* DetailViewModuleBuilder.swift */,
 				8538E0D02A4288D2003E67E7 /* Views */,
 			);
@@ -578,6 +584,8 @@
 				8538E0D62A42896E003E67E7 /* DeadlineView.swift in Sources */,
 				85BB6A3E2A45420D005A4EC4 /* ColorPickerView.swift in Sources */,
 				85D5B38D2A4DD4AB00B7149E /* NewTodoCell.swift in Sources */,
+				853B94142A58E708005F2F2F /* DetailPresenter.swift in Sources */,
+				853B94122A58DD25005F2F2F /* DetailInteractor.swift in Sources */,
 				8538E0CF2A4288C3003E67E7 /* DetailView.swift in Sources */,
 				8538E0D22A428928003E67E7 /* DetailTextVew.swift in Sources */,
 				85D5B3892A4CF21400B7149E /* ToDoListCell.swift in Sources */,
