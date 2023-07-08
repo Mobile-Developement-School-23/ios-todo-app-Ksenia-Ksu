@@ -15,10 +15,10 @@ enum DataFlow {
         }
     }
     
-    enum SelectToDo {
+    enum FetchTodo {
         
         struct Request {
-            let index: Int
+            let id: String?
         }
         
         struct Response {

@@ -29,47 +29,48 @@ final class ToDoListViewController: UIViewController {
         super.viewDidLoad()
         navBarSetup()
         DDLogVerbose("Did load todolist view")
+        contentview.startLoading()
         interactor.fetchTodoList(.init())
     }
     
     private func navBarSetup() {
         navigationItem.title = "Мои дела"
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.layoutMargins.left = 32
         navigationItem.largeTitleDisplayMode = .automatic
         navigationController?.navigationBar.sizeToFit()
     }
+    
 }
 
 extension ToDoListViewController: ToDoListDelegate {
+   
     func animate(animator: UIContextMenuInteractionCommitAnimating) {
         guard let viewController = animator.previewViewController else { return }
-               animator.addCompletion {
-                   self.present(viewController, animated: true, completion: nil)
-               }
+        animator.addCompletion {
+            self.present(viewController, animated: true, completion: nil)
+        }
     }
     
     func createPreviewDetailVC(with id: String) -> UIViewController? {
-        let vc = DetailViewController(taskID: id)
-        vc.delegate = self
+        let vc = DetailModuleBuilder().build(with: id, delegate: self)
         return vc
     }
     
-    func deleteTask(with id: String) {
-        interactor.deleteTask(with: id)
+    func taskDoneStatusChangedInItem(with id: String) {
+        interactor.todoChangedStatusInItem(with: id)
     }
     
-    func taskDoneStatusChangedInTask(with id: String) {
-        interactor.todoChangedStatus(with: id)
+    func deleteItem(with id: String) {
+        interactor.deleteTask(with: id)
     }
     
     func didSelectItem(with id: String?, with cellFrame: CGRect?) {
         cellSelectedFrame = cellFrame
-        let vc = DetailViewController(taskID: id)
-        vc.delegate = self
+        let vc = DetailModuleBuilder().build(with: id, delegate: self)
         vc.modalPresentationStyle = .automatic
         vc.transitioningDelegate = self
         present(vc, animated: true)
-        
     }
 }
 
@@ -77,15 +78,17 @@ extension ToDoListViewController: DisplayLogic {
     
     func displayFetchedTodoes(_ viewModel: DataFlow.FetchToDoes.ViewModel) {
         contentview.configure(with: .init(todoList: viewModel.todoList))
+        contentview.stopLoading()
         
     }
-    
 }
 
 extension ToDoListViewController: DetailDelegate {
     
     func updateTodoList() {
+        contentview.startLoading()
         interactor.fetchTodoList(.init())
+        print("update")
     }
 }
 

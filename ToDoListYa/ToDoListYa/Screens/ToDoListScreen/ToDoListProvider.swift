@@ -3,24 +3,30 @@ import ToDoItemModule
 import CocoaLumberjackSwift
 
 protocol Provides: AnyObject {
-    func getTodoList(completion: @escaping (Result<[TodoItem], Error>) -> Void)
-    func getSelectedTodo(at index: Int) -> TodoItem
-    func taskStatusDidChanged(with id: String)
-    func deleteTask(with id: String)
+    //file cache
+    func getTodoListFromCache(completion: @escaping (Result<[TodoItem], Error>) -> Void)
+    func taskStatusDidChangedInCache(with id: String)
+    func deleteTaskInCache(with id: String)
+    // network
+    func getItemsList(completion: @escaping (Result<[TodoItem], Error>) -> Void)
+    func getItemForEdit(with id: String, completion: @escaping (Result<TodoItem, Error>) -> Void)
+    func deleteItem(with id: String, completion: @escaping (Result<TodoItem, Error>) -> Void)
+    
 }
 
 final class Provider: Provides {
    
-    private let service: FileCaching
+    private let serviceCacheJson: FileCaching
+    private let networkService: NetworkServiceProtocol
     private let fileName = "Data"
-    private let test = TodoItem(text: "test provider")
-   
-    init(service: FileCaching) {
-        self.service = service
+
+    init(serviceCacheJson: FileCaching, networkService: NetworkServiceProtocol) {
+        self.serviceCacheJson = serviceCacheJson
+        self.networkService = networkService
     }
-    
-    func getTodoList(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
-        service.load(named: fileName) { result in
+    // MARK: - file cache
+    func getTodoListFromCache(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
+        serviceCacheJson.load(named: fileName) { result in
             switch result {
             case .success(let items):
                 DispatchQueue.main.async {
@@ -32,13 +38,9 @@ final class Provider: Provides {
         }
     }
     
-    func getSelectedTodo(at index: Int) -> TodoItem {
-        return test
-    }
-    
-    func taskStatusDidChanged(with id: String) {
-            if let todo = service.deleteTask(with: id) {
-                service.addTask(task: TodoItem(id: todo.id,
+    func taskStatusDidChangedInCache(with id: String) {
+            if let todo = serviceCacheJson.deleteTask(with: id) {
+                serviceCacheJson.addTask(task: TodoItem(id: todo.id,
                                                text: todo.text,
                                                priority: todo.priority,
                                                taskDone: todo.taskDone == false ? true : false,
@@ -46,14 +48,88 @@ final class Provider: Provides {
                                                taskStartDate: todo.taskStartDate,
                                                taskEditDate: Double(Date().timeIntervalSince1970),
                                                hexColor: todo.hexColor))
-                service.saveAllTasksToJSONFile(named: fileName)
+                serviceCacheJson.saveAllTasksToJSONFile(named: fileName)
             }
+    }
+    
+    func deleteTaskInCache(with id: String) {
+        if serviceCacheJson.deleteTask(with: id) != nil {
+            serviceCacheJson.saveAllTasksToJSONFile(named: fileName)
+        }
+    }
+    
+    // MARK: - Network methods
+    
+    func getItemsList(completion: @escaping (Result<[ToDoItemModule.TodoItem], Error>) -> Void) {
+        networkService.getAllItems { result in
+            switch result {
+            case .success(let items):
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+    
+    func getItemForEdit(with id: String, completion: @escaping (Result<ToDoItemModule.TodoItem, Error>) -> Void) {
+        networkService.getItem(with: id) { result in
+            switch result {
+            case .success(let item):
+                DispatchQueue.main.async {
+                    completion(.success(item))
+                    let newItem = self.editItemSatus(item: item)
+                    self.networkService.editItem(newItem) { result in
+                        switch result {
+                        case .success(let item):
+                            DispatchQueue.main.async {
+                                completion(.success(item))
+                            }
+                        case .failure(let error):
+                            DispatchQueue.main.async {
+                                completion(.failure(error))
+                            }
+                        }
+                    }
+                    
+                    
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+   
+
+    private func editItemSatus(item: TodoItem) -> TodoItem {
+        return TodoItem(id: item.id,
+                               text: item.text,
+                               priority: item.priority,
+                               taskDone: item.taskDone == true ? false : true,
+                               deadline: item.deadline,
+                               taskStartDate: item.taskStartDate,
+                               taskEditDate: item.taskEditDate,
+                               hexColor: item.hexColor)
         
     }
     
-    func deleteTask(with id: String) {
-        if service.deleteTask(with: id) != nil {
-            service.saveAllTasksToJSONFile(named: fileName)
+    func deleteItem(with id: String, completion: @escaping (Result<ToDoItemModule.TodoItem, Error>) -> Void) {
+        networkService.deleteItem(with: id) { result in
+            switch result {
+            case .success(let item):
+                DispatchQueue.main.async {
+                    completion(.success(item))
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
         }
     }
 }

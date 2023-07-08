@@ -15,6 +15,9 @@
 		8538E0D22A428928003E67E7 /* DetailTextVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D12A428928003E67E7 /* DetailTextVew.swift */; };
 		8538E0D42A428945003E67E7 /* PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D32A428945003E67E7 /* PriorityView.swift */; };
 		8538E0D62A42896E003E67E7 /* DeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D52A42896E003E67E7 /* DeadlineView.swift */; };
+		853B94122A58DD25005F2F2F /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B94112A58DD25005F2F2F /* DetailInteractor.swift */; };
+		853B94142A58E708005F2F2F /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B94132A58E708005F2F2F /* DetailPresenter.swift */; };
+		853B94182A590782005F2F2F /* RetryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B94172A590782005F2F2F /* RetryManager.swift */; };
 		853B94162A590408005F2F2F /* URLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B94152A590408005F2F2F /* URLSessionExtension.swift */; };
 		8547BD772A3D586400F3B7DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547BD762A3D586400F3B7DA /* AppDelegate.swift */; };
 		8547BD792A3D586400F3B7DA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547BD782A3D586400F3B7DA /* SceneDelegate.swift */; };
@@ -44,8 +47,10 @@
 		85D5B3982A4E322A00B7149E /* ToDoListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D5B3972A4E322A00B7149E /* ToDoListProvider.swift */; };
 		85D5B39A2A4E459A00B7149E /* ToDoListModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D5B3992A4E459A00B7149E /* ToDoListModuleBuilder.swift */; };
 		85DC54B12A4AB1DD000EEC65 /* ToDolListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC54B02A4AB1DD000EEC65 /* ToDolListViewController.swift */; };
-		85E996262A4F42C6007AC435 /*  DetailViewModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E996252A4F42C6007AC435 /*  DetailViewModuleBuilder.swift */; };
+		85E996262A4F42C6007AC435 /* DetailViewModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E996252A4F42C6007AC435 /* DetailViewModuleBuilder.swift */; };
 		85E996282A4F853D007AC435 /* PresentAnimationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E996272A4F853D007AC435 /* PresentAnimationCell.swift */; };
+		85E9962C2A516E31007AC435 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9962B2A516E31007AC435 /* NetworkService.swift */; };
+		85E9962F2A518CBE007AC435 /* ToDoItemsBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9962E2A518CBE007AC435 /* ToDoItemsBackend.swift */; };
 		D38E118218E76748C1A3D877 /* Pods_ToDoListYa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F5FFAD0BEB4DE0BC2BCE10 /* Pods_ToDoListYa.framework */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +81,9 @@
 		8538E0D12A428928003E67E7 /* DetailTextVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTextVew.swift; sourceTree = "<group>"; };
 		8538E0D32A428945003E67E7 /* PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityView.swift; sourceTree = "<group>"; };
 		8538E0D52A42896E003E67E7 /* DeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineView.swift; sourceTree = "<group>"; };
+		853B94112A58DD25005F2F2F /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
+		853B94132A58E708005F2F2F /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		853B94172A590782005F2F2F /* RetryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryManager.swift; sourceTree = "<group>"; };
 		853B94152A590408005F2F2F /* URLSessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionExtension.swift; sourceTree = "<group>"; };
 		8547BD732A3D586400F3B7DA /* ToDoListYa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoListYa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8547BD762A3D586400F3B7DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,8 +114,10 @@
 		85D5B3972A4E322A00B7149E /* ToDoListProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListProvider.swift; sourceTree = "<group>"; };
 		85D5B3992A4E459A00B7149E /* ToDoListModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListModuleBuilder.swift; sourceTree = "<group>"; };
 		85DC54B02A4AB1DD000EEC65 /* ToDolListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDolListViewController.swift; sourceTree = "<group>"; };
-		85E996252A4F42C6007AC435 /*  DetailViewModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " DetailViewModuleBuilder.swift"; sourceTree = "<group>"; };
+		85E996252A4F42C6007AC435 /* DetailViewModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModuleBuilder.swift; sourceTree = "<group>"; };
 		85E996272A4F853D007AC435 /* PresentAnimationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentAnimationCell.swift; sourceTree = "<group>"; };
+		85E9962B2A516E31007AC435 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		85E9962E2A518CBE007AC435 /* ToDoItemsBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemsBackend.swift; sourceTree = "<group>"; };
 		C8F5FFAD0BEB4DE0BC2BCE10 /* Pods_ToDoListYa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoListYa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8F42731C030D7CB73AEB5C8 /* Pods-ToDoListYa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListYa.release.xcconfig"; path = "Target Support Files/Pods-ToDoListYa/Pods-ToDoListYa.release.xcconfig"; sourceTree = "<group>"; };
 		ED6B0875D8E1014423DC060B /* Pods-ToDoListYaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListYaTests.debug.xcconfig"; path = "Target Support Files/Pods-ToDoListYaTests/Pods-ToDoListYaTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -160,11 +170,8 @@
 			children = (
 				8538E0CE2A4288C2003E67E7 /* DetailView.swift */,
 				8538E0D12A428928003E67E7 /* DetailTextVew.swift */,
-				85BB6A3D2A45420D005A4EC4 /* ColorPickerView.swift */,
 				8538E0D32A428945003E67E7 /* PriorityView.swift */,
 				8538E0D52A42896E003E67E7 /* DeadlineView.swift */,
-				852A87092A4659A5002AA325 /* ColorSelectionView.swift */,
-				852A87032A4653C8002AA325 /* HSBColorPicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,6 +203,7 @@
 			children = (
 				8547BDA62A3D589400F3B7DA /* App */,
 				8547BDA92A3D59AE00F3B7DA /* Models */,
+				85E9962D2A516E38007AC435 /* Services */,
 				8547BDA72A3D58A200F3B7DA /* Screens */,
 				8547BDB22A3D59E900F3B7DA /* Helpers */,
 				8547BDA82A3D58B100F3B7DA /* Resources */,
@@ -236,6 +244,7 @@
 			children = (
 				85D5B3832A4CF14000B7149E /* ToDoListScreen */,
 				85D5B3822A4CF12C00B7149E /* DetailViewScreen */,
+				85E996302A522B09007AC435 /* ColorViewController */,
 				8547BD812A3D586500F3B7DA /* LaunchScreen.storyboard */,
 			);
 			path = Screens;
@@ -272,8 +281,9 @@
 			isa = PBXGroup;
 			children = (
 				8547BD7A2A3D586400F3B7DA /* DetailViewController.swift */,
-				852A87052A465479002AA325 /* ColorViewController.swift */,
-				85E996252A4F42C6007AC435 /*  DetailViewModuleBuilder.swift */,
+				853B94112A58DD25005F2F2F /* DetailInteractor.swift */,
+				853B94132A58E708005F2F2F /* DetailPresenter.swift */,
+				85E996252A4F42C6007AC435 /* DetailViewModuleBuilder.swift */,
 				8538E0D02A4288D2003E67E7 /* Views */,
 			);
 			path = DetailViewScreen;
@@ -304,6 +314,27 @@
 				85D5B38C2A4DD4AB00B7149E /* NewTodoCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		85E9962D2A516E38007AC435 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				85E9962B2A516E31007AC435 /* NetworkService.swift */,
+				85E9962E2A518CBE007AC435 /* ToDoItemsBackend.swift */,
+				853B94172A590782005F2F2F /* RetryManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		85E996302A522B09007AC435 /* ColorViewController */ = {
+			isa = PBXGroup;
+			children = (
+				85BB6A3D2A45420D005A4EC4 /* ColorPickerView.swift */,
+				852A87052A465479002AA325 /* ColorViewController.swift */,
+				852A87092A4659A5002AA325 /* ColorSelectionView.swift */,
+				852A87032A4653C8002AA325 /* HSBColorPicker.swift */,
+			);
+			path = ColorViewController;
 			sourceTree = "<group>";
 		};
 		C05878487045E38B5A9B0782 /* Frameworks */ = {
@@ -544,11 +575,12 @@
 				85D5B3962A4E31BB00B7149E /* ToDoListPresenter.swift in Sources */,
 				852A870A2A4659A5002AA325 /* ColorSelectionView.swift in Sources */,
 				852A87042A4653C8002AA325 /* HSBColorPicker.swift in Sources */,
+				85E9962C2A516E31007AC435 /* NetworkService.swift in Sources */,
 				85DC54B12A4AB1DD000EEC65 /* ToDolListViewController.swift in Sources */,
 				85D5B38F2A4E0B4700B7149E /* ToDoViewModel.swift in Sources */,
 				853B94162A590408005F2F2F /* URLSessionExtension.swift in Sources */,
 				85E996282A4F853D007AC435 /* PresentAnimationCell.swift in Sources */,
-				85E996262A4F42C6007AC435 /*  DetailViewModuleBuilder.swift in Sources */,
+				85E996262A4F42C6007AC435 /* DetailViewModuleBuilder.swift in Sources */,
 				852A87062A465479002AA325 /* ColorViewController.swift in Sources */,
 				8547BD772A3D586400F3B7DA /* AppDelegate.swift in Sources */,
 				8547BDAD2A3D59AE00F3B7DA /* FileCache.swift in Sources */,
@@ -559,12 +591,16 @@
 				8538E0D62A42896E003E67E7 /* DeadlineView.swift in Sources */,
 				85BB6A3E2A45420D005A4EC4 /* ColorPickerView.swift in Sources */,
 				85D5B38D2A4DD4AB00B7149E /* NewTodoCell.swift in Sources */,
+				853B94142A58E708005F2F2F /* DetailPresenter.swift in Sources */,
+				853B94122A58DD25005F2F2F /* DetailInteractor.swift in Sources */,
 				8538E0CF2A4288C3003E67E7 /* DetailView.swift in Sources */,
 				8538E0D22A428928003E67E7 /* DetailTextVew.swift in Sources */,
 				85D5B3892A4CF21400B7149E /* ToDoListCell.swift in Sources */,
 				85D5B39A2A4E459A00B7149E /* ToDoListModuleBuilder.swift in Sources */,
 				85D5B3942A4E305100B7149E /* ToDoListInteractor.swift in Sources */,
+				85E9962F2A518CBE007AC435 /* ToDoItemsBackend.swift in Sources */,
 				85D5B3982A4E322A00B7149E /* ToDoListProvider.swift in Sources */,
+				853B94182A590782005F2F2F /* RetryManager.swift in Sources */,
 				85D5B3872A4CF1D700B7149E /* TableViewManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -69,8 +69,9 @@ final class ToDoListTableViewCell: UITableViewCell {
     
     private lazy var deadlineImage: UIImageView = {
         let deadlineImage = UIImageView()
-        deadlineImage.image = Layout.calendar
+        deadlineImage.image = Layout.calendar?.withRenderingMode(.alwaysTemplate)
         deadlineImage.isHidden = true
+        deadlineImage.tintColor = ThemeColors.placeholderColor
         deadlineImage.translatesAutoresizingMaskIntoConstraints = false
         return deadlineImage
     }()
@@ -202,9 +203,10 @@ final class ToDoListTableViewCell: UITableViewCell {
     
     private func configureDeadline(with viewModel: ToDoViewModel) {
         if viewModel.deadline != nil {
-            deadlineLabel.text = viewModel.deadline
-            deadlineImage.isHidden = false
-            deadlineLabel.isHidden = false
+                deadlineLabel.text = viewModel.deadline
+                deadlineImage.isHidden = false
+                deadlineLabel.isHidden = false
+            
         } else {
             deadlineLabel.isHidden = true
             deadlineImage.isHidden = true
@@ -214,6 +216,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         let attributedText = NSMutableAttributedString(string: "")
         attributedText.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: attributedText.length))
         itemlabel.attributedText = attributedText
+        itemlabel.textColor = .black
     }
 }
 

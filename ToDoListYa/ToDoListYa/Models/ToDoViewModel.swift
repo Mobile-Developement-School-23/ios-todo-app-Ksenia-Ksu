@@ -8,5 +8,4 @@ struct ToDoViewModel {
     var deadline: String?
     var taskDone: Bool
     var textColor: String?
-    
 }

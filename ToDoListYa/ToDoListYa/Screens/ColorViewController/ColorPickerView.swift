@@ -23,7 +23,9 @@ final class ColorPickerView: UIView {
         colorSelectedButton.layer.cornerRadius = Layout.cornerRadius
         colorSelectedButton.layer.borderWidth = Layout.borderWidth
         colorSelectedButton.layer.borderColor = UIColor.black.cgColor
+        colorSelectedButton.backgroundColor = .white
         colorSelectedButton.translatesAutoresizingMaskIntoConstraints = false
+        colorSelectedButton.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
         return colorSelectedButton
     }()
     

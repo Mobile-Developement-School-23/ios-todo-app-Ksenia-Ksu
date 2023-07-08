@@ -63,6 +63,11 @@ final class HeaderViewCell: UITableViewCell {
     }
     
     @objc func showButtonTapped() {
+        if showButton.titleLabel?.text == Layout.showButtonText {
+            showButton.setTitle(Layout.hideButtonText, for: .normal)
+        } else {
+            showButton.setTitle(Layout.showButtonText, for: .normal)
+        }
         headerViewDelegate?.showDoneTasks()
     }
 }
@@ -73,6 +78,7 @@ extension HeaderViewCell {
         static let doneLabelText = "Выполнено - 0"
         static let labelsFont: CGFloat = 17
         static let showButtonText = "Показать"
+        static let hideButtonText = "Скрыть"
         static let insets = UIEdgeInsets(top: 5, left: 16, bottom: 8, right: -16)
     }
 }
