@@ -15,6 +15,7 @@
 		8538E0D22A428928003E67E7 /* DetailTextVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D12A428928003E67E7 /* DetailTextVew.swift */; };
 		8538E0D42A428945003E67E7 /* PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D32A428945003E67E7 /* PriorityView.swift */; };
 		8538E0D62A42896E003E67E7 /* DeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8538E0D52A42896E003E67E7 /* DeadlineView.swift */; };
+		853B94162A590408005F2F2F /* URLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B94152A590408005F2F2F /* URLSessionExtension.swift */; };
 		8547BD772A3D586400F3B7DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547BD762A3D586400F3B7DA /* AppDelegate.swift */; };
 		8547BD792A3D586400F3B7DA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547BD782A3D586400F3B7DA /* SceneDelegate.swift */; };
 		8547BD7B2A3D586400F3B7DA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547BD7A2A3D586400F3B7DA /* DetailViewController.swift */; };
@@ -75,6 +76,7 @@
 		8538E0D12A428928003E67E7 /* DetailTextVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTextVew.swift; sourceTree = "<group>"; };
 		8538E0D32A428945003E67E7 /* PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityView.swift; sourceTree = "<group>"; };
 		8538E0D52A42896E003E67E7 /* DeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineView.swift; sourceTree = "<group>"; };
+		853B94152A590408005F2F2F /* URLSessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionExtension.swift; sourceTree = "<group>"; };
 		8547BD732A3D586400F3B7DA /* ToDoListYa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoListYa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8547BD762A3D586400F3B7DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8547BD782A3D586400F3B7DA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				8547BDB32A3D59E900F3B7DA /* Constants.swift */,
+				853B94152A590408005F2F2F /* URLSessionExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				852A87042A4653C8002AA325 /* HSBColorPicker.swift in Sources */,
 				85DC54B12A4AB1DD000EEC65 /* ToDolListViewController.swift in Sources */,
 				85D5B38F2A4E0B4700B7149E /* ToDoViewModel.swift in Sources */,
+				853B94162A590408005F2F2F /* URLSessionExtension.swift in Sources */,
 				85E996282A4F853D007AC435 /* PresentAnimationCell.swift in Sources */,
 				85E996262A4F42C6007AC435 /*  DetailViewModuleBuilder.swift in Sources */,
 				852A87062A465479002AA325 /* ColorViewController.swift in Sources */,
