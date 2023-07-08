@@ -3,7 +3,8 @@ import ToDoItemModule
 import CocoaLumberjackSwift
 
 protocol Provides: AnyObject {
-    //file cache
+    // file cache
+    func saveTasksFromServerToJSON(items: [TodoItem])
     func getTodoListFromCache(completion: @escaping (Result<[TodoItem], Error>) -> Void)
     func taskStatusDidChangedInCache(with id: String)
     func deleteTaskInCache(with id: String)
@@ -11,11 +12,11 @@ protocol Provides: AnyObject {
     func getItemsList(completion: @escaping (Result<[TodoItem], Error>) -> Void)
     func getItemForEdit(with id: String, completion: @escaping (Result<TodoItem, Error>) -> Void)
     func deleteItem(with id: String, completion: @escaping (Result<TodoItem, Error>) -> Void)
-    
+    func updateItemsList(completion: @escaping (Result<[TodoItem], Error>) -> Void)
 }
 
 final class Provider: Provides {
-   
+  
     private let serviceCacheJson: FileCaching
     private let networkService: NetworkServiceProtocol
     private let fileName = "Data"
@@ -25,6 +26,7 @@ final class Provider: Provides {
         self.networkService = networkService
     }
     // MARK: - file cache
+    
     func getTodoListFromCache(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
         serviceCacheJson.load(named: fileName) { result in
             switch result {
@@ -66,6 +68,7 @@ final class Provider: Provides {
             case .success(let items):
                 DispatchQueue.main.async {
                     completion(.success(items))
+                    self.saveTasksFromServerToJSON(items: items)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -87,6 +90,7 @@ final class Provider: Provides {
                         case .success(let item):
                             DispatchQueue.main.async {
                                 completion(.success(item))
+                                self.serviceCacheJson.addTask(task: item)
                             }
                         case .failure(let error):
                             DispatchQueue.main.async {
@@ -94,8 +98,6 @@ final class Provider: Provides {
                             }
                         }
                     }
-                    
-                    
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -105,7 +107,6 @@ final class Provider: Provides {
         }
     }
    
-
     private func editItemSatus(item: TodoItem) -> TodoItem {
         return TodoItem(id: item.id,
                                text: item.text,
@@ -124,12 +125,42 @@ final class Provider: Provides {
             case .success(let item):
                 DispatchQueue.main.async {
                     completion(.success(item))
+                    self.serviceCacheJson.deleteTask(with: item.id)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }
             }
+        }
+    }
+    
+    func updateItemsList(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
+        var newItems: [TodoItem] = []
+        serviceCacheJson.load(named: fileName) { result in
+            switch result {
+            case .success(let items):
+                newItems = items
+            case .failure(let error):
+                DDLogError("\(error.localizedDescription) - cant load file from json")
+            }
+        }
+        networkService.updateItemsList(newItems) { result in
+            switch result {
+            case .success(let items):
+                completion(.success(items))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+       
+    }
+    
+    
+    func saveTasksFromServerToJSON(items: [TodoItem]) {
+        for item in items {
+            serviceCacheJson.reloadTasks()
+            serviceCacheJson.addTask(task: item)
         }
     }
 }

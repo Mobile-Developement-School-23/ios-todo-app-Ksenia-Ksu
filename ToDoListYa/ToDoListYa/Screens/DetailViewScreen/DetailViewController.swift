@@ -75,7 +75,6 @@ extension DetailViewController: DetailViewDelegate {
                                                    hexColor: color)
                 
                 interactor.add(todo: newItem)
-                print("save item is add")
             }
         } else {
             if let model = dummyItem {
@@ -89,7 +88,6 @@ extension DetailViewController: DetailViewDelegate {
                                                    hexColor: color)
              
                 interactor.editItem(editTask: newItem)
-                print("save item is edit")
             }
         }
     }

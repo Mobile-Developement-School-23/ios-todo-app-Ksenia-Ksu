@@ -10,10 +10,11 @@ protocol FileCaching {
     // func loadTasksFromJSONFile(named: String) -> [TodoItem]?
     func saveAllTasksToCSVFile(named: String)
     func loadTasksFromCSVFile(named: String) -> [TodoItem]?
+    func reloadTasks()
 }
 
 final class FileCache: FileCaching {
-    
+   
     private let fileManager = FileManager.default
     private let queue = DispatchQueue(label: "Queue")
     
@@ -114,6 +115,10 @@ final class FileCache: FileCaching {
         }
     }
     
+    func reloadTasks() {
+        toDoItems = []
+    }
+    
     // MARK: - Save And Load CSV
     func saveAllTasksToCSVFile(named: String) {
         do {
@@ -144,4 +149,6 @@ final class FileCache: FileCaching {
             return nil
         }
     }
+    
+    
 }

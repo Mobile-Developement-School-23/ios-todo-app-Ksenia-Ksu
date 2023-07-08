@@ -47,7 +47,6 @@ final class RetryManager: NetworkServiceProtocol {
         return tempResults
     }()
     
- 
     init() {
         self.networkService = NetworkService()
     }

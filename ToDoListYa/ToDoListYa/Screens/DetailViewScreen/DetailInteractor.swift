@@ -56,18 +56,15 @@ final class DetailInteractor: DetailBusinessLogic {
             switch result {
             case .success(let item):
                 DispatchQueue.main.async {
-                    print("edited")
                     self.preseneter.closeController()
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    print("not edited")
                 }
             }
         }
     }
    
-    
     func deleteTask(with id: String) {
         networkService.deleteItem(with: id) { result in
             switch result {
@@ -87,9 +84,9 @@ final class DetailInteractor: DetailBusinessLogic {
         networkService.getAllItems { result in
             switch result {
             case.success(_):
-                print("revision")
+                print("revision is Write")
             case .failure(_):
-                print("no revision")
+                print("revision is wrong")
             }
         }
     }
