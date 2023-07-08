@@ -83,7 +83,7 @@ extension TodoItem {
         if self.priority == TaskPriority.unimportant.rawValue {
             importance = "low"
         } else if self.priority == TaskPriority.important.rawValue {
-            importance = "important"
+            importance = "high"
         }
         
         var deadline: Int64?
