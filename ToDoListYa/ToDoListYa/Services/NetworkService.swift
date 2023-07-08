@@ -321,12 +321,13 @@ private enum Constants {
     static let url = "https://beta.mrdekk.ru/todobackend/list"
 }
 
-private enum NetworkErrors: Error {
+enum NetworkErrors: Error {
     case incorrectUrl
     case wrongRequest
     case wrongAuth
     case noElementOnserver
     case unknownServerError
+    case wrongRevision
 }
 
 private enum RequestCreator {
