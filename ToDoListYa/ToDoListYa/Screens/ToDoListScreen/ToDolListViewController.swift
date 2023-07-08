@@ -88,7 +88,6 @@ extension ToDoListViewController: DetailDelegate {
     func updateTodoList() {
         contentview.startLoading()
         interactor.fetchTodoList(.init())
-        print("update")
     }
 }
 
