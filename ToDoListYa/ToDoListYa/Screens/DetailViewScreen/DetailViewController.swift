@@ -41,7 +41,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         DDLogVerbose("Did load detail view")
         contentView.startLoading()
-       
+        
         if let taskID = taskID {
             isNew = false
             interactor.fetchTodo(with: taskID)
@@ -66,27 +66,27 @@ extension DetailViewController: DetailViewDelegate {
         if isNew {
             if let model = dummyItem {
                 let newItem = TodoItem(id: model.id,
-                                                   text: text,
-                                                   priority: model.priority,
-                                                   taskDone: model.taskDone,
-                                                   deadline: model.deadline,
-                                                   taskStartDate: model.taskStartDate,
-                                                   taskEditDate: model.taskEditDate,
-                                                   hexColor: color)
+                                       text: text,
+                                       priority: model.priority,
+                                       taskDone: model.taskDone,
+                                       deadline: model.deadline,
+                                       taskStartDate: model.taskStartDate,
+                                       taskEditDate: model.taskEditDate,
+                                       hexColor: color)
                 
                 interactor.add(todo: newItem)
             }
         } else {
             if let model = dummyItem {
                 let newItem = TodoItem(id: model.id,
-                                                   text: text,
-                                                   priority: model.priority,
-                                                   taskDone: model.taskDone,
-                                                   deadline: model.deadline,
-                                                   taskStartDate: model.taskStartDate,
-                                                   taskEditDate: model.taskEditDate,
-                                                   hexColor: color)
-             
+                                       text: text,
+                                       priority: model.priority,
+                                       taskDone: model.taskDone,
+                                       deadline: model.deadline,
+                                       taskStartDate: model.taskStartDate,
+                                       taskEditDate: model.taskEditDate,
+                                       hexColor: color)
+                
                 interactor.editItem(editTask: newItem)
             }
         }
@@ -193,7 +193,7 @@ extension DetailViewController {
         
         public init(id: String = UUID().uuidString,
                     text: String,
-                    priority: String = TaskPriority.ordinary.rawValue,
+                    priority: String = TaskPriority.basic.rawValue,
                     taskDone: Bool = false,
                     deadline: Double? = nil,
                     taskStartDate: Double = Double(Date().timeIntervalSince1970),

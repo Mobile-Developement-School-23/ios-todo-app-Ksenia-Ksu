@@ -14,7 +14,7 @@ final class TodoListPresenter: ToDoListPresentationLogic {
         let todoList = response.todoList.map {
             ToDoViewModel(id: $0.id,
                           title: $0.text,
-                          priority: TaskPriority(rawValue: $0.priority) ?? .ordinary,
+                          priority: TaskPriority(rawValue: $0.priority) ?? .basic,
                           deadline: $0.deadline?.timeInSecondsToDateString(),
                           taskDone: $0.taskDone,
                           textColor: $0.hexColor)

@@ -193,9 +193,9 @@ final class ToDoListTableViewCell: UITableViewCell {
         case .important:
             priorityView.isHidden = false
             priorityView.image = Layout.highImage
-        case .ordinary:
+        case .basic:
             priorityView.isHidden = true
-        case .unimportant:
+        case .low:
             priorityView.isHidden = false
             priorityView.image = Layout.lowImage
         }

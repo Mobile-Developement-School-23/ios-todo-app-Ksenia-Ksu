@@ -48,13 +48,8 @@ struct TodoItemBackend: Codable {
 
 extension TodoItemBackend {
     var convertedItemFromBack: TodoItem {
-        var priority = TaskPriority.ordinary
         
-        if self.importance == "low" {
-            priority = .unimportant
-        } else if self.importance == "high" {
-            priority = .important
-        }
+        var priority = TaskPriority(rawValue: self.importance) ?? TaskPriority.basic
         
         var deadline: Double?
         
@@ -79,12 +74,7 @@ extension TodoItemBackend {
 
 extension TodoItem {
     var convertedItemToBack: TodoItemBackend {
-        var importance = "basic"
-        if self.priority == TaskPriority.unimportant.rawValue {
-            importance = "low"
-        } else if self.priority == TaskPriority.important.rawValue {
-            importance = "important"
-        }
+        var importance = TaskPriority(rawValue: self.priority)?.rawValue ?? TaskPriority.basic.rawValue
         
         var deadline: Int64?
         
