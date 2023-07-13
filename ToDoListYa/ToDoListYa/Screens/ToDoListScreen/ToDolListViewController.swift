@@ -11,7 +11,7 @@ final class ToDoListViewController: UIViewController {
     lazy var contentview: DysplaysToDoList = ToDoListView(delegate: self)
     private let interactor: ToDoListBusinessLogic
     private var cellSelectedFrame: CGRect?
-    
+  
     init (interactor: ToDoListBusinessLogic) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)

@@ -8,11 +8,20 @@ protocol Provides: AnyObject {
     func getTodoListFromCache(completion: @escaping (Result<[TodoItem], Error>) -> Void)
     func taskStatusDidChangedInCache(with id: String)
     func deleteTaskInCache(with id: String)
+    
     // network
     func getItemsList(completion: @escaping (Result<[TodoItem], Error>) -> Void)
     func getItemForEdit(with id: String, completion: @escaping (Result<TodoItem, Error>) -> Void)
     func deleteItem(with id: String, completion: @escaping (Result<TodoItem, Error>) -> Void)
     func updateItemsList(completion: @escaping (Result<[TodoItem], Error>) -> Void)
+    
+    // core data
+    func loadItemsFromCD() -> [TodoItem]
+    func saveAllItemsToCD(_ items: [TodoItem])
+    func deleteItemFromCD(with id: String)
+    func editItemCD(item: TodoItem)
+    func loadOneItemFromCD(with id: String) -> TodoItem?
+    
 }
 
 final class Provider: Provides {
@@ -20,10 +29,12 @@ final class Provider: Provides {
     private let serviceCacheJson: FileCaching
     private let networkService: NetworkServiceProtocol
     private let fileName = "Data"
+    private let coreDataStorage: CoreDataService
 
-    init(serviceCacheJson: FileCaching, networkService: NetworkServiceProtocol) {
+    init(serviceCacheJson: FileCaching, networkService: NetworkServiceProtocol, coreDataStorage: CoreDataService) {
         self.serviceCacheJson = serviceCacheJson
         self.networkService = networkService
+        self.coreDataStorage = coreDataStorage
     }
     // MARK: - file cache
     
@@ -57,6 +68,13 @@ final class Provider: Provides {
     func deleteTaskInCache(with id: String) {
         if serviceCacheJson.deleteTask(with: id) != nil {
             serviceCacheJson.saveAllTasksToJSONFile(named: fileName)
+        }
+    }
+    
+    func saveTasksFromServerToJSON(items: [TodoItem]) {
+        for item in items {
+            serviceCacheJson.reloadTasks()
+            serviceCacheJson.addTask(task: item)
         }
     }
     
@@ -156,11 +174,26 @@ final class Provider: Provides {
        
     }
     
+    // MARK: - core data
     
-    func saveTasksFromServerToJSON(items: [TodoItem]) {
-        for item in items {
-            serviceCacheJson.reloadTasks()
-            serviceCacheJson.addTask(task: item)
-        }
+    func loadItemsFromCD() -> [TodoItem] {
+        return coreDataStorage.loadItemsFromCD()
     }
+    
+    func saveAllItemsToCD(_ items: [TodoItem]) {
+        coreDataStorage.saveAllItemsToCD(items)
+    }
+    
+    func deleteItemFromCD(with id: String) {
+        coreDataStorage.deleteItemFromCD(with: id)
+    }
+    
+    func editItemCD(item: TodoItem) {
+        coreDataStorage.editItemCD(item: item)
+    }
+    
+    func loadOneItemFromCD(with id: String) -> TodoItem? {
+        coreDataStorage.loadOneItemFromCD(with: id)
+    }
+    
 }

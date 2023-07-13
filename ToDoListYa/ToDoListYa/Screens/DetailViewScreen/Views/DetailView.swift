@@ -217,7 +217,7 @@ final class DetailView: UIView {
             deleteButton.heightAnchor.constraint(equalToConstant: Layout.cellsHeight),
             
             activityIndicator.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor)
         ])
     }
     

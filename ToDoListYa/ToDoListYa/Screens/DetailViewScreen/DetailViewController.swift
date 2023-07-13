@@ -47,7 +47,6 @@ final class DetailViewController: UIViewController {
             interactor.fetchTodo(with: taskID)
         } else {
             isNew = true
-            interactor.fetchRevision()
             contentView.stopLoading()
             displayNewTodo()
             dummyItem = DummyToDoItem(text: "")

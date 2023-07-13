@@ -21,67 +21,33 @@ final class TodoListInteractor: ToDoListBusinessLogic {
     }
     
     func fetchTodoList(_ request: DataFlow.FetchToDoes.Request) {
-            provider.getItemsList { result in
-                switch result {
-                case .success(let items):
-                    self.presenter.presentFetchedTodoes(.init(todoList: items))
-                case .failure(let error):
-                    self.isDirty = true
-                    DDLogError("Provider fetched data from network with error - \(error.localizedDescription)")
-                }
-            }
+        let items = provider.loadItemsFromCD()
+        presenter.presentFetchedTodoes(.init(todoList: items))
     }
     
     func todoChangedStatusInItem(with id: String) {
-        if isDirty {
-            provider.updateItemsList { result in
-                switch result {
-                case .success(let items):
-                    self.isDirty = false
-                    self.presenter.presentFetchedTodoes(.init(todoList: items))
-                case .failure(let error):
-                    self.provider.taskStatusDidChangedInCache(with: id)
-                    DDLogError("Items not update with error - \(error.localizedDescription)")
-                }
+        if var item = provider.loadOneItemFromCD(with: id) {
+            var status = true
+            if item.taskDone == false {
+                status = true
+            } else {
+                status = false
             }
-        } else {
-            provider.getItemForEdit(with: id) { result in
-                switch result {
-                case .success(let item):
-                    self.isDirty = false
-                    #warning("дописать что делать с отредактированным?")
-                case .failure(let error):
-                    self.isDirty = true
-                    DDLogError("Provider  item with error - \(error.localizedDescription)")
-                }
-            }
+            let newItem = TodoItem(id: item.id,
+                                   text: item.text,
+                                   priority: item.priority,
+                                   taskDone: status,
+                                   deadline: item.deadline,
+                                   taskStartDate: item.taskStartDate,
+                                   taskEditDate: Date().timeIntervalSince1970,
+                                   hexColor: item.hexColor)
+            provider.editItemCD(item: newItem)
         }
+       
     }
    
     func deleteTask(with id: String) {
-        if isDirty {
-            provider.updateItemsList { result in
-                switch result {
-                case .success(let items):
-                    self.isDirty = false
-                    self.presenter.presentFetchedTodoes(.init(todoList: items))
-                case .failure(let error):
-                    self.provider.taskStatusDidChangedInCache(with: id)
-                    DDLogError("Items not update with error - \(error.localizedDescription)")
-                }
-            }
-        } else {
-            provider.deleteItem(with: id) { result in
-                switch result {
-                case .success(let item):
-                    self.provider.deleteTaskInCache(with: item.id)
-                    #warning("дописать что делать с удалённым")
-                case .failure(let error):
-                    DDLogError("Provider delete item with error - \(error.localizedDescription)")
-                }
-            }
-        }
-       
+        provider.deleteItemFromCD(with: id)
     }
     
 }

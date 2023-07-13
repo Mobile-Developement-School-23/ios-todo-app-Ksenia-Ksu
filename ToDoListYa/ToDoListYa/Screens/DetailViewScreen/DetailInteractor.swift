@@ -5,89 +5,56 @@ protocol DetailBusinessLogic {
     func fetchTodo(with id: String?)
     func add(todo: TodoItem)
     func deleteTask(with id: String)
-    func fetchRevision()
-    func editItem(editTask: TodoItem) 
+    // func fetchRevision()
+    func editItem(editTask: TodoItem)
 }
 
 final class DetailInteractor: DetailBusinessLogic {
-  
+    
     private let networkService: NetworkServiceProtocol
     private let preseneter: DetailPresentationLogic
+    private let coreDataService: CoreDataService
     
-    init(networkService: NetworkServiceProtocol, presenter: DetailPresentationLogic) {
+    init(networkService: NetworkServiceProtocol, presenter: DetailPresentationLogic, coreDataService: CoreDataService) {
         self.networkService = networkService
         self.preseneter = presenter
+        self.coreDataService = coreDataService
     }
     
     func fetchTodo(with id: String?) {
         if let taskId = id {
-            networkService.getItem(with: taskId) { result in
-                switch result {
-                case .success(let item):
-                    DispatchQueue.main.async {
-                        self.preseneter.presentTodo(item: item)
-                    }
-                case .failure(_):
-                    DispatchQueue.main.async {
-                        self.preseneter.presentNewItem()
-                    }
-                }
+            let item = coreDataService.loadOneItemFromCD(with: taskId)
+            if let item = item {
+                self.preseneter.presentTodo(item: item)
+            } else {
+                preseneter.presentNewItem()
             }
         }
     }
     
     func add(todo: TodoItem) {
-        networkService.addItem(todo) { result in
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
-                    self.preseneter.closeController()
-                }
-            case .failure(_):
-                DispatchQueue.main.async {
-                    self.preseneter.closeController()
-                }
-            }
-        }
+        coreDataService.saveAllItemsToCD([todo])
+        preseneter.closeController()
     }
     
     func editItem(editTask: TodoItem) {
-        networkService.editItem(editTask) { result in
-            switch result {
-            case .success(let item):
-                DispatchQueue.main.async {
-                    self.preseneter.closeController()
-                }
-            case .failure(_):
-                DispatchQueue.main.async {
-                }
-            }
-        }
-    }
-   
-    func deleteTask(with id: String) {
-        networkService.deleteItem(with: id) { result in
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
-                    self.preseneter.presentNewItem()
-                }
-            case .failure(_):
-                DispatchQueue.main.async {
-                    self.preseneter.presentNewItem()
-                }
-            }
-        }
+        coreDataService.editItemCD(item: editTask)
+        preseneter.closeController()
     }
     
-    func fetchRevision() {
-        networkService.getAllItems { result in
-            switch result {
-            case.success(_):
-                print("revision is Write")
-            case .failure(_):
-                print("revision is wrong")
-            }
-        }
+    func deleteTask(with id: String) {
+        coreDataService.deleteItemFromCD(with: id)
+        preseneter.closeController()
     }
+    
+   // func fetchRevision() {
+//        networkService.getAllItems { result in
+//            switch result {
+//            case.success(_):
+//                print("revision is Write")
+//            case .failure(_):
+//                print("revision is wrong")
+//            }
+//        }
+    //  }
 }
