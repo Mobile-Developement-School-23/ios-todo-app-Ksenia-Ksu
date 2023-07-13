@@ -110,7 +110,7 @@ final class DetailView: UIView {
     
     private lazy var priorityView: PriorityView = {
         let priorityView = PriorityView()
-        priorityView.setPriority(priority: TaskPriority.ordinary)
+        priorityView.setPriority(priority: TaskPriority.basic)
         priorityView.priorityVewDelegate = self
         priorityView.translatesAutoresizingMaskIntoConstraints = false
         return priorityView
@@ -237,7 +237,6 @@ final class DetailView: UIView {
                 selectedColor = color
             }
             delegate?.saveItem(with: text!, color: selectedColor?.hexStringFromColor())
-            print("saving")
         }
     }
     
@@ -288,7 +287,6 @@ extension DetailView: DisplayDetailView {
         mainStackView.isHidden = false
     }
     
-    
     func configure(with viewmodel: TodoItem?) {
         if viewmodel != nil {
             textView.text = viewmodel?.text
@@ -301,14 +299,14 @@ extension DetailView: DisplayDetailView {
                         
             deadlineView.setDeadline(date: viewmodel?.deadline)
             
-            priorityView.setPriority(priority: TaskPriority(rawValue: viewmodel?.priority ?? TaskPriority.ordinary.rawValue) ?? TaskPriority.ordinary)
+            priorityView.setPriority(priority: TaskPriority(rawValue: viewmodel?.priority ?? TaskPriority.basic.rawValue) ?? TaskPriority.basic)
             if let deadline = viewmodel?.deadline {
                 deadlineView.setDeadline(date: deadline)
             }
             datePicker.isHidden = true
             deleteButton.isEnabled = true
         } else {
-            priorityView.setPriority(priority: .ordinary)
+            priorityView.setPriority(priority: .basic)
             deadlineView.makeLayoutForSwitcherIsOff()
             textView.setTextViewForPlaceHolder()
             coloPickerView.confugureColor(color: .white)
@@ -317,7 +315,6 @@ extension DetailView: DisplayDetailView {
     }
     
     func configureColor(color: UIColor) {
-        print(color, "color from cintroller")
         cancelButton.isEnabled = true
         saveButton.isEnabled = true
         coloPickerView.confugureColor(color: color)

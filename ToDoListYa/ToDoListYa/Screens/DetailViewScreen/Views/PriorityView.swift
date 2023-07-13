@@ -78,26 +78,27 @@ final class PriorityView: UIView {
     }
     
     @objc func segmentControlTapped(sender: UISegmentedControl) {
-        var taskPriority = TaskPriority.ordinary
+        var taskPriority = TaskPriority.basic
         
         switch segmentControl.selectedSegmentIndex {
         case 0:
-            taskPriority = .unimportant
+            taskPriority = .low
         case 1:
-            taskPriority = .ordinary
+            taskPriority = .basic
         case 2:
             taskPriority = .important
         default:
-            taskPriority = .ordinary
+            taskPriority = .basic
         }
         priorityVewDelegate?.priorityDidChanged(taskPriority)
+        print(taskPriority)
     }
     
     func setPriority(priority: TaskPriority) {
         switch priority {
-        case .unimportant:
+        case .low:
             segmentControl.selectedSegmentIndex = 0
-        case .ordinary:
+        case .basic:
             segmentControl.selectedSegmentIndex = 1
         case .important:
             segmentControl.selectedSegmentIndex = 2

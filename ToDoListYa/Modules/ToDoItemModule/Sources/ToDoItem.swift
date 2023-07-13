@@ -13,7 +13,7 @@ public struct TodoItem: Equatable {
     
     public init(id: String = UUID().uuidString,
                 text: String,
-                priority: String = TaskPriority.ordinary.rawValue,
+                priority: String = TaskPriority.basic.rawValue,
                 taskDone: Bool = false,
                 deadline: Double? = nil,
                 taskStartDate: Double = Double(Date().timeIntervalSince1970),
@@ -33,8 +33,8 @@ public struct TodoItem: Equatable {
 
 public enum TaskPriority: String {
     case important
-    case ordinary
-    case unimportant
+    case basic
+    case low
 }
 
 // MARK: - parsing JSON
@@ -47,7 +47,7 @@ public extension TodoItem {
             Keys.taskDoneKey: taskDone,
             Keys.taskStartDateKey: taskStartDate ]
         
-        if priority != TaskPriority.ordinary.rawValue {
+        if priority != TaskPriority.basic.rawValue {
             json[Keys.priorityKey] = priority
         }
         
@@ -75,7 +75,7 @@ public extension TodoItem {
               let taskStart = json[Keys.taskStartDateKey] as? Double
         else { return nil }
         
-        let priority = json[Keys.priorityKey] as? String ?? TaskPriority.ordinary.rawValue
+        let priority = json[Keys.priorityKey] as? String ?? TaskPriority.basic.rawValue
         
         let deadlineDate: Double?
         if let deadline = json[Keys.deadlineKey] as? Double {
@@ -141,7 +141,7 @@ public extension TodoItem {
         
         csvString += TodoItem.separator
         
-        if priority != TaskPriority.ordinary.rawValue {
+        if priority != TaskPriority.basic.rawValue {
             csvString = csvString.appending(String(describing: priority))
         } else {
             csvString += " "
@@ -210,7 +210,7 @@ public extension TodoItem {
             if csvColumns.count == 7 {
                 let task = TodoItem(id: csvColumns[0],
                                     text: csvColumns[1],
-                                    priority: csvColumns[2] == " " ? TaskPriority.ordinary.rawValue : csvColumns[2],
+                                    priority: csvColumns[2] == " " ? TaskPriority.basic.rawValue : csvColumns[2],
                                     taskDone: csvColumns[3] == "yes" ? true : false,
                                     deadline: csvColumns[4] == " " ? nil : csvColumns[4].stringToDoubleDate(),
                                     taskStartDate: csvColumns[5].stringToDoubleDate(),
