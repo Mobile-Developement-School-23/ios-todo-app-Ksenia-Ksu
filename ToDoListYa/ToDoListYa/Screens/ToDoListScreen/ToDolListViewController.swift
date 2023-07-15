@@ -29,6 +29,7 @@ final class ToDoListViewController: UIViewController {
         super.viewDidLoad()
         navBarSetup()
         DDLogVerbose("Did load todolist view")
+        let db = SQLiteStarageManager()
         contentview.startLoading()
         interactor.fetchTodoList(.init())
     }

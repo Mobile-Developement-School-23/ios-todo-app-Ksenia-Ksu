@@ -22,6 +22,11 @@ protocol Provides: AnyObject {
     func editItemCD(item: TodoItem)
     func loadOneItemFromCD(with id: String) -> TodoItem?
     
+    // sql
+    func loadItemsFromSQL() -> [TodoItem]
+    func deleteItemFromSQL(with ID: String)
+    func updateOrAddToSQL(item: TodoItem)
+    
 }
 
 final class Provider: Provides {
@@ -30,12 +35,49 @@ final class Provider: Provides {
     private let networkService: NetworkServiceProtocol
     private let fileName = "Data"
     private let coreDataStorage: CoreDataService
+    private let SQLStorage = SQLiteStarageManager()
 
     init(serviceCacheJson: FileCaching, networkService: NetworkServiceProtocol, coreDataStorage: CoreDataService) {
         self.serviceCacheJson = serviceCacheJson
         self.networkService = networkService
         self.coreDataStorage = coreDataStorage
     }
+    
+    // MARK: - core data
+    
+    func loadItemsFromCD() -> [TodoItem] {
+        return coreDataStorage.loadItemsFromCD()
+    }
+    
+    func saveAllItemsToCD(_ items: [TodoItem]) {
+        coreDataStorage.saveAllItemsToCD(items)
+    }
+    
+    func deleteItemFromCD(with id: String) {
+        coreDataStorage.deleteItemFromCD(with: id)
+    }
+    
+    func editItemCD(item: TodoItem) {
+        coreDataStorage.editItemCD(item: item)
+    }
+    
+    func loadOneItemFromCD(with id: String) -> TodoItem? {
+        coreDataStorage.loadOneItemFromCD(with: id)
+    }
+    
+    // MARK: - SQl
+    func deleteItemFromSQL(with ID: String) {
+        SQLStorage.deleteItem(with: ID)
+    }
+    
+    func updateOrAddToSQL(item: TodoItem) {
+        SQLStorage.updateOrAdd(item: item)
+    }
+    
+    func loadItemsFromSQL() -> [TodoItem] {
+        SQLStorage.loadItemsFromSQL()
+    }
+    
     // MARK: - file cache
     
     func getTodoListFromCache(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
@@ -172,28 +214,6 @@ final class Provider: Provides {
             }
         }
        
-    }
-    
-    // MARK: - core data
-    
-    func loadItemsFromCD() -> [TodoItem] {
-        return coreDataStorage.loadItemsFromCD()
-    }
-    
-    func saveAllItemsToCD(_ items: [TodoItem]) {
-        coreDataStorage.saveAllItemsToCD(items)
-    }
-    
-    func deleteItemFromCD(with id: String) {
-        coreDataStorage.deleteItemFromCD(with: id)
-    }
-    
-    func editItemCD(item: TodoItem) {
-        coreDataStorage.editItemCD(item: item)
-    }
-    
-    func loadOneItemFromCD(with id: String) -> TodoItem? {
-        coreDataStorage.loadOneItemFromCD(with: id)
     }
     
 }
