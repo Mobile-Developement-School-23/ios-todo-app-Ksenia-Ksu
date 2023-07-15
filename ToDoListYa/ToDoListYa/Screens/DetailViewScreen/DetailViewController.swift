@@ -47,12 +47,21 @@ final class DetailViewController: UIViewController {
             interactor.fetchTodo(with: taskID)
         } else {
             isNew = true
-            interactor.fetchRevision()
             contentView.stopLoading()
             displayNewTodo()
             dummyItem = DummyToDoItem(text: "")
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+         AppUtility.lockOrientation(.all)
+     }
+     
+     override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+     }
 }
 
 extension DetailViewController: DetailViewDelegate {

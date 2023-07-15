@@ -46,6 +46,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         let itemlabel = UILabel()
         itemlabel.font = UIFont.systemFont(ofSize: Layout.taskFont)
         itemlabel.numberOfLines = 3
+        itemlabel.textColor = ThemeColors.textViewColor
         itemlabel.translatesAutoresizingMaskIntoConstraints = false
         return itemlabel
     }()
@@ -216,7 +217,7 @@ final class ToDoListTableViewCell: UITableViewCell {
         let attributedText = NSMutableAttributedString(string: "")
         attributedText.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: attributedText.length))
         itemlabel.attributedText = attributedText
-        itemlabel.textColor = .black
+        itemlabel.textColor = ThemeColors.textViewColor
     }
 }
 

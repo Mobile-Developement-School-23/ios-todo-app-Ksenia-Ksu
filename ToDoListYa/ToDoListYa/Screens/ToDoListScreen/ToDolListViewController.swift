@@ -33,6 +33,11 @@ final class ToDoListViewController: UIViewController {
         interactor.fetchTodoList(.init())
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+    }
+    
     private func navBarSetup() {
         navigationItem.title = "Мои дела"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -44,7 +49,7 @@ final class ToDoListViewController: UIViewController {
 }
 
 extension ToDoListViewController: ToDoListDelegate {
-   
+    
     func animate(animator: UIContextMenuInteractionCommitAnimating) {
         guard let viewController = animator.previewViewController else { return }
         animator.addCompletion {

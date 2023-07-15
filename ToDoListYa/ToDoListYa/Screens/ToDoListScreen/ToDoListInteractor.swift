@@ -10,78 +10,76 @@ protocol ToDoListBusinessLogic {
 }
 
 final class TodoListInteractor: ToDoListBusinessLogic {
-   
+    
     private let presenter: ToDoListPresentationLogic
     private let provider: Provides
     private var isDirty = false
-  
+    
     init(presenter: ToDoListPresentationLogic, provider: Provides) {
         self.presenter = presenter
         self.provider = provider
     }
     
     func fetchTodoList(_ request: DataFlow.FetchToDoes.Request) {
-            provider.getItemsList { result in
-                switch result {
-                case .success(let items):
-                    self.presenter.presentFetchedTodoes(.init(todoList: items))
-                case .failure(let error):
-                    self.isDirty = true
-                    DDLogError("Provider fetched data from network with error - \(error.localizedDescription)")
-                }
-            }
+        // Core Data
+        
+        let items = provider.loadItemsFromCD()
+        presenter.presentFetchedTodoes(.init(todoList: items))
+        
+        //  SQL
+        
+        //        let items = provider.loadItemsFromSQL()
+        //        presenter.presentFetchedTodoes(.init(todoList: items))
     }
     
     func todoChangedStatusInItem(with id: String) {
-        if isDirty {
-            provider.updateItemsList { result in
-                switch result {
-                case .success(let items):
-                    self.isDirty = false
-                    self.presenter.presentFetchedTodoes(.init(todoList: items))
-                case .failure(let error):
-                    self.provider.taskStatusDidChangedInCache(with: id)
-                    DDLogError("Items not update with error - \(error.localizedDescription)")
-                }
+        // Core Data
+        
+        if var item = provider.loadOneItemFromCD(with: id) {
+            var status = true
+            if item.taskDone == false {
+                status = true
+            } else {
+                status = false
             }
-        } else {
-            provider.getItemForEdit(with: id) { result in
-                switch result {
-                case .success(let item):
-                    self.isDirty = false
-                    #warning("дописать что делать с отредактированным?")
-                case .failure(let error):
-                    self.isDirty = true
-                    DDLogError("Provider  item with error - \(error.localizedDescription)")
-                }
-            }
+            let newItem = TodoItem(id: item.id,
+                                   text: item.text,
+                                   priority: item.priority,
+                                   taskDone: status,
+                                   deadline: item.deadline,
+                                   taskStartDate: item.taskStartDate,
+                                   taskEditDate: Date().timeIntervalSince1970,
+                                   hexColor: item.hexColor)
+            provider.editItemCD(item: newItem)
         }
+        
+        // SQL
+        
+        //        let items = provider.loadItemsFromSQL().filter {$0.id == id}
+        //        if let item = items.first {
+        //            var status = true
+        //            if item.taskDone == false {
+        //                status = true
+        //            } else {
+        //                status = false
+        //            }
+        //            let newItem = TodoItem(id: item.id,
+        //                                   text: item.text,
+        //                                   priority: item.priority,
+        //                                   taskDone: status,
+        //                                   deadline: item.deadline,
+        //                                   taskStartDate: item.taskStartDate,
+        //                                   taskEditDate: Date().timeIntervalSince1970,
+        //                                   hexColor: item.hexColor)
+        //            provider.updateOrAddToSQL(item: newItem)
+        //        }
     }
-   
+    
     func deleteTask(with id: String) {
-        if isDirty {
-            provider.updateItemsList { result in
-                switch result {
-                case .success(let items):
-                    self.isDirty = false
-                    self.presenter.presentFetchedTodoes(.init(todoList: items))
-                case .failure(let error):
-                    self.provider.taskStatusDidChangedInCache(with: id)
-                    DDLogError("Items not update with error - \(error.localizedDescription)")
-                }
-            }
-        } else {
-            provider.deleteItem(with: id) { result in
-                switch result {
-                case .success(let item):
-                    self.provider.deleteTaskInCache(with: item.id)
-                    #warning("дописать что делать с удалённым")
-                case .failure(let error):
-                    DDLogError("Provider delete item with error - \(error.localizedDescription)")
-                }
-            }
-        }
-       
+        // Core Data
+        provider.deleteItemFromCD(with: id)
+        // SQL
+        // provider.deleteItemFromSQL(with: id)
     }
     
 }
