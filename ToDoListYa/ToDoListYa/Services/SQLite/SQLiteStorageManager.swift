@@ -89,7 +89,7 @@ final class SQLiteStarageManager {
     private func pathToDBFile() throws -> String {
         let fileManager = FileManager.default
         let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let path = directory.appendingPathComponent("DB.sqlite3").path
+        //let path = directory.appendingPathComponent("DB.sqlite3").path
         let url = "\(directory.absoluteString)/DB.sqlite3"
         return url
     }

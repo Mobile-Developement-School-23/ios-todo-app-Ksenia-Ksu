@@ -49,7 +49,7 @@ struct TodoItemBackend: Codable {
 extension TodoItemBackend {
     var convertedItemFromBack: TodoItem {
         
-        var priority = TaskPriority(rawValue: self.importance) ?? TaskPriority.basic
+        let priority = TaskPriority(rawValue: self.importance) ?? TaskPriority.basic
         
         var deadline: Double?
         

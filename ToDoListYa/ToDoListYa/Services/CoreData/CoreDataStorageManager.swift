@@ -12,7 +12,7 @@ protocol CoreDataService {
 }
 
 final class CoreDataManager: NSObject, CoreDataService {
-   
+    
     static let shared = CoreDataManager()
     
     private override init() {}
@@ -23,7 +23,7 @@ final class CoreDataManager: NSObject, CoreDataService {
             if let error {
                 print(error.localizedDescription)
             } else {
-                print("DB adress - ", description.url?.absoluteString)
+                // print("Core data adress - ", description.url?.absoluteString)
             }
         }
         return container
@@ -60,7 +60,7 @@ final class CoreDataManager: NSObject, CoreDataService {
     }
     
     func saveItemToCD(_ item: TodoItem) {
-        let item = convertItemToCDItem(item: item)
+        let _ = convertItemToCDItem(item: item)
         saveContext()
     }
     // MARK: - load all
@@ -94,7 +94,7 @@ final class CoreDataManager: NSObject, CoreDataService {
         }
     }
     
-    // MARK: - edit 
+    // MARK: - edit
     func editItemCD(item: TodoItem) {
         let fetchRequest = TodoItemCD.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", item.id)

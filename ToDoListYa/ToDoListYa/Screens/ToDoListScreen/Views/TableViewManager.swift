@@ -49,7 +49,7 @@ final class ToListTableViewManager: NSObject, ManagesToDoListTable {
             if showDonetasks {
                 return dataForTableView.count + 1
             } else {
-                return dataForTableView.count + 1 - doneTasks.count - 1
+                return dataForTableView.count - doneTasks.count
             }
         }
     }

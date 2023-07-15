@@ -26,63 +26,63 @@ final class DetailInteractor: DetailBusinessLogic {
     func fetchTodo(with id: String?) {
         // Core Data
         
-        //        if let taskId = id {
-        //            let item = coreDataService.loadOneItemFromCD(with: taskId)
-        //            if let item = item {
-        //                self.preseneter.presentTodo(item: item)
-        //            } else {
-        //                preseneter.presentNewItem()
-        //            }
-        //        }
-        
-        // SQL
         if let taskId = id {
-            let items = SQLService.loadItemsFromSQL().filter { $0.id == taskId}
-            if let item = items.first {
+            let item = coreDataService.loadOneItemFromCD(with: taskId)
+            if let item = item {
                 self.preseneter.presentTodo(item: item)
             } else {
                 preseneter.presentNewItem()
             }
-        } else {
-            preseneter.presentNewItem()
         }
+        
+        // SQL
+        //        if let taskId = id {
+        //            let items = SQLService.loadItemsFromSQL().filter { $0.id == taskId}
+        //            if let item = items.first {
+        //                self.preseneter.presentTodo(item: item)
+        //            } else {
+        //                preseneter.presentNewItem()
+        //            }
+        //        } else {
+        //            preseneter.presentNewItem()
+        //        }
     }
     
     func add(todo: TodoItem) {
         // Core Data
         
-//        coreDataService.saveAllItemsToCD([todo])
-//        preseneter.closeController()
+        coreDataService.saveAllItemsToCD([todo])
+        preseneter.closeController()
         
         // SQL
         
-        SQLService.updateOrAdd(item: todo)
-        preseneter.closeController()
+        //        SQLService.updateOrAdd(item: todo)
+        //        preseneter.closeController()
         
     }
     
     func editItem(editTask: TodoItem) {
-      //  Core Data
+        //  Core Data
         
-//        coreDataService.editItemCD(item: editTask)
-//        preseneter.closeController()
+        coreDataService.editItemCD(item: editTask)
+        preseneter.closeController()
         
         // SQL
         
-        SQLService.updateOrAdd(item: editTask)
-        preseneter.closeController()
+        //        SQLService.updateOrAdd(item: editTask)
+        //        preseneter.closeController()
     }
     
     func deleteTask(with id: String) {
         //  Core Data
         
-//        coreDataService.deleteItemFromCD(with: id)
-//        preseneter.closeController()
+        coreDataService.deleteItemFromCD(with: id)
+        preseneter.closeController()
         
         // SQL
         
-        SQLService.deleteItem(with: id)
-        preseneter.closeController()
+        //        SQLService.deleteItem(with: id)
+        //        preseneter.closeController()
         
     }
     

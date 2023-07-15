@@ -105,6 +105,3 @@ extension ToDoListViewController: UIViewControllerTransitioningDelegate {
         return PresentFromCellAnimator(cellFrame: startFrame)
     }
 }
-
-
-
