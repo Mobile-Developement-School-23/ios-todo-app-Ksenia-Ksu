@@ -52,6 +52,16 @@ final class DetailViewController: UIViewController {
             dummyItem = DummyToDoItem(text: "")
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+         AppUtility.lockOrientation(.all)
+     }
+     
+     override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+     }
 }
 
 extension DetailViewController: DetailViewDelegate {

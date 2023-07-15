@@ -38,6 +38,7 @@
 		85BB741F2A609FDB00F46659 /* TodoItemCD+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BB741D2A609FDB00F46659 /* TodoItemCD+CoreDataProperties.swift */; };
 		85BB74222A61DF2800F46659 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 85BB74212A61DF2800F46659 /* SQLite */; };
 		85BB74272A61E3C300F46659 /* SQLiteStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BB74262A61E3C300F46659 /* SQLiteStorageManager.swift */; };
+		85BB742B2A621ED700F46659 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BB742A2A621ED700F46659 /* AppUtility.swift */; };
 		85CC8DD12A4A7E55009717EC /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 85CC8DD02A4A7E55009717EC /* CocoaLumberjack */; };
 		85CC8DD32A4A7E55009717EC /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85CC8DD22A4A7E55009717EC /* CocoaLumberjackSwift */; };
 		85CC8DD52A4A7E55009717EC /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 85CC8DD42A4A7E55009717EC /* CocoaLumberjackSwiftLogBackend */; };
@@ -113,6 +114,7 @@
 		85BB741C2A609FDB00F46659 /* TodoItemCD+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItemCD+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		85BB741D2A609FDB00F46659 /* TodoItemCD+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItemCD+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		85BB74262A61E3C300F46659 /* SQLiteStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteStorageManager.swift; sourceTree = "<group>"; };
+		85BB742A2A621ED700F46659 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		85D5B3842A4CF1AA00B7149E /* ToDoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListView.swift; sourceTree = "<group>"; };
 		85D5B3862A4CF1D700B7149E /* TableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewManager.swift; sourceTree = "<group>"; };
 		85D5B3882A4CF21400B7149E /* ToDoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListCell.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 			children = (
 				8547BDB32A3D59E900F3B7DA /* Constants.swift */,
 				853B94152A590408005F2F2F /* URLSessionExtension.swift */,
+				85BB742A2A621ED700F46659 /* AppUtility.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -655,6 +658,7 @@
 				85D5B3942A4E305100B7149E /* ToDoListInteractor.swift in Sources */,
 				85E9962F2A518CBE007AC435 /* ToDoItemsBackend.swift in Sources */,
 				85D5B3982A4E322A00B7149E /* ToDoListProvider.swift in Sources */,
+				85BB742B2A621ED700F46659 /* AppUtility.swift in Sources */,
 				85BB74132A6098D000F46659 /* ModelCd.xcdatamodeld in Sources */,
 				853B94182A590782005F2F2F /* RetryManager.swift in Sources */,
 				85D5B3872A4CF1D700B7149E /* TableViewManager.swift in Sources */,

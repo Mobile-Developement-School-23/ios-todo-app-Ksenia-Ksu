@@ -51,12 +51,17 @@ final class CoreDataManager: NSObject, CoreDataService {
         }
     }
     
-    // MARK: - save all
+    // MARK: - save all, it can save one if needed
     func saveAllItemsToCD(_ items: [TodoItem]) {
         items.forEach {
             let _ = convertItemToCDItem(item: $0)
             saveContext()
         }
+    }
+    
+    func saveItemToCD(_ item: TodoItem) {
+        let item = convertItemToCDItem(item: item)
+        saveContext()
     }
     // MARK: - load all
     func loadItemsFromCD() -> [TodoItem] {

@@ -22,14 +22,19 @@ final class TodoListInteractor: ToDoListBusinessLogic {
     
     func fetchTodoList(_ request: DataFlow.FetchToDoes.Request) {
         // Core Data
+        
         //        let items = provider.loadItemsFromCD()
         //        presenter.presentFetchedTodoes(.init(todoList: items))
+        
+        //  SQL
+        
         let items = provider.loadItemsFromSQL()
         presenter.presentFetchedTodoes(.init(todoList: items))
     }
     
     func todoChangedStatusInItem(with id: String) {
         // Core Data
+        
         //        if var item = provider.loadOneItemFromCD(with: id) {
         //            var status = true
         //            if item.taskDone == false {
@@ -49,6 +54,7 @@ final class TodoListInteractor: ToDoListBusinessLogic {
         //        }
         
         // SQL
+        
         let items = provider.loadItemsFromSQL().filter {$0.id == id}
         if let item = items.first {
             var status = true

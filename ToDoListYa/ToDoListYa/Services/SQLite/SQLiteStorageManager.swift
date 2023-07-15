@@ -56,7 +56,7 @@ final class SQLiteStarageManager {
         
     }
     
-    // MARK: - update or Add item
+    // MARK: - update and Add item in one method
     
     func updateOrAdd(item: TodoItem) {
         guard let db = db else { return }

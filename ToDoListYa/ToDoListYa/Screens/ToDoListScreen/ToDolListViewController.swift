@@ -11,7 +11,7 @@ final class ToDoListViewController: UIViewController {
     lazy var contentview: DysplaysToDoList = ToDoListView(delegate: self)
     private let interactor: ToDoListBusinessLogic
     private var cellSelectedFrame: CGRect?
-  
+    
     init (interactor: ToDoListBusinessLogic) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
@@ -29,9 +29,13 @@ final class ToDoListViewController: UIViewController {
         super.viewDidLoad()
         navBarSetup()
         DDLogVerbose("Did load todolist view")
-        let db = SQLiteStarageManager()
         contentview.startLoading()
         interactor.fetchTodoList(.init())
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
     }
     
     private func navBarSetup() {
@@ -45,7 +49,7 @@ final class ToDoListViewController: UIViewController {
 }
 
 extension ToDoListViewController: ToDoListDelegate {
-   
+    
     func animate(animator: UIContextMenuInteractionCommitAnimating) {
         guard let viewController = animator.previewViewController else { return }
         animator.addCompletion {
@@ -101,3 +105,6 @@ extension ToDoListViewController: UIViewControllerTransitioningDelegate {
         return PresentFromCellAnimator(cellFrame: startFrame)
     }
 }
+
+
+
