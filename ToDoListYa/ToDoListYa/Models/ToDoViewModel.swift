@@ -1,5 +1,4 @@
 import Foundation
-import ToDoItemModule
 
 struct ToDoViewModel {
     var id: String
