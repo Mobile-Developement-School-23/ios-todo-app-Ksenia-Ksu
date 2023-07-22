@@ -176,10 +176,10 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/ToDoItemModule-iOS15.0/ToDoItemModule.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ToDoItemModule-iOS16.4/ToDoItemModule.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/ToDoItemModule-iOS15.0/ToDoItemModule.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ToDoItemModule-iOS16.4/ToDoItemModule.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

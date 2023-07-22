@@ -1,6 +1,7 @@
 import Foundation
+import ToDoItemModule
 
-var items = [TodoItemMock(id: "123", text: "Test is not responsible dddddddddddddddddddddddddddddddddddddddddddddddddddddddd", priority: "important", taskDone: false, deadline: 1688139389.185488, taskStartDate: 1688093088.004704, hexColor: "#63DF24FF"), TodoItemMock(id: "1234", text: "Test2", priority: "low", taskDone: true, deadline:  1688139389.185488, taskStartDate: 1688093088.004704, hexColor: "#DF2424FF")]
+var itemsMocks = [TodoItemMock(id: "123", text: "Test body for long very very long string", priority: "important", taskDone: false, deadline: 1688139389.185488, taskStartDate: 1688093088.004704, hexColor: "#63DF24FF"), TodoItemMock(id: "1234", text: "Test2", priority: "low", taskDone: true, deadline:  1688139389.185488, taskStartDate: 1688093088.004704, hexColor: "#DF2424FF")]
 
 struct TodoItemMock: Equatable, Identifiable {
     public let id: String

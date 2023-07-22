@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9B851AC4CB72F3E69FA36D0895D3D479"
-               BuildableName = "ToDoItemModule.framework"
-               BlueprintName = "ToDoItemModule"
+               BlueprintIdentifier = "DBA5FC570B29A519EC00F67FC2B9CCB6"
+               BuildableName = "Pods_ToDoListYaTests.framework"
+               BlueprintName = "Pods-ToDoListYaTests"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

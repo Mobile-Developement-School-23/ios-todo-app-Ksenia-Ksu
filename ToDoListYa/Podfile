@@ -13,9 +13,22 @@ target 'ToDoListYa' do
     inherit! :search_paths
     # Pods for testing
   end
+  
+  
 
   #target 'ToDoListYaUITests' do
     # Pods for testing
   #end
+
+end
+
+target 'ToDoSwiftUI' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for ToDoListYa
+  pod 'SwiftLint'
+  pod 'ToDoItemModule', path: 'Modules/ToDoItemModule'
+
 
 end

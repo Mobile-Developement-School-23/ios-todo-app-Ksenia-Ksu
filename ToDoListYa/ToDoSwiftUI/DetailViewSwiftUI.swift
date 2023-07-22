@@ -1,31 +1,33 @@
 import SwiftUI
 
 struct DetailViewSwiftUI: View {
-    @AppStorage("note") private var notes = ""
+    @State var item: TodoItemMock
+    @State private var text: String = ""
     var body: some View {
-        VStack {
-            TopStack()
-            TextEditor(text: $notes)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .padding()
-                .frame(height: 300)
-        
             VStack {
-                PriorityView()
-                DeadlineView()
-            }
-            .background(.white)
-            .padding()
-         
-            Spacer()
-            Button(action: {
-                print("save")
-            })  {
-                Text("Удалить")
-            }
-            .foregroundColor(.red)
-            Spacer()
-        } .background(Color(ThemeColors.backPrimary!))
+                TopStack()
+                TextEditor(text: $text)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding()
+                    .frame(height: 300)
+            
+                VStack {
+                    PriorityView()
+                    DeadlineView(deadline: item.deadline?.timeInSecondsToDateString())
+                }
+                .background(.white)
+                .padding()
+             
+                Spacer()
+                Button(action: {
+                    print("save")
+                })  {
+                    Text("Удалить")
+                }
+                .foregroundColor(.red)
+              
+                Spacer()
+            } .background(Color(ThemeColors.backPrimary!))
     }
 }
 
@@ -78,6 +80,7 @@ enum Priority: String, CaseIterable {
 
 struct DeadlineView: View {
     @State private var isCalendarShow = false
+    @State var deadline: String?
     var body: some View {
         HStack {
             VStack(alignment: .leading , spacing: 5) {
@@ -85,7 +88,9 @@ struct DeadlineView: View {
                 Button(action: {
                     print("deadline")
                 })  {
-                    Text("deadline")
+                    if deadline != nil {
+                        Text(deadline!)
+                    }
                 }
                 .tint(.blue)
             }
@@ -98,6 +103,6 @@ struct DeadlineView: View {
 
 struct DetailViewSwiftUI_Previews: PreviewProvider {
     static var previews: some View {
-        DetailViewSwiftUI()
+        DetailViewSwiftUI(item: itemsMocks[0])
     }
 }

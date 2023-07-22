@@ -1,12 +1,19 @@
 import SwiftUI
 
 struct TodoList: View {
+    @State var items: [TodoItemMock] = itemsMocks
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 Section(header: ListHeader()) {
-                    ForEach(items) { item in
-                        ListCell(item: item)
+                    ForEach(items, id: \.id) { item in
+                        NavigationLink {
+                            DetailViewSwiftUI(item: item)
+                        } label: {
+                            ListCell(item: item)
+                        }
+
+                      
                     }
                     .onDelete(perform: deleteItem)
                     .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -33,6 +40,7 @@ struct ListHeader: View {
     var body: some View {
         HStack {
             Text("Выполнено - 0")
+                .font(.system(size: 15))
             Spacer()
             Button("Показать") {
                 print("Show")
@@ -43,6 +51,8 @@ struct ListHeader: View {
 
 struct TodoList_Previews: PreviewProvider {
     static var previews: some View {
-        TodoList()
+        TodoList(items: itemsMocks)
     }
 }
+
+
