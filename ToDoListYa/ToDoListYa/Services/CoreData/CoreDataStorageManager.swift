@@ -23,7 +23,7 @@ final class CoreDataManager: NSObject, CoreDataService {
             if let error {
                 print(error.localizedDescription)
             } else {
-                // print("Core data adress - ", description.url?.absoluteString)
+                 print("Core data adress - ", description.url?.absoluteString)
             }
         }
         return container
